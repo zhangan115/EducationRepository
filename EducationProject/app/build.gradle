@@ -1,26 +1,59 @@
 apply plugin: 'com.android.application'
 
+def static releaseTime() {
+    return new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC"))
+}
+
 android {
-    compileSdkVersion 26
+    compileSdkVersion rootProject.ext.compileSdkVersion
+
     defaultConfig {
-        applicationId "com.education.application"
-        minSdkVersion 19
-        targetSdkVersion 26
+        applicationId "com.xueli.application"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
+    flavorDimensions "default"
+    productFlavors {
+        inspection_app_default {
+            applicationId "com.xueli.application"
+            dimension "default"
+            resValue "string", "app_name", "学历教育"
+            buildConfigField "String", "HOST", '"http://121.42.8.188/dianjian/api"'
+            manifestPlaceholders = [
+                    TASK_AFFINITY_VALUE: "android.task.inspection.application",
+                    GETUI_APP_ID       : "IB6aWzeyVh74TS2cucWEoA",
+                    GETUI_APP_KEY      : "s4dB4x4HpE9JpkBglnrm45",
+                    GETUI_APP_SECRET   : "HRL5AYMMUp5qCYZeglMW03",
+                    PACKAGE_NAME       : applicationId
+            ]
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
 }
+
+
+repositories { flatDir { dirs 'libs' } }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    compile project(':Library')
     implementation 'com.android.support:appcompat-v7:26.1.0'
+    compile 'com.afollestad.material-dialogs:core:0.9.6.0'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
