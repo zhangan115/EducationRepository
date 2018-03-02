@@ -21,7 +21,7 @@ android {
         inspection_app_default {
             applicationId "com.xueli.application"
             dimension "default"
-            resValue "string", "app_name", "学历教育"
+            resValue "string", "app_name", "学历无忧"
             buildConfigField "String", "HOST", '"http://121.42.8.188/dianjian/api"'
             manifestPlaceholders = [
                     TASK_AFFINITY_VALUE: "android.task.inspection.application",
@@ -39,6 +39,13 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    android.applicationVariants.all { variant ->
+        variant.outputs.all {
+            outputFileName = "学历无忧_${variant.flavorName}_V${defaultConfig.versionName}_${releaseTime()}_${variant.buildType.name}.apk"
+        }
+    }
+
     sourceSets {
         main {
             jniLibs.srcDirs = ['libs']
