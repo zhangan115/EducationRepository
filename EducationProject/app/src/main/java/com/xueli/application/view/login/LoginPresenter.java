@@ -34,14 +34,12 @@ final class LoginPresenter implements LoginContract.Presenter {
         mSubscriptions.add(mUserDataSource.login(name, pass, new UserDataSource.LoadUserCallBack() {
 
             @Override
-            public void onLoginSuccess(@NonNull User user) {
-                App.getInstance().setCurrentUser(user);
+            public void onLoginSuccess() {
                 mView.loginSuccess();
             }
 
             @Override
             public void onLoginFail(@Nullable String failMessage) {
-                mView.loginFail();
                 mView.showMessage(failMessage);
             }
 

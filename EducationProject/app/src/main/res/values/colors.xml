@@ -4,5 +4,11 @@
     <color name="colorPrimaryDark">#308aff</color>
     <color name="colorAccent">#308aff</color>
     <color name="text_gray_999">#999999</color>
+    <color name="text_gray_666">#666666</color>
+    <color name="text_gray_333">#333333</color>
     <color name="text_black">#333333</color>
+    <color name="text_blue">#308aff</color>
+    <color name="btn_normal_blue">#308aff</color>
+    <color name="btn_press_blue">#cc308aff</color>
+    <color name="colorBackgroundGray">#ececec</color>
 </resources>

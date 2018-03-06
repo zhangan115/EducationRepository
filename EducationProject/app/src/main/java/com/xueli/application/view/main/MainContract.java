@@ -1,30 +1,22 @@
-package com.xueli.application.view.login;
-
+package com.xueli.application.view.main;
 
 import android.support.annotation.Nullable;
 
 import com.xueli.application.base.BasePresenter;
 import com.xueli.application.base.BaseView;
 
-
 /**
- * 用户登录
- * Created by zhangan on 2017-02-16.
+ * 首页
+ * Created by pingan on 2018/3/4.
  */
-interface LoginContract {
+
+public interface MainContract {
 
     interface Presenter extends BasePresenter {
 
-        void login(String name, String pass);
     }
 
     interface View extends BaseView<Presenter> {
-
-        void loginSuccess();
-
-        void loginLoading();
-
-        void loginHideLoading();
 
         void showMessage(@Nullable String message);
 

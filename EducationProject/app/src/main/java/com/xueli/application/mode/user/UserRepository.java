@@ -33,7 +33,8 @@ public class UserRepository implements UserDataSource {
     @NonNull
     @Override
     public Subscription login(@NonNull final String name, @NonNull final String pass, @NonNull final LoadUserCallBack callBack) {
-        return null;
+        callBack.onLoginSuccess();
+        return Observable.just(null).subscribe();
     }
 
     @NonNull

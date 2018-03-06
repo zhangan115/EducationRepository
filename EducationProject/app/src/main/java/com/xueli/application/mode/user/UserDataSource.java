@@ -17,7 +17,7 @@ public interface UserDataSource {
 
     interface LoadUserCallBack {
 
-        void onLoginSuccess(@NonNull User user);
+        void onLoginSuccess();
 
         void onLoginFail(@Nullable String failMessage);
 

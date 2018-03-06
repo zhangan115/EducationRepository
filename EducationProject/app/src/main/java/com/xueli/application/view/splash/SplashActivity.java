@@ -11,6 +11,7 @@ import com.xueli.application.app.App;
 import com.xueli.application.mode.Injection;
 import com.xueli.application.view.MvpActivity;
 import com.xueli.application.view.login.LoginActivity;
+import com.xueli.application.view.main.MainActivity;
 
 /**
  * 启动界面
@@ -36,6 +37,10 @@ public class SplashActivity extends MvpActivity<SplashContract.Presenter> implem
     @Override
     public void needLogin() {
         Intent intent = new Intent(this, LoginActivity.class);
+        startXueLiActivity(intent);
+    }
+
+    private void startXueLiActivity(Intent intent) {
         if (getPackageManager().resolveActivity(intent, PackageManager.MATCH_DEFAULT_ONLY) != null) {
             try {
                 startActivity(intent);
@@ -53,7 +58,8 @@ public class SplashActivity extends MvpActivity<SplashContract.Presenter> implem
 
     @Override
     public void openHome() {
-
+        Intent intent = new Intent(this, MainActivity.class);
+        startXueLiActivity(intent);
     }
 
     @Override
