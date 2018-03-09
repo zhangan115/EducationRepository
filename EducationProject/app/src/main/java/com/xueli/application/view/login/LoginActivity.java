@@ -1,17 +1,21 @@
 package com.xueli.application.view.login;
 
+import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 
 import com.xueli.application.R;
+import com.xueli.application.common.ConstantStr;
 import com.xueli.application.mode.Injection;
 import com.xueli.application.view.MvpActivity;
 import com.xueli.application.view.main.MainActivity;
+import com.xueli.application.view.register.RegisterActivity;
 
 /**
  * 登陆界面
@@ -88,8 +92,28 @@ public class LoginActivity extends MvpActivity<LoginContract.Presenter> implemen
 
                 break;
             case R.id.tvRegister:
-
+                Intent intent = new Intent(this, RegisterActivity.class);
+                startActivityForResult(intent, START_REGISTER);
                 break;
+        }
+    }
+
+    private final int START_REGISTER = 100;
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == START_REGISTER && resultCode == Activity.RESULT_OK) {
+            if (data != null) {
+                String name = data.getStringExtra(ConstantStr.KEY_BUNDLE_STR);
+                String pass = data.getStringExtra(ConstantStr.KEY_BUNDLE_STR_1);
+                if (!TextUtils.isEmpty(name)) {
+                    userNameEt.setText(name);
+                }
+                if (!TextUtils.isEmpty(pass)) {
+                    userPassWordEt.setText(pass);
+                }
+            }
         }
     }
 }
