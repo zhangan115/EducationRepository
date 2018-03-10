@@ -14,6 +14,7 @@ import com.xueli.application.R;
 import com.xueli.application.common.ConstantStr;
 import com.xueli.application.mode.Injection;
 import com.xueli.application.view.MvpActivity;
+import com.xueli.application.view.forget.ForgetPassWordActivity;
 import com.xueli.application.view.main.MainActivity;
 import com.xueli.application.view.register.RegisterActivity;
 
@@ -89,7 +90,8 @@ public class LoginActivity extends MvpActivity<LoginContract.Presenter> implemen
                 mPresenter.login(userNameEt.getText().toString(), userPassWordEt.getText().toString());
                 break;
             case R.id.tvForgetPass:
-
+                Intent forgetPassInt = new Intent(this, ForgetPassWordActivity.class);
+                startActivityForResult(forgetPassInt, START_REGISTER);
                 break;
             case R.id.tvRegister:
                 Intent intent = new Intent(this, RegisterActivity.class);
@@ -99,6 +101,7 @@ public class LoginActivity extends MvpActivity<LoginContract.Presenter> implemen
     }
 
     private final int START_REGISTER = 100;
+    private final int START_FORGET = 101;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -114,6 +117,8 @@ public class LoginActivity extends MvpActivity<LoginContract.Presenter> implemen
                     userPassWordEt.setText(pass);
                 }
             }
+        } else if (requestCode == START_FORGET && resultCode == Activity.RESULT_OK) {
+
         }
     }
 }

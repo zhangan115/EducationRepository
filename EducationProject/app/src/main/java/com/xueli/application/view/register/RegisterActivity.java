@@ -1,5 +1,6 @@
 package com.xueli.application.view.register;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -25,7 +26,9 @@ public class RegisterActivity extends BaseActivity {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnNextStep:
-
+                Intent intent = new Intent(this, RegisterSureActivity.class);
+                startActivity(intent);
+                finish();
                 break;
         }
     }
