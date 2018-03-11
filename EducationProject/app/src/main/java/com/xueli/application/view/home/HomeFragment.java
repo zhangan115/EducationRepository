@@ -1,6 +1,7 @@
 package com.xueli.application.view.home;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -15,6 +16,7 @@ import com.bigkoo.convenientbanner.holder.Holder;
 import com.bigkoo.convenientbanner.listener.OnItemClickListener;
 import com.xueli.application.R;
 import com.xueli.application.view.MvpFragment;
+import com.xueli.application.view.enrol.EnrolActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,6 +78,7 @@ public class HomeFragment extends MvpFragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tvSignUp:
+                startActivity(new Intent(getActivity(), EnrolActivity.class));
                 break;
             case R.id.llSignUpTime:
                 break;
