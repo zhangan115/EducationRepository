@@ -1,5 +1,6 @@
 package com.xueli.application.view.bank.list;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.DrawerLayout;
@@ -18,6 +19,7 @@ import com.xueli.application.R;
 import com.xueli.application.app.App;
 import com.xueli.application.common.ConstantStr;
 import com.xueli.application.view.BaseActivity;
+import com.xueli.application.view.bank.examination.ExaminationActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,7 +83,7 @@ public class BankListActivity extends BaseActivity implements SwipeRefreshLayout
         adapter.setOnItemClickListener(new RVAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-
+                startActivity(new Intent(BankListActivity.this, ExaminationActivity.class));
             }
         });
         refreshLoadLayout.setOnRefreshListener(this);
