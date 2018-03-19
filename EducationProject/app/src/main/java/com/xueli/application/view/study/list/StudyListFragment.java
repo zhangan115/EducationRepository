@@ -5,17 +5,15 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.library.adapter.RVAdapter;
 import com.library.widget.ExpendRecycleView;
 import com.library.widget.RecycleRefreshLoadLayout;
 import com.xueli.application.R;
-import com.xueli.application.view.MvpFragment;
+import com.xueli.application.view.LazyLoadFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +23,7 @@ import java.util.List;
  * Created by pingan on 2018/3/7.
  */
 
-public class StudyListFragment extends MvpFragment implements RecycleRefreshLoadLayout.OnLoadListener, SwipeRefreshLayout.OnRefreshListener {
+public class StudyListFragment extends LazyLoadFragment implements RecycleRefreshLoadLayout.OnLoadListener, SwipeRefreshLayout.OnRefreshListener {
 
     private static final String SHOW_LIST_TYPE = "show_type";
     private RecycleRefreshLoadLayout refreshLoadLayout;
@@ -46,6 +44,11 @@ public class StudyListFragment extends MvpFragment implements RecycleRefreshLoad
         if (getArguments() != null) {
             position = getArguments().getInt(SHOW_LIST_TYPE);
         }
+    }
+
+    @Override
+    public void requestData() {
+
     }
 
     @Nullable
