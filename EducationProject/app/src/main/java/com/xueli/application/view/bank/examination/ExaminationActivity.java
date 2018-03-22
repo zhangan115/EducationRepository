@@ -1,21 +1,22 @@
 package com.xueli.application.view.bank.examination;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.OrientationHelper;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.library.adapter.VRVAdapter;
 import com.orhanobut.logger.Logger;
 import com.xueli.application.R;
 import com.xueli.application.view.BaseActivity;
@@ -36,6 +37,38 @@ public class ExaminationActivity extends BaseActivity implements ViewPager.OnPag
     private TextView tvOrder, tvCollection;
     private ImageView ivCollection;
     private MaterialDialog finishDialog, cancelDialog;
+    private RecyclerView subjectRecycleView;
+    private List<TestData> testData;
+
+    public static class TestData {
+        private int type;
+        private int position;
+
+        public TestData() {
+        }
+
+        public TestData(int type, int position) {
+            this.type = type;
+            this.position = position;
+
+        }
+
+        public int getType() {
+            return type;
+        }
+
+        public void setType(int type) {
+            this.type = type;
+        }
+
+        public int getPosition() {
+            return position;
+        }
+
+        public void setPosition(int position) {
+            this.position = position;
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +85,29 @@ public class ExaminationActivity extends BaseActivity implements ViewPager.OnPag
         tvOrder = findViewById(R.id.tvOrder);
         ivCollection = findViewById(R.id.ivCollection);
         tvCollection = findViewById(R.id.tvCollection);
-
+        subjectRecycleView = findViewById(R.id.recycleSubject);
+        testData = new ArrayList<>();
+        final GridLayoutManager manager = new GridLayoutManager(this.getApplicationContext(), 6);
+        for (int i = 0; i < 40; i++) {
+            if (i == 0 || i == 19) {
+                testData.add(new TestData(0, i));
+            } else {
+                testData.add(new TestData(1, i));
+            }
+        }
+        manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                if (subjectRecycleView.getAdapter().getItemViewType(position) == 0) {
+                    return manager.getSpanCount();
+                } else {
+                    return 1;
+                }
+            }
+        });
+        subjectRecycleView.setLayoutManager(manager);
+        SubjectAdapter adapter = new SubjectAdapter(testData, getApplicationContext());
+        subjectRecycleView.setAdapter(adapter);
         findViewById(R.id.llCollection).setOnClickListener(this);
         findViewById(R.id.llOrder).setOnClickListener(this);
         bottomDataChange(0);
@@ -102,7 +157,11 @@ public class ExaminationActivity extends BaseActivity implements ViewPager.OnPag
 
                 break;
             case R.id.llOrder:
-
+                if (subjectRecycleView.getVisibility() == View.VISIBLE) {
+                    subjectRecycleView.setVisibility(View.GONE);
+                } else {
+                    subjectRecycleView.setVisibility(View.VISIBLE);
+                }
                 break;
         }
     }
