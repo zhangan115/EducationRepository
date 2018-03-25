@@ -11,6 +11,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.RelativeLayout;
 
 import com.library.adapter.RVAdapter;
 import com.library.widget.ExpendRecycleView;
@@ -18,34 +19,48 @@ import com.library.widget.RecycleRefreshLoadLayout;
 import com.xueli.application.R;
 import com.xueli.application.app.App;
 import com.xueli.application.common.ConstantStr;
+import com.xueli.application.mode.exam.ExamRepository;
 import com.xueli.application.view.BaseActivity;
 import com.xueli.application.view.MvpActivity;
 import com.xueli.application.view.bank.examination.ExaminationActivity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 历年真题，模拟试题
  * Created by pingan on 2018/3/13.
  */
 
-public class BankListActivity extends MvpActivity implements SwipeRefreshLayout.OnRefreshListener, RecycleRefreshLoadLayout.OnLoadListener {
-
+public class BankListActivity extends MvpActivity<BankListContact.Presenter> implements SwipeRefreshLayout.OnRefreshListener
+        , RecycleRefreshLoadLayout.OnLoadListener, BankListContact.View {
+    //view
     private RecycleRefreshLoadLayout refreshLoadLayout;
     private ExpendRecycleView expendRecycleView;
     private DrawerLayout drawerLayout;
+    private RelativeLayout noDataLayout;
+    //data
     private List<String> datas;
+    private String type, isYear;
+    private Map<String, String> map;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTheme(R.style.bankFilterStyle);
         transparentStatusBar();
-        String title = getIntent().getStringExtra(ConstantStr.KEY_BUNDLE_STR);
-        setLayoutAndToolbar(R.layout.bank_list_activity, title);
+        String tag = getIntent().getStringExtra(ConstantStr.KEY_BUNDLE_STR);
+        String[] types = tag.split(",");
+        if (types.length == 2) {
+            type = String.valueOf(types[0]);
+            isYear = String.valueOf(types[1]);
+        }
+        setLayoutAndToolbar(R.layout.bank_list_activity, isYear.equals("0") ? "模拟试题" : "历年真题");
         refreshLoadLayout = findViewById(R.id.rcrLayout);
         expendRecycleView = findViewById(R.id.expendRv);
+        noDataLayout = findViewById(R.id.rlNoData);
         drawerLayout = findViewById(R.id.drawer_layout);
         refreshLoadLayout.setColorSchemeColors(findColorById(R.color.colorPrimary));
         expendRecycleView.setLayoutManager(new GridLayoutManager(this, 1));
@@ -70,7 +85,9 @@ public class BankListActivity extends MvpActivity implements SwipeRefreshLayout.
 
             }
         });
+        map = new HashMap<>();
         datas = new ArrayList<>();
+        setTypeAndYear();
         for (int i = 0; i < 10; i++) {
             datas.add("i+" + i);
         }
@@ -89,13 +106,18 @@ public class BankListActivity extends MvpActivity implements SwipeRefreshLayout.
         });
         refreshLoadLayout.setOnRefreshListener(this);
         refreshLoadLayout.setOnLoadListener(this);
+        mPresenter.getBankList(map);
+    }
+
+    private void setTypeAndYear() {
+        map.put("type", type);
+        map.put("isYear", isYear);
     }
 
     @Override
     protected void onBindPresenter() {
-
+        new BankListPresenter(ExamRepository.getRepository(this), this);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -117,11 +139,41 @@ public class BankListActivity extends MvpActivity implements SwipeRefreshLayout.
 
     @Override
     public void onRefresh() {
-
+        noDataLayout.setVisibility(View.GONE);
+        datas.clear();
+        expendRecycleView.getAdapter().notifyDataSetChanged();
+        mPresenter.getBankList(map);
     }
 
     @Override
     public void onLoadMore() {
 
+    }
+
+    @Override
+    public void showLoading() {
+
+    }
+
+    @Override
+    public void hideLoading() {
+
+    }
+
+    @Override
+    public void noData() {
+        datas.clear();
+        expendRecycleView.getAdapter().notifyDataSetChanged();
+        noDataLayout.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void showMessage(String message) {
+        App.getInstance().showToast(message);
+    }
+
+    @Override
+    public void setPresenter(BankListContact.Presenter presenter) {
+        mPresenter = presenter;
     }
 }

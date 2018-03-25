@@ -67,6 +67,7 @@
                     <ImageView
                         android:id="@+id/iv1"
                         android:layout_width="145dp"
+                        android:tag="1,1"
                         android:layout_height="94dp"
                         android:layout_marginLeft="16dp"
                         android:src="@drawable/icon_college_img" />
@@ -77,6 +78,7 @@
                         android:layout_width="145dp"
                         android:layout_height="94dp"
                         android:layout_marginLeft="30dp"
+                        android:tag="1,0"
                         android:layout_marginRight="16dp"
                         android:src="@drawable/icon_college_img2" />
 
@@ -119,6 +121,7 @@
                     <ImageView
                         android:id="@+id/iv3"
                         android:layout_width="145dp"
+                        android:tag="2,1"
                         android:layout_height="94dp"
                         android:layout_marginLeft="16dp"
                         android:src="@drawable/icon_english_img" />
@@ -128,6 +131,7 @@
                         android:id="@+id/iv4"
                         android:layout_width="145dp"
                         android:layout_height="94dp"
+                        android:tag="2,0"
                         android:layout_marginLeft="30dp"
                         android:layout_marginRight="16dp"
                         android:src="@drawable/icon_english_img2" />
@@ -172,6 +176,7 @@
                         android:id="@+id/iv5"
                         android:layout_width="145dp"
                         android:layout_height="94dp"
+                        android:tag="3,1"
                         android:layout_marginLeft="16dp"
                         android:src="@drawable/icon_computer_img" />
 
@@ -180,6 +185,7 @@
                         android:id="@+id/iv6"
                         android:layout_width="145dp"
                         android:layout_height="94dp"
+                        android:tag="3,0"
                         android:layout_marginLeft="30dp"
                         android:layout_marginRight="16dp"
                         android:src="@drawable/icon_computer_img2" />

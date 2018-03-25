@@ -43,36 +43,8 @@ public class BankFragment extends MvpFragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         Intent intent = new Intent(getActivity(), BankListActivity.class);
-        String title = "";
-        int type = -1;
-        switch (v.getId()) {
-            case R.id.iv1:
-                title = "历年真题";
-                type = 1;
-                break;
-            case R.id.iv3:
-                title = "历年真题";
-                type = 3;
-                break;
-            case R.id.iv5:
-                title = "历年真题";
-                type = 5;
-                break;
-            case R.id.iv2:
-                title = "模拟试题";
-                type = 2;
-                break;
-            case R.id.iv4:
-                title = "模拟试题";
-                type = 4;
-                break;
-            case R.id.iv6:
-                type = 6;
-                title = "模拟试题";
-                break;
-        }
-        intent.putExtra(ConstantStr.KEY_BUNDLE_STR, title);
-        intent.putExtra(ConstantStr.KEY_BUNDLE_INT, type);
+        String tag = (String) v.getTag();
+        intent.putExtra(ConstantStr.KEY_BUNDLE_STR, tag);
         startActivity(intent);
     }
 }
