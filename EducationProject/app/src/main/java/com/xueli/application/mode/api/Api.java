@@ -1,20 +1,10 @@
 package com.xueli.application.mode.api;
 
-import android.support.annotation.NonNull;
-import android.text.TextUtils;
-
 import com.xueli.application.BuildConfig;
-import com.xueli.application.app.App;
-import com.xueli.application.common.ConstantStr;
-import com.library.utils.SPHelper;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Cookie;
-import okhttp3.CookieJar;
-import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -33,9 +23,8 @@ public final class Api {
     public static final String HOST = BuildConfig.HOST;
     private static Retrofit mRetrofit;
     private static final int CONNECT_TIME = 5;
-    private static final int READ_TIME = 30;
-    private static final int WRITE_TIME = 30;
-    private static Cookie cookie;
+    private static final int READ_TIME = 20;
+    private static final int WRITE_TIME = 20;
 
     public static Retrofit createRetrofit() {
         if (mRetrofit == null) {
@@ -52,35 +41,6 @@ public final class Api {
         if (BuildConfig.DEBUG) {
             builder.addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY));
         }
-        builder.cookieJar(new CookieJar() {
-
-            @Override
-            public void saveFromResponse(@NonNull HttpUrl url, @NonNull List<Cookie> cookies) {
-                if (cookies.size() > 0) {
-                    cookie = cookies.get(0);
-                    SPHelper.write(App.getInstance().getApplicationContext(), ConstantStr.USER_INFO, ConstantStr.COOKIE_DOMAIN, cookie.domain());
-                    SPHelper.write(App.getInstance().getApplicationContext(), ConstantStr.USER_INFO, ConstantStr.COOKIE_NAME, cookie.name());
-                    SPHelper.write(App.getInstance().getApplicationContext(), ConstantStr.USER_INFO, ConstantStr.COOKIE_VALUE, cookie.value());
-                }
-            }
-
-            @Override
-            public List<Cookie> loadForRequest(@NonNull HttpUrl url) {
-                List<Cookie> cookies = new ArrayList<>();
-                if (cookie == null) {
-                    String doMin = SPHelper.readString(App.getInstance().getApplicationContext(), ConstantStr.USER_INFO, ConstantStr.COOKIE_DOMAIN);
-                    String name = SPHelper.readString(App.getInstance().getApplicationContext(), ConstantStr.USER_INFO, ConstantStr.COOKIE_NAME);
-                    String value = SPHelper.readString(App.getInstance().getApplicationContext(), ConstantStr.USER_INFO, ConstantStr.COOKIE_VALUE);
-                    if (!TextUtils.isEmpty(doMin) && !TextUtils.isEmpty(name) && !TextUtils.isEmpty(value)) {
-                        cookie = new Cookie.Builder().domain(doMin).name(name).value(value).build();
-                    }
-                }
-                if (cookie != null) {
-                    cookies.add(new Cookie.Builder().domain(cookie.domain()).name(cookie.name()).value(cookie.value()).build());
-                }
-                return cookies;
-            }
-        });
         String host = Api.HOST;
         if (!host.endsWith("/")) {
             host = host + "/";
@@ -94,14 +54,4 @@ public final class Api {
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
     }
-
-
-    public static void clean() {
-        cookie = null;
-        mRetrofit = null;
-        SPHelper.remove(App.getInstance().getApplicationContext(), ConstantStr.USER_INFO, ConstantStr.COOKIE_DOMAIN);
-        SPHelper.remove(App.getInstance().getApplicationContext(), ConstantStr.USER_INFO, ConstantStr.COOKIE_NAME);
-        SPHelper.remove(App.getInstance().getApplicationContext(), ConstantStr.USER_INFO, ConstantStr.COOKIE_VALUE);
-    }
-
 }

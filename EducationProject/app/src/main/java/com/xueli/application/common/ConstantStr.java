@@ -48,6 +48,7 @@ public interface ConstantStr {
      * user信息key值
      **/
     String USER_INFO = "user_info";
+    String TOKEN = "token";
     /**
      * user信息key值
      **/

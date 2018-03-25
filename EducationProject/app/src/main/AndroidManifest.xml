@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.xueli.application">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name="com.xueli.application.app.App"
         android:allowBackup="true"
@@ -104,6 +106,15 @@
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
             android:name="com.xueli.application.view.bank.examination.ExaminationActivity"
+            android:allowTaskReparenting="true"
+            android:configChanges="orientation|keyboardHidden"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:taskAffinity="${TASK_AFFINITY_VALUE}"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name="com.xueli.application.view.user.subject_error.ErrorSubjectActivity"
             android:allowTaskReparenting="true"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleTask"

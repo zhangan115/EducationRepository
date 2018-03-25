@@ -1,10 +1,7 @@
 package com.xueli.application.view.login;
 
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.xueli.application.app.App;
-import com.xueli.application.mode.bean.User;
 import com.xueli.application.mode.user.UserDataSource;
 
 import rx.subscriptions.CompositeSubscription;
@@ -24,7 +21,6 @@ final class LoginPresenter implements LoginContract.Presenter {
     LoginPresenter(UserDataSource repository, LoginContract.View view) {
         this.mUserDataSource = repository;
         this.mView = view;
-        mSubscriptions = new CompositeSubscription();
         mView.setPresenter(this);
     }
 
@@ -48,12 +44,17 @@ final class LoginPresenter implements LoginContract.Presenter {
                 mView.loginHideLoading();
             }
 
+            @Override
+            public void showMessage(String message) {
+                mView.showMessage(message);
+            }
+
         }));
     }
 
     @Override
     public void subscribe() {
-
+        mSubscriptions = new CompositeSubscription();
     }
 
     @Override

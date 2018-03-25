@@ -12,6 +12,7 @@ import com.xueli.application.R;
 import java.util.List;
 
 /**
+ * 答题adapter
  * Created by pingan on 2018/3/22.
  */
 

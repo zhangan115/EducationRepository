@@ -17,11 +17,11 @@ class MainPresenter implements MainContract.Presenter {
     MainPresenter(UserDataSource mDataSource, MainContract.View mView) {
         this.mDataSource = mDataSource;
         this.mView = mView;
+        mView.setPresenter(this);
     }
 
     @Override
     public void subscribe() {
-        mView.setPresenter(this);
         mSubscriptions = new CompositeSubscription();
     }
 

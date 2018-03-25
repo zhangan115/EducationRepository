@@ -48,14 +48,15 @@ public class App extends AbsBaseApp {
 
     @Override
     public void showToast(@Nullable String message) {
-        if (toast == null) {
-            toast = new Toast(this);
-            toast.setDuration(Toast.LENGTH_SHORT);
-        }
-        if (!TextUtils.isEmpty(message)) {
-            toast.setText(message);
-            toast.show();
-        }
+//        if (toast == null) {
+//            toast = new Toast(this);
+//            toast.setDuration(Toast.LENGTH_SHORT);
+//        }
+//        if (!TextUtils.isEmpty(message)) {
+//            toast.setText(message);
+//            toast.show();
+//        }
+        Toast.makeText(_instance, message, Toast.LENGTH_SHORT).show();
     }
 
     /**

@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.xueli.application.R;
+import com.xueli.application.app.App;
 import com.xueli.application.common.ConstantStr;
 import com.xueli.application.mode.Injection;
 import com.xueli.application.view.MvpActivity;
@@ -87,6 +88,14 @@ public class LoginActivity extends MvpActivity<LoginContract.Presenter> implemen
         super.onClick(v);
         switch (v.getId()) {
             case R.id.btnLogin:
+                if (TextUtils.isEmpty(userNameEt.getText().toString())) {
+                    App.getInstance().showToast("请输入用户名");
+                    return;
+                }
+                if (TextUtils.isEmpty(userPassWordEt.getText().toString())) {
+                    App.getInstance().showToast("请输入密码");
+                    return;
+                }
                 mPresenter.login(userNameEt.getText().toString(), userPassWordEt.getText().toString());
                 break;
             case R.id.tvForgetPass:

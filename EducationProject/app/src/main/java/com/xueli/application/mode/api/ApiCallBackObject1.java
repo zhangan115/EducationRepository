@@ -19,47 +19,46 @@ import rx.schedulers.Schedulers;
  * Created by zhangan on 2017-05-16.
  */
 
-public abstract class ApiCallBackObject<T> {
+public class ApiCallBackObject1<T> {
 
     private Observable<Bean<T>> mObservable;
 
-    public ApiCallBackObject() {
+    public ApiCallBackObject1() {
 
     }
 
-    public ApiCallBackObject(@NonNull Observable<Bean<T>> observable) {
+    public ApiCallBackObject1(@NonNull Observable<Bean<T>> observable) {
         this.mObservable = observable;
     }
 
-    public Observable<T> execute() {
+    public Subscription execute(final IObjectCallBack<T> callBack) {
         return mObservable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnError(new Action1<Throwable>() {
                     @Override
                     public void call(Throwable t) {
-                        onFinish();
-                        onFail(t.getMessage());
-                        noData();
+                        callBack.onFinish();
+                        callBack.onError(t.getMessage());
+                        callBack.noData();
                     }
                 })
                 .doOnNext(new Action1<Bean<T>>() {
                     @Override
                     public void call(Bean<T> t) {
                         if (t.getErrorCode() == ApiErrorCode.SUCCEED) {
-                            onFinish();
-                            onSuccess();
+                            callBack.onFinish();
+                            callBack.onSuccess();
                             if (t.getData() == null) {
-                                noData();
+                                callBack.noData();
                             } else {
-                                onData(t.getData());
+                                callBack.onData(t.getData());
                             }
-
                         } else if (t.getErrorCode() == ApiErrorCode.NOT_LOGGED) {
                             App.getInstance().needLogin();
                         } else if (t.getErrorCode() != ApiErrorCode.NOT_LOGGED) {
-                            onFinish();
-                            onFail(t.getErrorMessage());
-                            noData();
+                            callBack.onFinish();
+                            callBack.onError(t.getErrorMessage());
+                            callBack.noData();
                         }
                     }
                 }).flatMap(new Func1<Bean<T>, Observable<T>>() {
@@ -67,16 +66,21 @@ public abstract class ApiCallBackObject<T> {
                     public Observable<T> call(Bean<T> tBean) {
                         return Observable.just(tBean.getData());
                     }
+                }).subscribe(new Subscriber<T>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(T t) {
+
+                    }
                 });
     }
-
-    public abstract void onData(@NonNull T data);
-
-    public abstract void onSuccess();
-
-    public abstract void onFail(@NonNull String message);
-
-    public abstract void onFinish();
-
-    public abstract void noData();
 }

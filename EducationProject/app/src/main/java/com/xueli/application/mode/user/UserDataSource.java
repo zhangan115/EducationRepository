@@ -5,6 +5,10 @@ import android.support.annotation.Nullable;
 
 
 import com.xueli.application.mode.bean.User;
+import com.xueli.application.mode.bean.VerificationCode;
+import com.xueli.application.mode.callback.IObjectCallBack;
+
+import java.util.Map;
 
 import rx.Subscription;
 
@@ -22,6 +26,8 @@ public interface UserDataSource {
         void onLoginFail(@Nullable String failMessage);
 
         void onFinish();
+
+        void showMessage(String message);
     }
 
     /**
@@ -55,4 +61,19 @@ public interface UserDataSource {
     @NonNull
     Subscription autoLogin(@NonNull AutoLoginCallBack callBack);
 
+    @NonNull
+    Subscription sendPhoneCode(@NonNull String phoneCode, @NonNull IObjectCallBack<VerificationCode> callBack);
+
+    interface CountDownCallBack {
+
+        void onCountDown(String time);
+
+        void countDownFinish();
+    }
+
+    @NonNull
+    Subscription startCountDown(CountDownCallBack callBack);
+
+    @NonNull
+    Subscription userReg(Map<String, String> map, IObjectCallBack<String> callBack);
 }

@@ -1,54 +1,46 @@
-package com.xueli.application.view.bank.list;
+package com.xueli.application.view.user.subject_error;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
-import android.view.DragEvent;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.library.adapter.RVAdapter;
 import com.library.widget.ExpendRecycleView;
-import com.library.widget.RecycleRefreshLoadLayout;
 import com.xueli.application.R;
 import com.xueli.application.app.App;
-import com.xueli.application.common.ConstantStr;
-import com.xueli.application.view.BaseActivity;
+import com.xueli.application.mode.exam.ExamRepository;
 import com.xueli.application.view.MvpActivity;
-import com.xueli.application.view.bank.examination.ExaminationActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 历年真题，模拟试题
- * Created by pingan on 2018/3/13.
+ * 过往答错
+ * Created by pingan on 2018/3/25.
  */
 
-public class BankListActivity extends MvpActivity implements SwipeRefreshLayout.OnRefreshListener, RecycleRefreshLoadLayout.OnLoadListener {
+public class ErrorSubjectActivity extends MvpActivity<ErrorSubjectContract.Presenter> implements ErrorSubjectContract.View {
 
-    private RecycleRefreshLoadLayout refreshLoadLayout;
-    private ExpendRecycleView expendRecycleView;
+    private ExpendRecycleView mRecycleView;
+    private RelativeLayout noDataLayout;
     private DrawerLayout drawerLayout;
-    private List<String> datas;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTheme(R.style.bankFilterStyle);
         transparentStatusBar();
-        String title = getIntent().getStringExtra(ConstantStr.KEY_BUNDLE_STR);
-        setLayoutAndToolbar(R.layout.bank_list_activity, title);
-        refreshLoadLayout = findViewById(R.id.rcrLayout);
-        expendRecycleView = findViewById(R.id.expendRv);
+        setLayoutAndToolbar(R.layout.error_subject_activity, "过往答错");
+        mRecycleView = findViewById(R.id.recycleErrorSubject);
+        noDataLayout = findViewById(R.id.rlNoData);
         drawerLayout = findViewById(R.id.drawer_layout);
-        refreshLoadLayout.setColorSchemeColors(findColorById(R.color.colorPrimary));
-        expendRecycleView.setLayoutManager(new GridLayoutManager(this, 1));
         drawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
             @Override
             public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
@@ -62,7 +54,7 @@ public class BankListActivity extends MvpActivity implements SwipeRefreshLayout.
 
             @Override
             public void onDrawerClosed(@NonNull View drawerView) {
-                App.getInstance().hideSoftKeyBoard(BankListActivity.this);
+                App.getInstance().hideSoftKeyBoard(ErrorSubjectActivity.this);
             }
 
             @Override
@@ -70,30 +62,25 @@ public class BankListActivity extends MvpActivity implements SwipeRefreshLayout.
 
             }
         });
-        datas = new ArrayList<>();
+        mRecycleView.setLayoutManager(new GridLayoutManager(this, 1));
+        List<String> datas = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
-            datas.add("i+" + i);
+            datas.add("===>" + 1);
         }
-        RVAdapter<String> adapter = new RVAdapter<String>(expendRecycleView, datas, R.layout.bank_list_item) {
+        RVAdapter<String> adapter = new RVAdapter<String>(mRecycleView, datas, R.layout.subject_error_item) {
             @Override
             public void showData(ViewHolder vHolder, String data, int position) {
-
+                TextView errorSubject = (TextView) vHolder.getView(R.id.tvSubjectContent);
+                errorSubject.setText(data);
             }
         };
-        expendRecycleView.setAdapter(adapter);
+        mRecycleView.setAdapter(adapter);
         adapter.setOnItemClickListener(new RVAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                startActivity(new Intent(BankListActivity.this, ExaminationActivity.class));
+
             }
         });
-        refreshLoadLayout.setOnRefreshListener(this);
-        refreshLoadLayout.setOnLoadListener(this);
-    }
-
-    @Override
-    protected void onBindPresenter() {
-
     }
 
 
@@ -114,14 +101,30 @@ public class BankListActivity extends MvpActivity implements SwipeRefreshLayout.
         return super.onOptionsItemSelected(item);
     }
 
-
     @Override
-    public void onRefresh() {
-
+    protected void onBindPresenter() {
+        new ErrorSubjectPresenter(ExamRepository.getRepository(this), this);
     }
 
     @Override
-    public void onLoadMore() {
+    public void showMessage(String message) {
+        App.getInstance().showToast(message);
+    }
+
+    @Override
+    public void showData() {
+        noDataLayout.setVisibility(View.GONE);
+        // TODO: 2018/3/25
+        mRecycleView.getAdapter().notifyDataSetChanged();
+    }
+
+    @Override
+    public void noData() {
+        noDataLayout.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void setPresenter(ErrorSubjectContract.Presenter presenter) {
 
     }
 }

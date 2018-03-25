@@ -22,7 +22,7 @@ android {
             applicationId "com.xueli.application"
             dimension "default"
             resValue "string", "app_name", "学历无忧"
-            buildConfigField "String", "HOST", '"http://121.42.8.188/dianjian/api"'
+            buildConfigField "String", "HOST", '"http://39.106.210.43/FxExam/"'
             manifestPlaceholders = [
                     TASK_AFFINITY_VALUE: "android.task.xueli.application",
                     PACKAGE_NAME       : applicationId

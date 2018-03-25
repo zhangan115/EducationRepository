@@ -10,7 +10,7 @@ public class Bean<T> {
 
     private T data;
 
-    private String message;
+    private String errorMessage;
 
     public int getErrorCode() {
         return errorCode;
@@ -28,11 +28,11 @@ public class Bean<T> {
         this.data = data;
     }
 
-    public String getMessage() {
-        return message;
+    public String getErrorMessage() {
+        return errorMessage;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
     }
 }

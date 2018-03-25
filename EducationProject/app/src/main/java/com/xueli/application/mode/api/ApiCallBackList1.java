@@ -5,10 +5,13 @@ import android.support.annotation.Nullable;
 
 import com.xueli.application.app.App;
 import com.xueli.application.mode.bean.Bean;
+import com.xueli.application.mode.callback.IListCallBack;
 
 import java.util.List;
 
 import rx.Observable;
+import rx.Subscriber;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.functions.Func1;
@@ -19,46 +22,46 @@ import rx.schedulers.Schedulers;
  * Created by zhangan on 2017-05-16.
  */
 
-public abstract class ApiCallBackList<T> {
+public class ApiCallBackList1<T> {
 
     private Observable<Bean<List<T>>> mObservable;
 
-    public ApiCallBackList() {
+    public ApiCallBackList1() {
 
     }
 
-    public ApiCallBackList(@Nullable Observable<Bean<List<T>>> observable) {
+    public ApiCallBackList1(@Nullable Observable<Bean<List<T>>> observable) {
         this.mObservable = observable;
     }
 
-    public Observable<List<T>> execute() {
+    public Subscription execute(final @NonNull IListCallBack<T> callBack) {
         return mObservable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnError(new Action1<Throwable>() {
                     @Override
                     public void call(Throwable t) {
-                        onFinish();
-                        onFail(t.getMessage());
-                        noData();
+                        callBack.onFinish();
+                        callBack.onError(t.getMessage());
+                        callBack.noData();
                     }
                 })
                 .doOnNext(new Action1<Bean<List<T>>>() {
                     @Override
                     public void call(Bean<List<T>> t) {
                         if (t.getErrorCode() == ApiErrorCode.SUCCEED) {
-                            onFinish();
-                            onSuccess();
+                            callBack.onFinish();
+                            callBack.onSuccess();
                             if (t.getData() == null || t.getData().size() == 0) {
-                                noData();
+                                callBack.noData();
                             } else {
-                                onData(t.getData());
+                                callBack.onData(t.getData());
                             }
                         } else if (t.getErrorCode() == ApiErrorCode.NOT_LOGGED) {
                             App.getInstance().needLogin();
                         } else if (t.getErrorCode() != ApiErrorCode.NOT_LOGGED) {
-                            onFinish();
-                            onFail(t.getErrorMessage());
-                            noData();
+                            callBack.onFinish();
+                            callBack.onError(t.getErrorMessage());
+                            callBack.noData();
                         }
                     }
                 })
@@ -67,16 +70,22 @@ public abstract class ApiCallBackList<T> {
                     public Observable<List<T>> call(Bean<List<T>> listBean) {
                         return Observable.just(listBean.getData());
                     }
+                }).subscribe(new Subscriber<List<T>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(List<T> ts) {
+
+                    }
                 });
     }
 
-    public abstract void onSuccess();
-
-    public abstract void onData(List<T> data);
-
-    public abstract void onFail(@NonNull String message);
-
-    public abstract void onFinish();
-
-    public abstract void noData();
 }

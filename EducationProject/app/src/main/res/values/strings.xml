@@ -3,4 +3,5 @@
     <string name="str_first_nav_2">题库</string>
     <string name="str_first_nav_3">学习</string>
     <string name="str_first_nav_4">我的</string>
+    <string name="filter_code">0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
 </resources>
