@@ -27,6 +27,6 @@ public interface ExamApi {
     Observable<Bean<List<ExamList>>> getExamList(@QueryMap() Map<String, String> map, @Body() String string);
 
     @Headers({"Content-Type:application/json;charset=utf-8", "Accept:application/json;"})
-    @POST("api/paper/paperQuestiong")
+    @POST("api/paper/paperQuestion")
     Observable<Bean<List<PaperSections>>> getExamPaperQuesting(@Query("id") long id, @Body() String string);
 }

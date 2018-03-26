@@ -7,9 +7,12 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.library.utils.GlideUtils;
 import com.library.utils.SPHelper;
 import com.xueli.application.R;
 import com.xueli.application.app.App;
@@ -17,6 +20,8 @@ import com.xueli.application.common.ConstantStr;
 import com.xueli.application.view.MvpFragment;
 import com.xueli.application.view.login.LoginActivity;
 import com.xueli.application.view.user.information.UserInformationActivity;
+import com.xueli.application.view.user.point_rule.PointRuleActivity;
+import com.xueli.application.view.user.spread_envoy.SpreadEnvoyActivity;
 import com.xueli.application.view.user.subject_error.ErrorSubjectActivity;
 
 /**
@@ -39,7 +44,13 @@ public class UserFragment extends MvpFragment implements View.OnClickListener {
         View rootView = inflater.inflate(R.layout.user_fragment, container, false);
         rootView.findViewById(R.id.llUserInfo).setOnClickListener(this);
         rootView.findViewById(R.id.llErrorSubject).setOnClickListener(this);
+        rootView.findViewById(R.id.llPointRule).setOnClickListener(this);
         rootView.findViewById(R.id.tvUserExit).setOnClickListener(this);
+        rootView.findViewById(R.id.llSpreadEnvoy).setOnClickListener(this);
+        TextView tvUserName = rootView.findViewById(R.id.tvUserName);
+        tvUserName.setText(App.getInstance().getCurrentUser().getAccountName());
+        ImageView ivUserPhoto = rootView.findViewById(R.id.ivUserPhoto);
+        GlideUtils.ShowCircleImage(getActivity(), App.getInstance().getCurrentUser().getHeadImage(), ivUserPhoto, R.drawable.img_avatar_default);
         return rootView;
     }
 
@@ -51,6 +62,12 @@ public class UserFragment extends MvpFragment implements View.OnClickListener {
                 break;
             case R.id.llErrorSubject:
                 startActivity(new Intent(getActivity(), ErrorSubjectActivity.class));
+                break;
+            case R.id.llPointRule:
+                startActivity(new Intent(getActivity(), PointRuleActivity.class));
+                break;
+            case R.id.llSpreadEnvoy:
+                startActivity(new Intent(getActivity(), SpreadEnvoyActivity.class));
                 break;
             case R.id.tvUserExit:
                 if (getActivity() == null) {

@@ -192,6 +192,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/llPointRule"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
@@ -266,6 +267,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/llSpreadEnvoy"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
@@ -303,6 +305,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/llAboutUS"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
