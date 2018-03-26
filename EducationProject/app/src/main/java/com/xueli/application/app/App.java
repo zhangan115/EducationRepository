@@ -13,6 +13,7 @@ import com.xueli.application.mode.bean.user.User;
 import com.google.gson.Gson;
 import com.library.utils.Base64Util;
 import com.library.utils.SPHelper;
+import com.xueli.application.view.login.LoginActivity;
 
 import java.io.UnsupportedEncodingException;
 
@@ -115,5 +116,12 @@ public class App extends AbsBaseApp {
         this.mUser = user;
         String userInfo = new Gson().toJson(user);
         SPHelper.write(this, ConstantStr.USER_INFO, ConstantStr.USER_BEAN, userInfo);
+    }
+
+    @Override
+    public void exitApp() {
+        super.exitApp();
+        SPHelper.remove(this, ConstantStr.USER_INFO, ConstantStr.TOKEN);
+        startActivity(new Intent(this, LoginActivity.class));
     }
 }

@@ -84,7 +84,6 @@ public class ExaminationActivity extends MvpActivity<ExaminationContract.Present
         viewPager = findViewById(R.id.view_pager);
         viewPager.setOffscreenPageLimit(4);
         viewPager.addOnPageChangeListener(this);
-        viewPager.setAdapter(new Adapter(getSupportFragmentManager()));
         tvOrder = findViewById(R.id.tvOrder);
         ivCollection = findViewById(R.id.ivCollection);
         tvCollection = findViewById(R.id.tvCollection);
@@ -113,7 +112,6 @@ public class ExaminationActivity extends MvpActivity<ExaminationContract.Present
         subjectRecycleView.setAdapter(adapter);
         findViewById(R.id.llCollection).setOnClickListener(this);
         findViewById(R.id.llOrder).setOnClickListener(this);
-        bottomDataChange(0);
         long id = getIntent().getLongExtra(ConstantStr.KEY_BUNDLE_LONG, -1);
         mPresenter.getPaperSections(id);
     }
@@ -240,7 +238,10 @@ public class ExaminationActivity extends MvpActivity<ExaminationContract.Present
 
     @Override
     public void showData(List<PaperSections> list) {
-
+        datas.clear();
+        datas.addAll(list);
+        viewPager.setAdapter(new Adapter(getSupportFragmentManager()));
+        bottomDataChange(0);
     }
 
     @Override

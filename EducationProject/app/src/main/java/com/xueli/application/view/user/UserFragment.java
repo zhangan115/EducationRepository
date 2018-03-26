@@ -19,6 +19,7 @@ import com.xueli.application.app.App;
 import com.xueli.application.common.ConstantStr;
 import com.xueli.application.view.MvpFragment;
 import com.xueli.application.view.login.LoginActivity;
+import com.xueli.application.view.user.about_us.AboutUsActivity;
 import com.xueli.application.view.user.information.UserInformationActivity;
 import com.xueli.application.view.user.point_rule.PointRuleActivity;
 import com.xueli.application.view.user.spread_envoy.SpreadEnvoyActivity;
@@ -43,6 +44,7 @@ public class UserFragment extends MvpFragment implements View.OnClickListener {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.user_fragment, container, false);
         rootView.findViewById(R.id.llUserInfo).setOnClickListener(this);
+        rootView.findViewById(R.id.llAboutUS).setOnClickListener(this);
         rootView.findViewById(R.id.llErrorSubject).setOnClickListener(this);
         rootView.findViewById(R.id.llPointRule).setOnClickListener(this);
         rootView.findViewById(R.id.tvUserExit).setOnClickListener(this);
@@ -59,6 +61,9 @@ public class UserFragment extends MvpFragment implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.llUserInfo:
                 startActivity(new Intent(getActivity(), UserInformationActivity.class));
+                break;
+            case R.id.llAboutUS:
+                startActivity(new Intent(getActivity(), AboutUsActivity.class));
                 break;
             case R.id.llErrorSubject:
                 startActivity(new Intent(getActivity(), ErrorSubjectActivity.class));
