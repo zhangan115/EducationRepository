@@ -1,4 +1,4 @@
-package com.xueli.application.mode.bean;
+package com.xueli.application.mode.bean.user;
 
 /**
  * 验证码

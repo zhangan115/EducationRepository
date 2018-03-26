@@ -9,7 +9,7 @@ import android.widget.Toast;
 import com.xueli.application.base.AbsBaseApp;
 import com.xueli.application.common.ConstantStr;
 import com.xueli.application.mode.api.Api;
-import com.xueli.application.mode.bean.User;
+import com.xueli.application.mode.bean.user.User;
 import com.google.gson.Gson;
 import com.library.utils.Base64Util;
 import com.library.utils.SPHelper;

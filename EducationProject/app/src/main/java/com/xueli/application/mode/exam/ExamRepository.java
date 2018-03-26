@@ -8,6 +8,8 @@ import com.xueli.application.common.ConstantStr;
 import com.xueli.application.mode.api.Api;
 import com.xueli.application.mode.api.ApiCallBackList1;
 import com.xueli.application.mode.bean.Bean;
+import com.xueli.application.mode.bean.exam.ExamList;
+import com.xueli.application.mode.bean.exam.PaperSections;
 import com.xueli.application.mode.callback.IListCallBack;
 import com.xueli.application.mode.user.UserRepository;
 
@@ -41,7 +43,7 @@ public class ExamRepository implements ExamDataSource {
 
     @NonNull
     @Override
-    public Subscription getExamList(Map<String, String> map, IListCallBack<String> callBack) {
+    public Subscription getExamList(Map<String, String> map, IListCallBack<ExamList> callBack) {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("token", sp.getString(ConstantStr.TOKEN, ""));
@@ -50,5 +52,18 @@ public class ExamRepository implements ExamDataSource {
         }
         return new ApiCallBackList1<>(Api.createRetrofit().create(ExamApi.class)
                 .getExamList(map, jsonObject.toString())).execute(callBack);
+    }
+
+    @NonNull
+    @Override
+    public Subscription getPaperSections(long id, IListCallBack<PaperSections> callBack) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("token", sp.getString(ConstantStr.TOKEN, ""));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return new ApiCallBackList1<>(Api.createRetrofit().create(ExamApi.class)
+                .getExamPaperQuesting(id, jsonObject.toString())).execute(callBack);
     }
 }

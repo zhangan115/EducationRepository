@@ -4,8 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 
-import com.xueli.application.mode.bean.User;
-import com.xueli.application.mode.bean.VerificationCode;
+import com.xueli.application.mode.bean.user.VerificationCode;
 import com.xueli.application.mode.callback.IObjectCallBack;
 
 import java.util.Map;

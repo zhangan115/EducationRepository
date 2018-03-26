@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.xueli.application.R;
 import com.xueli.application.common.ConstantStr;
+import com.xueli.application.mode.bean.exam.PaperSections;
 import com.xueli.application.view.MvpFragment;
 
 /**
@@ -20,9 +21,9 @@ import com.xueli.application.view.MvpFragment;
 public class SubjectFragment extends MvpFragment {
 
 
-    public static SubjectFragment newInstance(String content) {
+    public static SubjectFragment newInstance(PaperSections content) {
         Bundle args = new Bundle();
-        args.putString(ConstantStr.KEY_BUNDLE_STR, content);
+        args.putParcelable(ConstantStr.KEY_BUNDLE_OBJECT, content);
         SubjectFragment fragment = new SubjectFragment();
         fragment.setArguments(args);
         return fragment;
@@ -31,6 +32,7 @@ public class SubjectFragment extends MvpFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
     @Nullable
@@ -39,9 +41,7 @@ public class SubjectFragment extends MvpFragment {
         View rootView = inflater.inflate(R.layout.subject_fragment, container, false);
         Bundle bundle = getArguments();
         if (bundle != null) {
-            String str = bundle.getString(ConstantStr.KEY_BUNDLE_STR);
-            TextView textView = rootView.findViewById(R.id.tv);
-            textView.setText(str);
+            PaperSections paperSections = bundle.getParcelable(ConstantStr.KEY_BUNDLE_OBJECT);
         }
         return rootView;
     }

@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.library.adapter.RVAdapter;
 import com.library.widget.ExpendRecycleView;
@@ -19,6 +20,7 @@ import com.library.widget.RecycleRefreshLoadLayout;
 import com.xueli.application.R;
 import com.xueli.application.app.App;
 import com.xueli.application.common.ConstantStr;
+import com.xueli.application.mode.bean.exam.ExamList;
 import com.xueli.application.mode.exam.ExamRepository;
 import com.xueli.application.view.BaseActivity;
 import com.xueli.application.view.MvpActivity;
@@ -42,7 +44,7 @@ public class BankListActivity extends MvpActivity<BankListContact.Presenter> imp
     private DrawerLayout drawerLayout;
     private RelativeLayout noDataLayout;
     //data
-    private List<String> datas;
+    private List<ExamList> datas;
     private String type, isYear;
     private Map<String, String> map;
 
@@ -88,24 +90,24 @@ public class BankListActivity extends MvpActivity<BankListContact.Presenter> imp
         map = new HashMap<>();
         datas = new ArrayList<>();
         setTypeAndYear();
-        for (int i = 0; i < 10; i++) {
-            datas.add("i+" + i);
-        }
-        RVAdapter<String> adapter = new RVAdapter<String>(expendRecycleView, datas, R.layout.bank_list_item) {
+        RVAdapter<ExamList> adapter = new RVAdapter<ExamList>(expendRecycleView, datas, R.layout.bank_list_item) {
             @Override
-            public void showData(ViewHolder vHolder, String data, int position) {
-
+            public void showData(ViewHolder vHolder, ExamList data, int position) {
+                TextView tvExamName = (TextView) vHolder.getView(R.id.tvExamName);
+                tvExamName.setText(data.getTitle());
             }
         };
         expendRecycleView.setAdapter(adapter);
         adapter.setOnItemClickListener(new RVAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                startActivity(new Intent(BankListActivity.this, ExaminationActivity.class));
+                Intent intent = new Intent(BankListActivity.this, ExaminationActivity.class);
+                intent.putExtra(ConstantStr.KEY_BUNDLE_LONG, datas.get(position).getId());
+                startActivity(intent);
             }
         });
         refreshLoadLayout.setOnRefreshListener(this);
-        refreshLoadLayout.setOnLoadListener(this);
+//        refreshLoadLayout.setOnLoadListener(this);
         mPresenter.getBankList(map);
     }
 
@@ -122,9 +124,8 @@ public class BankListActivity extends MvpActivity<BankListContact.Presenter> imp
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.filter, menu);
-        return super.onCreateOptionsMenu(menu);
+        return true;
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -135,7 +136,6 @@ public class BankListActivity extends MvpActivity<BankListContact.Presenter> imp
         }
         return super.onOptionsItemSelected(item);
     }
-
 
     @Override
     public void onRefresh() {
@@ -152,12 +152,12 @@ public class BankListActivity extends MvpActivity<BankListContact.Presenter> imp
 
     @Override
     public void showLoading() {
-
+        refreshLoadLayout.setRefreshing(true);
     }
 
     @Override
     public void hideLoading() {
-
+        refreshLoadLayout.setRefreshing(false);
     }
 
     @Override
@@ -165,6 +165,13 @@ public class BankListActivity extends MvpActivity<BankListContact.Presenter> imp
         datas.clear();
         expendRecycleView.getAdapter().notifyDataSetChanged();
         noDataLayout.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void showData(List<ExamList> list) {
+        datas.clear();
+        datas.addAll(list);
+        expendRecycleView.getAdapter().notifyDataSetChanged();
     }
 
     @Override

@@ -1,8 +1,8 @@
 package com.xueli.application.mode.user;
 
 import com.xueli.application.mode.bean.Bean;
-import com.xueli.application.mode.bean.User;
-import com.xueli.application.mode.bean.VerificationCode;
+import com.xueli.application.mode.bean.user.User;
+import com.xueli.application.mode.bean.user.VerificationCode;
 
 
 import java.util.Map;

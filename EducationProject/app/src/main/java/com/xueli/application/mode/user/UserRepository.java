@@ -11,12 +11,9 @@ import com.xueli.application.common.ConstantStr;
 import com.xueli.application.mode.api.Api;
 import com.xueli.application.mode.api.ApiCallBackObject1;
 import com.xueli.application.mode.bean.Bean;
-import com.xueli.application.mode.bean.User;
-import com.xueli.application.mode.bean.VerificationCode;
+import com.xueli.application.mode.bean.user.User;
+import com.xueli.application.mode.bean.user.VerificationCode;
 import com.xueli.application.mode.callback.IObjectCallBack;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;

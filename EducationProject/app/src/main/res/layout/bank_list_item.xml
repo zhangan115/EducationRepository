@@ -8,12 +8,12 @@
     android:paddingRight="15dp">
 
     <TextView
+        android:id="@+id/tvExamName"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:paddingBottom="10dp"
         android:paddingTop="10dp"
-        android:text="测试"
         android:textColor="@color/text_gray_333"
         android:textSize="13dp" />
 

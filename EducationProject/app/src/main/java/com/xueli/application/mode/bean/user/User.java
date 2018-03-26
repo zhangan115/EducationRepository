@@ -1,4 +1,4 @@
-package com.xueli.application.mode.bean;
+package com.xueli.application.mode.bean.user;
 
 /**
  * 用户数据
@@ -13,7 +13,6 @@ public class User {
     private boolean locked;
     private String phone;
     private String token;
-    private RegTime regTime;
 
     public String getAccountName() {
         return accountName;
@@ -71,11 +70,4 @@ public class User {
         this.token = token;
     }
 
-    public RegTime getRegTime() {
-        return regTime;
-    }
-
-    public void setRegTime(RegTime regTime) {
-        this.regTime = regTime;
-    }
 }

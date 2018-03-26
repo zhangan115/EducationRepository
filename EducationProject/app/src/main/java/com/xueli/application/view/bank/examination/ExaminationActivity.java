@@ -1,6 +1,7 @@
 package com.xueli.application.view.bank.examination;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -19,7 +20,12 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.library.adapter.VRVAdapter;
 import com.orhanobut.logger.Logger;
 import com.xueli.application.R;
+import com.xueli.application.app.App;
+import com.xueli.application.common.ConstantStr;
+import com.xueli.application.mode.bean.exam.PaperSections;
+import com.xueli.application.mode.exam.ExamRepository;
 import com.xueli.application.view.BaseActivity;
+import com.xueli.application.view.MvpActivity;
 import com.xueli.application.view.subject.SubjectFragment;
 
 import java.util.ArrayList;
@@ -30,10 +36,10 @@ import java.util.List;
  * Created by pingan on 2018/3/19.
  */
 
-public class ExaminationActivity extends BaseActivity implements ViewPager.OnPageChangeListener {
+public class ExaminationActivity extends MvpActivity<ExaminationContract.Presenter> implements ViewPager.OnPageChangeListener, ExaminationContract.View {
 
     private ViewPager viewPager;
-    private List<String> datas;
+    private List<PaperSections> datas;
     private TextView tvOrder, tvCollection;
     private ImageView ivCollection;
     private MaterialDialog finishDialog, cancelDialog;
@@ -75,9 +81,6 @@ public class ExaminationActivity extends BaseActivity implements ViewPager.OnPag
         super.onCreate(savedInstanceState);
         setLayoutAndToolbar(R.layout.examination_activity, "考试");
         datas = new ArrayList<>();
-        for (int i = 1; i < 21; i++) {
-            datas.add("第" + i + "题");
-        }
         viewPager = findViewById(R.id.view_pager);
         viewPager.setOffscreenPageLimit(4);
         viewPager.addOnPageChangeListener(this);
@@ -111,6 +114,13 @@ public class ExaminationActivity extends BaseActivity implements ViewPager.OnPag
         findViewById(R.id.llCollection).setOnClickListener(this);
         findViewById(R.id.llOrder).setOnClickListener(this);
         bottomDataChange(0);
+        long id = getIntent().getLongExtra(ConstantStr.KEY_BUNDLE_LONG, -1);
+        mPresenter.getPaperSections(id);
+    }
+
+    @Override
+    protected void onBindPresenter() {
+        new ExaminationPresenter(this, ExamRepository.getRepository(getApplicationContext()));
     }
 
     @Override
@@ -136,7 +146,7 @@ public class ExaminationActivity extends BaseActivity implements ViewPager.OnPag
                 @Override
                 public void onClick(View v) {
                     finishDialog.dismiss();
-                    // TODO: 2018/3/20 交卷
+
                 }
             });
             if (finishDialog == null) {
@@ -226,6 +236,36 @@ public class ExaminationActivity extends BaseActivity implements ViewPager.OnPag
     @Override
     public void toolBarClick() {
         showCancelDialog();
+    }
+
+    @Override
+    public void showData(List<PaperSections> list) {
+
+    }
+
+    @Override
+    public void showLoading() {
+
+    }
+
+    @Override
+    public void hideLoading() {
+
+    }
+
+    @Override
+    public void noData() {
+
+    }
+
+    @Override
+    public void showMessage(String message) {
+        App.getInstance().showToast(message);
+    }
+
+    @Override
+    public void setPresenter(ExaminationContract.Presenter presenter) {
+        mPresenter = presenter;
     }
 
     private class Adapter extends FragmentStatePagerAdapter {

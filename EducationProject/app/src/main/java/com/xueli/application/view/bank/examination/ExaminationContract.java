@@ -1,33 +1,32 @@
-package com.xueli.application.view.bank.list;
+package com.xueli.application.view.bank.examination;
 
 import com.xueli.application.base.BasePresenter;
 import com.xueli.application.base.BaseView;
-import com.xueli.application.mode.bean.exam.ExamList;
+import com.xueli.application.mode.bean.exam.PaperSections;
 
 import java.util.List;
-import java.util.Map;
 
 /**
- * 试卷列表
- * Created by pingan on 2018/3/25.
+ * 考试
+ * Created by pingan on 2018/3/26.
  */
 
-interface BankListContact {
+interface ExaminationContract {
 
     interface Presenter extends BasePresenter {
 
-        void getBankList(Map<String, String> map);
+        void getPaperSections(long id);
     }
 
     interface View extends BaseView<Presenter> {
+
+        void showData(List<PaperSections> list);
 
         void showLoading();
 
         void hideLoading();
 
         void noData();
-
-        void showData(List<ExamList> datas);
 
         void showMessage(String message);
     }

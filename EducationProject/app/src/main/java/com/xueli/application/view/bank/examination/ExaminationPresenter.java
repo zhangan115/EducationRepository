@@ -1,45 +1,44 @@
-package com.xueli.application.view.bank.list;
+package com.xueli.application.view.bank.examination;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.xueli.application.mode.bean.exam.ExamList;
+import com.xueli.application.mode.bean.exam.PaperSections;
 import com.xueli.application.mode.callback.IListCallBack;
 import com.xueli.application.mode.exam.ExamDataSource;
 
 import java.util.List;
-import java.util.Map;
 
 import rx.subscriptions.CompositeSubscription;
 
 /**
- * 试卷列表
- * Created by pingan on 2018/3/25.
+ * 考试
+ * Created by pingan on 2018/3/26.
  */
 
-class BankListPresenter implements BankListContact.Presenter {
+class ExaminationPresenter implements ExaminationContract.Presenter {
 
-    private final ExamDataSource mExamDataSource;
-    private final BankListContact.View mView;
+    private final ExaminationContract.View mView;
+    private final ExamDataSource mDataSource;
     private CompositeSubscription mSubscriptions;
 
-    BankListPresenter(ExamDataSource examDataSource, BankListContact.View mView) {
-        this.mExamDataSource = examDataSource;
+    ExaminationPresenter(ExaminationContract.View mView, ExamDataSource mDataSource) {
         this.mView = mView;
+        this.mDataSource = mDataSource;
         mView.setPresenter(this);
     }
 
     @Override
-    public void getBankList(Map<String, String> map) {
+    public void getPaperSections(long id) {
         mView.showLoading();
-        mSubscriptions.add(mExamDataSource.getExamList(map, new IListCallBack<ExamList>() {
+        mSubscriptions.add(mDataSource.getPaperSections(id, new IListCallBack<PaperSections>() {
             @Override
             public void onSuccess() {
 
             }
 
             @Override
-            public void onData(@NonNull List<ExamList> list) {
+            public void onData(@NonNull List<PaperSections> list) {
                 mView.showData(list);
             }
 
