@@ -11,6 +11,8 @@ public class SectionOption implements Parcelable {
 
     private String optSta;
     private String optVal;
+    private boolean choose;
+    private String value;
 
     public String getOptSta() {
         return optSta;
@@ -28,6 +30,24 @@ public class SectionOption implements Parcelable {
         this.optVal = optVal;
     }
 
+    public boolean isChoose() {
+        return choose;
+    }
+
+    public void setChoose(boolean choose) {
+        this.choose = choose;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
+
+    public SectionOption() {
+    }
 
     @Override
     public int describeContents() {
@@ -38,14 +58,15 @@ public class SectionOption implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.optSta);
         dest.writeString(this.optVal);
-    }
-
-    public SectionOption() {
+        dest.writeByte(this.choose ? (byte) 1 : (byte) 0);
+        dest.writeString(this.value);
     }
 
     protected SectionOption(Parcel in) {
         this.optSta = in.readString();
         this.optVal = in.readString();
+        this.choose = in.readByte() != 0;
+        this.value = in.readString();
     }
 
     public static final Creator<SectionOption> CREATOR = new Creator<SectionOption>() {

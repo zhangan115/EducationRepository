@@ -3,6 +3,8 @@ package com.xueli.application.mode.bean.exam;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.List;
+
 /**
  * Created by pingan on 2018/3/26.
  */
@@ -19,6 +21,8 @@ public class PaperSections implements Parcelable {
     private String question;
     private String paperSectionTitle;
     private String options;
+    private List<SectionOption> sectionOptions;// 本地属性 题的选择列表
+    private boolean isCollect;//本地属性 是否收藏
 
     public long getId() {
         return id;
@@ -100,6 +104,26 @@ public class PaperSections implements Parcelable {
         this.options = options;
     }
 
+    public List<SectionOption> getSectionOptions() {
+        return sectionOptions;
+    }
+
+    public void setSectionOptions(List<SectionOption> sectionOptions) {
+        this.sectionOptions = sectionOptions;
+    }
+
+    public boolean isCollect() {
+        return isCollect;
+    }
+
+    public void setCollect(boolean collect) {
+        isCollect = collect;
+    }
+
+    public PaperSections() {
+    }
+
+
     @Override
     public int describeContents() {
         return 0;
@@ -117,9 +141,8 @@ public class PaperSections implements Parcelable {
         dest.writeString(this.question);
         dest.writeString(this.paperSectionTitle);
         dest.writeString(this.options);
-    }
-
-    public PaperSections() {
+        dest.writeTypedList(this.sectionOptions);
+        dest.writeByte(this.isCollect ? (byte) 1 : (byte) 0);
     }
 
     protected PaperSections(Parcel in) {
@@ -133,6 +156,8 @@ public class PaperSections implements Parcelable {
         this.question = in.readString();
         this.paperSectionTitle = in.readString();
         this.options = in.readString();
+        this.sectionOptions = in.createTypedArrayList(SectionOption.CREATOR);
+        this.isCollect = in.readByte() != 0;
     }
 
     public static final Creator<PaperSections> CREATOR = new Creator<PaperSections>() {

@@ -22,7 +22,9 @@ import com.orhanobut.logger.Logger;
 import com.xueli.application.R;
 import com.xueli.application.app.App;
 import com.xueli.application.common.ConstantStr;
+import com.xueli.application.mode.bean.exam.ExamListBean;
 import com.xueli.application.mode.bean.exam.PaperSections;
+import com.xueli.application.mode.bean.exam.SectionOption;
 import com.xueli.application.mode.exam.ExamRepository;
 import com.xueli.application.view.BaseActivity;
 import com.xueli.application.view.MvpActivity;
@@ -36,51 +38,24 @@ import java.util.List;
  * Created by pingan on 2018/3/19.
  */
 
-public class ExaminationActivity extends MvpActivity<ExaminationContract.Presenter> implements ViewPager.OnPageChangeListener, ExaminationContract.View {
-
+public class ExaminationActivity extends MvpActivity<ExaminationContract.Presenter> implements ViewPager.OnPageChangeListener
+        , ExaminationContract.View, IDataChange {
+    //view
     private ViewPager viewPager;
-    private List<PaperSections> datas;
     private TextView tvOrder, tvCollection;
     private ImageView ivCollection;
     private MaterialDialog finishDialog, cancelDialog;
     private RecyclerView subjectRecycleView;
-    private List<TestData> testData;
-
-    public static class TestData {
-        private int type;
-        private int position;
-
-        public TestData() {
-        }
-
-        public TestData(int type, int position) {
-            this.type = type;
-            this.position = position;
-
-        }
-
-        public int getType() {
-            return type;
-        }
-
-        public void setType(int type) {
-            this.type = type;
-        }
-
-        public int getPosition() {
-            return position;
-        }
-
-        public void setPosition(int position) {
-            this.position = position;
-        }
-    }
+    //data
+    private List<PaperSections> datas;
+    private List<ExamListBean> examListBeans;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setLayoutAndToolbar(R.layout.examination_activity, "考试");
         datas = new ArrayList<>();
+        examListBeans = new ArrayList<>();
         viewPager = findViewById(R.id.view_pager);
         viewPager.setOffscreenPageLimit(4);
         viewPager.addOnPageChangeListener(this);
@@ -88,15 +63,7 @@ public class ExaminationActivity extends MvpActivity<ExaminationContract.Present
         ivCollection = findViewById(R.id.ivCollection);
         tvCollection = findViewById(R.id.tvCollection);
         subjectRecycleView = findViewById(R.id.recycleSubject);
-        testData = new ArrayList<>();
         final GridLayoutManager manager = new GridLayoutManager(this.getApplicationContext(), 6);
-        for (int i = 0; i < 40; i++) {
-            if (i == 0 || i == 19) {
-                testData.add(new TestData(0, i));
-            } else {
-                testData.add(new TestData(1, i));
-            }
-        }
         manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
@@ -108,7 +75,7 @@ public class ExaminationActivity extends MvpActivity<ExaminationContract.Present
             }
         });
         subjectRecycleView.setLayoutManager(manager);
-        SubjectAdapter adapter = new SubjectAdapter(testData, getApplicationContext());
+        SubjectAdapter adapter = new SubjectAdapter(examListBeans, getApplicationContext());
         subjectRecycleView.setAdapter(adapter);
         findViewById(R.id.llCollection).setOnClickListener(this);
         findViewById(R.id.llOrder).setOnClickListener(this);
@@ -269,6 +236,11 @@ public class ExaminationActivity extends MvpActivity<ExaminationContract.Present
         mPresenter = presenter;
     }
 
+    @Override
+    public void onDataChange(List<SectionOption> sectionOptions, int position) {
+        datas.get(position).setSectionOptions(sectionOptions);
+    }
+
     private class Adapter extends FragmentStatePagerAdapter {
 
         Adapter(FragmentManager fm) {
@@ -277,7 +249,7 @@ public class ExaminationActivity extends MvpActivity<ExaminationContract.Present
 
         @Override
         public Fragment getItem(int position) {
-            return SubjectFragment.newInstance(datas.get(position));
+            return SubjectFragment.newInstance(datas.get(position), position, false);
         }
 
         @Override

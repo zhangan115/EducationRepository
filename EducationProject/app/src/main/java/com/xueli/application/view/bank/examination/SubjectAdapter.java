@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.xueli.application.R;
+import com.xueli.application.mode.bean.exam.ExamListBean;
 
 import java.util.List;
 
@@ -18,10 +19,10 @@ import java.util.List;
 
 public class SubjectAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private List<ExaminationActivity.TestData> dataList;
+    private List<ExamListBean> dataList;
     private Context context;
 
-    public SubjectAdapter(List<ExaminationActivity.TestData> dataList, Context context) {
+    public SubjectAdapter(List<ExamListBean> dataList, Context context) {
         this.dataList = dataList;
         this.context = context;
     }
@@ -57,9 +58,9 @@ public class SubjectAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     public class TitleViewHolder extends RecyclerView.ViewHolder {
-        public TextView mTextView;
+        TextView mTextView;
 
-        public TitleViewHolder(View view) {
+        TitleViewHolder(View view) {
             super(view);
             mTextView = view.findViewById(R.id.tvSubjectName);
         }
@@ -67,9 +68,9 @@ public class SubjectAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     public class SubjectViewHolder extends RecyclerView.ViewHolder {
-        public TextView mTextView;
+        TextView mTextView;
 
-        public SubjectViewHolder(View view) {
+        SubjectViewHolder(View view) {
             super(view);
             mTextView = view.findViewById(R.id.tvSubjectPosition);
         }
