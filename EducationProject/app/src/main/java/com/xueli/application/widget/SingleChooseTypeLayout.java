@@ -71,7 +71,7 @@ public class SingleChooseTypeLayout extends LinearLayout implements View.OnClick
             }
             return new String(strBytes);
         } else {
-            return String.valueOf(position + 1) + ".";
+            return String.valueOf(position + 1) ;
         }
     }
 

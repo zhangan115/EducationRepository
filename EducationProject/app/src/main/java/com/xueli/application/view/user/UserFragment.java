@@ -49,6 +49,7 @@ public class UserFragment extends MvpFragment implements View.OnClickListener {
         rootView.findViewById(R.id.llPointRule).setOnClickListener(this);
         rootView.findViewById(R.id.tvUserExit).setOnClickListener(this);
         rootView.findViewById(R.id.llSpreadEnvoy).setOnClickListener(this);
+        rootView.findViewById(R.id.llCollection).setOnClickListener(this);
         TextView tvUserName = rootView.findViewById(R.id.tvUserName);
         tvUserName.setText(App.getInstance().getCurrentUser().getAccountName());
         ImageView ivUserPhoto = rootView.findViewById(R.id.ivUserPhoto);
@@ -60,6 +61,9 @@ public class UserFragment extends MvpFragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.llUserInfo:
+                startActivity(new Intent(getActivity(), UserInformationActivity.class));
+                break;
+            case R.id.llCollection:
                 startActivity(new Intent(getActivity(), UserInformationActivity.class));
                 break;
             case R.id.llAboutUS:

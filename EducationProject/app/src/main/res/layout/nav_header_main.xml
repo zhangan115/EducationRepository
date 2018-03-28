@@ -2,9 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorWhite"
     android:orientation="vertical"
-    android:paddingLeft="15dp">
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -16,7 +16,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -26,19 +25,351 @@
                 android:textColor="@color/text_gray_999"
                 android:textSize="12dp" />
 
-
             <EditText
                 android:id="@+id/etBankName"
                 android:layout_width="match_parent"
                 android:layout_height="34dp"
-                android:layout_marginRight="15dp"
-                android:background="@null" />
+                android:layout_gravity="clip_vertical"
+                android:background="@drawable/shape_edit_bg"
+                android:textColor="@color/text_gray_333"
+                android:textSize="14dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="12dp"
+                android:paddingTop="15dp"
+                android:text="试卷类型"
+                android:textColor="@color/text_gray_999"
+                android:textSize="12dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+                <TextView
+                    android:id="@+id/tvType1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_edit_bg"
+                    android:gravity="center"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:tag="0"
+                    android:text="高中起点本科"
+                    android:textColor="@color/text_gray_333"
+                    android:textSize="13dp" />
+
+                <TextView
+                    android:id="@+id/tvType2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="12dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_edit_bg"
+                    android:gravity="center"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:tag="1"
+                    android:text="高中起点本科"
+                    android:textColor="@color/text_gray_333"
+                    android:textSize="13dp" />
+
+                <TextView
+                    android:id="@+id/tvType3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_edit_bg"
+                    android:gravity="center"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:tag="2"
+                    android:text="高中起点本科"
+                    android:textColor="@color/text_gray_333"
+                    android:textSize="13dp" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="12dp"
+                android:paddingTop="15dp"
+                android:text="试卷年份"
+                android:textColor="@color/text_gray_999"
+                android:textSize="12dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+                <TextView
+                    android:id="@+id/tvYear1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_edit_bg"
+                    android:gravity="center"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:tag="0"
+                    android:text="2018"
+                    android:textColor="@color/text_gray_333"
+                    android:textSize="13dp" />
+
+                <TextView
+                    android:id="@+id/tvYear2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="12dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_edit_bg"
+                    android:gravity="center"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:tag="1"
+                    android:text="2017"
+                    android:textColor="@color/text_gray_333"
+                    android:textSize="13dp" />
+
+                <TextView
+                    android:id="@+id/tvYear3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_edit_bg"
+                    android:gravity="center"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:tag="2"
+                    android:text="2016"
+                    android:textColor="@color/text_gray_333"
+                    android:textSize="13dp" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="12dp"
+                android:paddingTop="15dp"
+                android:text="考试科目"
+                android:textColor="@color/text_gray_999"
+                android:textSize="12dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="4">
+
+                <TextView
+                    android:id="@+id/tvSubject1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_edit_bg"
+                    android:gravity="center"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:tag="0"
+                    android:text="语文"
+                    android:textColor="@color/text_gray_333"
+                    android:textSize="13dp" />
+
+                <TextView
+                    android:id="@+id/tvSubject2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="12dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_edit_bg"
+                    android:gravity="center"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:tag="1"
+                    android:text="数学"
+                    android:textColor="@color/text_gray_333"
+                    android:textSize="13dp" />
+
+                <TextView
+                    android:id="@+id/tvSubject3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_edit_bg"
+                    android:gravity="center"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:tag="2"
+                    android:text="英语"
+                    android:textColor="@color/text_gray_333"
+                    android:textSize="13dp" />
+
+                <TextView
+                    android:id="@+id/tvSubject4"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="12dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_edit_bg"
+                    android:gravity="center"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:tag="3"
+                    android:text="物理"
+                    android:textColor="@color/text_gray_333"
+                    android:textSize="13dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:orientation="horizontal"
+                android:weightSum="4">
+
+                <TextView
+                    android:id="@+id/tvSubject5"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_edit_bg"
+                    android:gravity="center"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:tag="4"
+                    android:text="化学"
+                    android:textColor="@color/text_gray_333"
+                    android:textSize="13dp" />
+
+                <TextView
+                    android:id="@+id/tvSubject6"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="12dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_edit_bg"
+                    android:gravity="center"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:tag="5"
+                    android:text="政治"
+                    android:textColor="@color/text_gray_333"
+                    android:textSize="13dp" />
+
+                <TextView
+                    android:id="@+id/tvSubject7"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_edit_bg"
+                    android:gravity="center"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:tag="6"
+                    android:text="历史"
+                    android:textColor="@color/text_gray_333"
+                    android:textSize="13dp" />
+
+                <TextView
+                    android:id="@+id/tvSubject8"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="12dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_edit_bg"
+                    android:gravity="center"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:tag="7"
+                    android:text="地理"
+                    android:textColor="@color/text_gray_333"
+                    android:textSize="13dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:orientation="horizontal"
+                android:weightSum="4">
+
+                <TextView
+                    android:id="@+id/tvSubject9"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_edit_bg"
+                    android:gravity="center"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:tag="8"
+                    android:text="理科综合"
+                    android:textColor="@color/text_gray_333"
+                    android:textSize="13dp" />
+
+                <TextView
+                    android:id="@+id/tvSubject10"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="12dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_edit_bg"
+                    android:gravity="center"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:tag="9"
+                    android:text="文科综合"
+                    android:textColor="@color/text_gray_333"
+                    android:textSize="13dp" />
+
+                <TextView
+                    android:id="@+id/tvSubject11"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_edit_bg"
+                    android:gravity="center"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:tag="10"
+                    android:text="综合医学"
+                    android:textColor="@color/text_gray_333"
+                    android:textSize="13dp" />
+
+                <TextView
+                    android:id="@+id/tvSubject12"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="12dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_edit_bg"
+                    android:gravity="center"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:tag="11"
+                    android:text="其他"
+                    android:textColor="@color/text_gray_333"
+                    android:textSize="13dp" />
+            </LinearLayout>
+
         </LinearLayout>
     </ScrollView>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
         android:orientation="horizontal">
 
         <Button
@@ -48,10 +379,10 @@
             android:layout_marginBottom="20dp"
             android:layout_marginRight="12dp"
             android:layout_weight="1"
-            android:background="@drawable/btn_blue"
+            android:background="@drawable/btn_gray"
             android:gravity="center"
             android:text="重置"
-            android:textColor="@color/colorWhite"
+            android:textColor="@color/text_gray_999"
             android:textSize="16dp" />
 
         <Button

@@ -7,11 +7,12 @@ import android.support.annotation.NonNull;
 import com.xueli.application.common.ConstantStr;
 import com.xueli.application.mode.api.Api;
 import com.xueli.application.mode.api.ApiCallBackList1;
-import com.xueli.application.mode.bean.Bean;
+import com.xueli.application.mode.api.ApiCallBackObject1;
 import com.xueli.application.mode.bean.exam.ExamList;
+import com.xueli.application.mode.bean.exam.PaperCollection;
 import com.xueli.application.mode.bean.exam.PaperSections;
 import com.xueli.application.mode.callback.IListCallBack;
-import com.xueli.application.mode.user.UserRepository;
+import com.xueli.application.mode.callback.IObjectCallBack;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -65,5 +66,32 @@ public class ExamRepository implements ExamDataSource {
         }
         return new ApiCallBackList1<>(Api.createRetrofit().create(ExamApi.class)
                 .getExamPaperQuesting(id, jsonObject.toString())).execute(callBack);
+    }
+
+    @NonNull
+    @Override
+    public Subscription collectionPaper(long paperQuestionId, long accountId, IObjectCallBack<PaperCollection> callBack) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("token", sp.getString(ConstantStr.TOKEN, ""));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return new ApiCallBackObject1<>(Api.createRetrofit().create(ExamApi.class)
+                .postPaperCollection(paperQuestionId, accountId, jsonObject.toString())).execute(callBack);
+    }
+
+    @NonNull
+    @Override
+    public Subscription unCollectionPaper(long id, IObjectCallBack<PaperCollection> callBack) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("token", sp.getString(ConstantStr.TOKEN, ""));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return new ApiCallBackObject1<>(Api.createRetrofit().create(ExamApi.class)
+                .cancelPaperCollection(id, jsonObject.toString()))
+                .execute(callBack);
     }
 }

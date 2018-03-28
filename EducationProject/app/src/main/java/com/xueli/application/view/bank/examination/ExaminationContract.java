@@ -16,6 +16,13 @@ interface ExaminationContract {
     interface Presenter extends BasePresenter {
 
         void getPaperSections(long id);
+
+        //收藏
+        void collectPaper(long paperQuestionId, long accountId);
+
+        //取消收藏
+        void unCollectPaper(long id);
+
     }
 
     interface View extends BaseView<Presenter> {
@@ -29,5 +36,7 @@ interface ExaminationContract {
         void noData();
 
         void showMessage(String message);
+
+        void collectStateChange(long id, boolean isCollect);
     }
 }

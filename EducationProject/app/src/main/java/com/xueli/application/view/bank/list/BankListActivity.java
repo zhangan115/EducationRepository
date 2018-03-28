@@ -3,14 +3,17 @@ package com.xueli.application.view.bank.list;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
+import android.text.TextUtils;
 import android.view.DragEvent;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -27,9 +30,11 @@ import com.xueli.application.view.MvpActivity;
 import com.xueli.application.view.bank.examination.ExaminationActivity;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 
 /**
  * 历年真题，模拟试题
@@ -37,16 +42,22 @@ import java.util.Map;
  */
 
 public class BankListActivity extends MvpActivity<BankListContact.Presenter> implements SwipeRefreshLayout.OnRefreshListener
-        , RecycleRefreshLoadLayout.OnLoadListener, BankListContact.View {
+        , BankListContact.View {
     //view
     private RecycleRefreshLoadLayout refreshLoadLayout;
     private ExpendRecycleView expendRecycleView;
     private DrawerLayout drawerLayout;
     private RelativeLayout noDataLayout;
+    //筛选
+    private EditText etBankName;
+    private TextView[] tvTypes = new TextView[3];
+    private TextView[] tvYears = new TextView[3];
+    private TextView[] tvSubjects = new TextView[12];
     //data
     private List<ExamList> datas;
     private String type, isYear;
     private Map<String, String> map;
+    private int currentYear;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,10 +71,7 @@ public class BankListActivity extends MvpActivity<BankListContact.Presenter> imp
             isYear = String.valueOf(types[1]);
         }
         setLayoutAndToolbar(R.layout.bank_list_activity, isYear.equals("0") ? "模拟试题" : "历年真题");
-        refreshLoadLayout = findViewById(R.id.rcrLayout);
-        expendRecycleView = findViewById(R.id.expendRv);
-        noDataLayout = findViewById(R.id.rlNoData);
-        drawerLayout = findViewById(R.id.drawer_layout);
+        initView();
         refreshLoadLayout.setColorSchemeColors(findColorById(R.color.colorPrimary));
         expendRecycleView.setLayoutManager(new GridLayoutManager(this, 1));
         drawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
@@ -107,8 +115,64 @@ public class BankListActivity extends MvpActivity<BankListContact.Presenter> imp
             }
         });
         refreshLoadLayout.setOnRefreshListener(this);
-//        refreshLoadLayout.setOnLoadListener(this);
         mPresenter.getBankList(map);
+    }
+
+    private void initView() {
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        refreshLoadLayout = findViewById(R.id.rcrLayout);
+        expendRecycleView = findViewById(R.id.expendRv);
+        noDataLayout = findViewById(R.id.rlNoData);
+        drawerLayout = findViewById(R.id.drawer_layout);
+        navigationView.getHeaderView(0).findViewById(R.id.btnReset).setOnClickListener(this);
+        navigationView.getHeaderView(0).findViewById(R.id.btnSure).setOnClickListener(this);
+        etBankName = navigationView.getHeaderView(0).findViewById(R.id.etBankName);
+        tvTypes[0] = navigationView.getHeaderView(0).findViewById(R.id.tvType1);
+        tvTypes[1] = navigationView.getHeaderView(0).findViewById(R.id.tvType2);
+        tvTypes[2] = navigationView.getHeaderView(0).findViewById(R.id.tvType3);
+        Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
+        currentYear = calendar.get(Calendar.YEAR);
+        tvYears[0] = navigationView.getHeaderView(0).findViewById(R.id.tvYear1);
+        tvYears[1] = navigationView.getHeaderView(0).findViewById(R.id.tvYear2);
+        tvYears[2] = navigationView.getHeaderView(0).findViewById(R.id.tvYear3);
+        tvYears[0].setText(String.valueOf(currentYear));
+        tvYears[1].setText(String.valueOf(currentYear - 1));
+        tvYears[2].setText(String.valueOf(currentYear - 2));
+
+        tvSubjects[0] = navigationView.getHeaderView(0).findViewById(R.id.tvSubject1);
+        tvSubjects[1] = navigationView.getHeaderView(0).findViewById(R.id.tvSubject2);
+        tvSubjects[2] = navigationView.getHeaderView(0).findViewById(R.id.tvSubject3);
+        tvSubjects[3] = navigationView.getHeaderView(0).findViewById(R.id.tvSubject4);
+        tvSubjects[4] = navigationView.getHeaderView(0).findViewById(R.id.tvSubject5);
+        tvSubjects[5] = navigationView.getHeaderView(0).findViewById(R.id.tvSubject6);
+        tvSubjects[6] = navigationView.getHeaderView(0).findViewById(R.id.tvSubject7);
+        tvSubjects[7] = navigationView.getHeaderView(0).findViewById(R.id.tvSubject8);
+        tvSubjects[8] = navigationView.getHeaderView(0).findViewById(R.id.tvSubject9);
+        tvSubjects[9] = navigationView.getHeaderView(0).findViewById(R.id.tvSubject10);
+        tvSubjects[10] = navigationView.getHeaderView(0).findViewById(R.id.tvSubject11);
+        tvSubjects[11] = navigationView.getHeaderView(0).findViewById(R.id.tvSubject12);
+
+        for (TextView tv : tvTypes) {
+            tv.setOnClickListener(this);
+        }
+        for (TextView tv : tvYears) {
+            tv.setOnClickListener(this);
+        }
+        for (TextView tv : tvSubjects) {
+            tv.setOnClickListener(this);
+        }
+    }
+
+    private void setTextViewState(int position, TextView[] textViews) {
+        for (int i = 0; i < textViews.length; i++) {
+            if (i == position) {
+                textViews[i].setTextColor(findColorById(R.color.text_blue));
+                textViews[i].setBackground(findDrawById(R.drawable.shape_edit_bg_blue));
+            } else {
+                textViews[i].setTextColor(findColorById(R.color.text_gray_333));
+                textViews[i].setBackground(findDrawById(R.drawable.shape_edit_bg));
+            }
+        }
     }
 
     private void setTypeAndYear() {
@@ -138,16 +202,103 @@ public class BankListActivity extends MvpActivity<BankListContact.Presenter> imp
     }
 
     @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btnReset:
+                map.clear();
+                setTypeAndYear();
+                setTextViewState(-1, tvTypes);
+                setTextViewState(-1, tvYears);
+                setTextViewState(-1, tvSubjects);
+                etBankName.setText("");
+                onRefresh();
+                drawerLayout.closeDrawer(Gravity.RIGHT);
+                break;
+            case R.id.btnSure:
+                String str = etBankName.getText().toString();
+                if (!TextUtils.isEmpty(str)) {
+                    map.put("title", str);
+                } else {
+                    map.remove("title");
+                }
+                onRefresh();
+                drawerLayout.closeDrawer(Gravity.RIGHT);
+                break;
+            case R.id.tvType1:
+            case R.id.tvType2:
+            case R.id.tvType3:
+                String typeStr1 = (String) v.getTag();
+                int type = Integer.valueOf(typeStr1);
+                if (map.containsKey("pagerType")) {
+                    String typeStr = map.get("pagerType");
+                    if (String.valueOf(type + 1).equals(typeStr)) {
+                        map.remove("pagerType");
+                        setTextViewState(-1, tvTypes);
+                    } else {
+                        map.put("pagerType", String.valueOf(type + 1));
+                        setTextViewState(type, tvTypes);
+                    }
+                } else {
+                    map.put("pagerType", String.valueOf(type + 1));
+                    setTextViewState(type, tvTypes);
+                }
+                break;
+            case R.id.tvYear1:
+            case R.id.tvYear2:
+            case R.id.tvYear3:
+                String yearStr = (String) v.getTag();
+                int year = Integer.valueOf(yearStr);
+                if (map.containsKey("pagerYear")) {
+                    String typeStr = map.get("pagerYear");
+                    if (String.valueOf(currentYear - year).equals(typeStr)) {
+                        map.remove("pagerYear");
+                        setTextViewState(-1, tvYears);
+                    } else {
+                        map.put("pagerYear", String.valueOf(currentYear - year));
+                        setTextViewState(year, tvYears);
+                    }
+                } else {
+                    map.put("pagerYear", String.valueOf(currentYear - year));
+                    setTextViewState(year, tvYears);
+                }
+                break;
+            case R.id.tvSubject1:
+            case R.id.tvSubject2:
+            case R.id.tvSubject3:
+            case R.id.tvSubject4:
+            case R.id.tvSubject5:
+            case R.id.tvSubject6:
+            case R.id.tvSubject7:
+            case R.id.tvSubject8:
+            case R.id.tvSubject9:
+            case R.id.tvSubject10:
+            case R.id.tvSubject11:
+            case R.id.tvSubject12:
+                String subjectStr = (String) v.getTag();
+                int subject = Integer.valueOf(subjectStr);
+                if (map.containsKey("questionCatalogId")) {
+                    String typeStr = map.get("questionCatalogId");
+                    if (String.valueOf(subject + 1).equals(typeStr)) {
+                        map.remove("questionCatalogId");
+                        setTextViewState(-1, tvSubjects);
+                    } else {
+                        map.put("questionCatalogId", String.valueOf(subject + 1));
+                        setTextViewState(subject, tvSubjects);
+                    }
+                } else {
+                    map.put("questionCatalogId", String.valueOf(subject + 1));
+                    setTextViewState(subject, tvSubjects);
+                }
+                break;
+        }
+    }
+
+    @Override
     public void onRefresh() {
         noDataLayout.setVisibility(View.GONE);
         datas.clear();
         expendRecycleView.getAdapter().notifyDataSetChanged();
         mPresenter.getBankList(map);
-    }
-
-    @Override
-    public void onLoadMore() {
-
     }
 
     @Override

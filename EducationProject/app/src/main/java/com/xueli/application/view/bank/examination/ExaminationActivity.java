@@ -49,6 +49,7 @@ public class ExaminationActivity extends MvpActivity<ExaminationContract.Present
     //data
     private List<PaperSections> datas;
     private List<ExamListBean> examListBeans;
+    private int currentPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +81,7 @@ public class ExaminationActivity extends MvpActivity<ExaminationContract.Present
         findViewById(R.id.llCollection).setOnClickListener(this);
         findViewById(R.id.llOrder).setOnClickListener(this);
         long id = getIntent().getLongExtra(ConstantStr.KEY_BUNDLE_LONG, -1);
+        currentPosition = 0;
         mPresenter.getPaperSections(id);
     }
 
@@ -129,7 +131,10 @@ public class ExaminationActivity extends MvpActivity<ExaminationContract.Present
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.llCollection:
-
+                if (!datas.get(currentPosition).isCollect()) {
+                    mPresenter.collectPaper(datas.get(currentPosition).getPaperSectionId()
+                            , App.getInstance().getCurrentUser().getId());
+                }
                 break;
             case R.id.llOrder:
                 if (subjectRecycleView.getVisibility() == View.VISIBLE) {
@@ -148,11 +153,12 @@ public class ExaminationActivity extends MvpActivity<ExaminationContract.Present
 
     @Override
     public void onPageSelected(int position) {
+        currentPosition = position;
         bottomDataChange(position);
     }
 
     private void bottomDataChange(int position) {
-        boolean isCollection = true;
+        boolean isCollection = datas.get(position).isCollect();
         if (isCollection) {
             ivCollection.setImageDrawable(findDrawById(R.drawable.icon_btn_already_favorite));
             tvCollection.setText("已收藏");
@@ -229,6 +235,18 @@ public class ExaminationActivity extends MvpActivity<ExaminationContract.Present
     @Override
     public void showMessage(String message) {
         App.getInstance().showToast(message);
+    }
+
+    @Override
+    public void collectStateChange(long id, boolean isCollect) {
+        for (int i = 0; i < datas.size(); i++) {
+            if (datas.get(i).getId() == id) {
+                datas.get(i).setCollect(isCollect);
+                if (i == currentPosition) {
+                    bottomDataChange(currentPosition);
+                }
+            }
+        }
     }
 
     @Override
