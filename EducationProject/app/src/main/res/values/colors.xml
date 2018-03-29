@@ -9,6 +9,7 @@
     <color name="text_black">#333333</color>
     <color name="text_red">#fb6969</color>
     <color name="text_blue">#308aff</color>
+    <color name="text_blue_dark">#3179d6</color>
     <color name="btn_normal_blue">#308aff</color>
     <color name="btn_press_blue">#cc308aff</color>
     <color name="colorBackgroundGray">#ececec</color>

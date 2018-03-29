@@ -2,6 +2,7 @@ package com.xueli.application.widget;
 
 import android.content.Context;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -50,9 +51,16 @@ public class InputTypeLayout extends LinearLayout {
 
             @Override
             public void afterTextChanged(Editable s) {
-                mOption.setValue(s.toString().trim());
-                if (iEnter != null) {
+                if (iEnter == null) return;
+                String value = s.toString().trim();
+                if (TextUtils.isEmpty(mOption.getValue()) && !TextUtils.isEmpty(value)) {
+                    mOption.setValue(value);
                     iEnter.onEnter();
+                } else {
+                    if (!mOption.getValue().equals(value)) {
+                        mOption.setValue(value);
+                        iEnter.onEnter();
+                    }
                 }
             }
         });

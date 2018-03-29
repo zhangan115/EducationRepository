@@ -20,6 +20,7 @@ import com.xueli.application.common.ConstantStr;
 import com.xueli.application.view.MvpFragment;
 import com.xueli.application.view.login.LoginActivity;
 import com.xueli.application.view.user.about_us.AboutUsActivity;
+import com.xueli.application.view.user.collection.MyCollectionActivity;
 import com.xueli.application.view.user.information.UserInformationActivity;
 import com.xueli.application.view.user.point_rule.PointRuleActivity;
 import com.xueli.application.view.user.spread_envoy.SpreadEnvoyActivity;
@@ -64,7 +65,7 @@ public class UserFragment extends MvpFragment implements View.OnClickListener {
                 startActivity(new Intent(getActivity(), UserInformationActivity.class));
                 break;
             case R.id.llCollection:
-                startActivity(new Intent(getActivity(), UserInformationActivity.class));
+                startActivity(new Intent(getActivity(), MyCollectionActivity.class));
                 break;
             case R.id.llAboutUS:
                 startActivity(new Intent(getActivity(), AboutUsActivity.class));

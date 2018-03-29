@@ -39,4 +39,11 @@ public interface ExamApi {
 
     @POST("api/usercollect/del")
     Observable<Bean<PaperCollection>> cancelPaperCollection(@Query("id") long id, @Body() String string);
+
+    @GET("api/usercollect/list")
+    Observable<Bean<List<PaperSections>>> getMyColletion(@Query("accountId") long accountId, @Query("token") String string);
+
+    @GET("api/usercollect/list")
+    Observable<Bean<List<PaperSections>>> getMyColletion(@Query("accountId") long accountId
+            , @Query("lastId") long lastId, @Query("token") String string);
 }

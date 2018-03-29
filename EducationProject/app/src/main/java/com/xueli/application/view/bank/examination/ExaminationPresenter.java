@@ -4,12 +4,17 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.xueli.application.mode.bean.exam.PaperCollection;
+import com.xueli.application.mode.bean.exam.PaperSectionList;
 import com.xueli.application.mode.bean.exam.PaperSections;
 import com.xueli.application.mode.callback.IListCallBack;
 import com.xueli.application.mode.callback.IObjectCallBack;
 import com.xueli.application.mode.exam.ExamDataSource;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import rx.subscriptions.CompositeSubscription;
 
@@ -42,6 +47,36 @@ class ExaminationPresenter implements ExaminationContract.Presenter {
             @Override
             public void onData(@NonNull List<PaperSections> list) {
                 mView.showData(list);
+                Map<String, List<PaperSections>> map = new HashMap<>();
+                for (int i = 0; i < list.size(); i++) {
+                    if (map.containsKey(String.valueOf(list.get(i).getFlag()))) {
+                        map.get(String.valueOf(list.get(i).getFlag())).add(list.get(i));
+                    } else {
+                        ArrayList<PaperSections> paperSections = new ArrayList<>();
+                        paperSections.add(list.get(i));
+                        map.put(String.valueOf(list.get(i).getFlag()), paperSections);
+                    }
+                }
+                Iterator<String> iterator = map.keySet().iterator();
+                List<PaperSectionList> paperSectionLists = new ArrayList<>();
+                int count = 0;
+                while (iterator.hasNext()) {
+                    count++;
+                    String key = iterator.next();
+                    String name="";
+                    for (int i = 0; i < list.size(); i++) {
+                        if (Integer.valueOf(key) == list.get(i).getFlag()) {
+                            name = list.get(i).getPaperSectionTitle();
+                            break;
+                        }
+                    }
+                    paperSectionLists.add(new PaperSectionList(0, name, count));
+                    List<PaperSections> paperSections = map.get(key);
+                    for (int i = 0; i < paperSections.size(); i++) {
+                        paperSectionLists.add(new PaperSectionList(1, String.valueOf(i + 1), paperSections.get(i).getId()));
+                    }
+                }
+                mView.showPaperSectionListData(paperSectionLists);
             }
 
             @Override
@@ -66,7 +101,7 @@ class ExaminationPresenter implements ExaminationContract.Presenter {
         mSubscriptions.add(mDataSource.collectionPaper(paperQuestionId, accountId, new IObjectCallBack<PaperCollection>() {
             @Override
             public void onSuccess() {
-                mView.collectStateChange(paperQuestionId,true);
+                mView.collectStateChange(paperQuestionId, true);
             }
 
             @Override
@@ -96,7 +131,7 @@ class ExaminationPresenter implements ExaminationContract.Presenter {
         mSubscriptions.add(mDataSource.unCollectionPaper(id, new IObjectCallBack<PaperCollection>() {
             @Override
             public void onSuccess() {
-                mView.collectStateChange(id,false);
+                mView.collectStateChange(id, false);
             }
 
             @Override

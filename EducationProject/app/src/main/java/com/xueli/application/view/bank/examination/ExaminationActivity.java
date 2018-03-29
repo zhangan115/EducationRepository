@@ -23,6 +23,7 @@ import com.xueli.application.R;
 import com.xueli.application.app.App;
 import com.xueli.application.common.ConstantStr;
 import com.xueli.application.mode.bean.exam.ExamListBean;
+import com.xueli.application.mode.bean.exam.PaperSectionList;
 import com.xueli.application.mode.bean.exam.PaperSections;
 import com.xueli.application.mode.bean.exam.SectionOption;
 import com.xueli.application.mode.exam.ExamRepository;
@@ -48,7 +49,7 @@ public class ExaminationActivity extends MvpActivity<ExaminationContract.Present
     private RecyclerView subjectRecycleView;
     //data
     private List<PaperSections> datas;
-    private List<ExamListBean> examListBeans;
+    private List<PaperSectionList> examListBeans;
     private int currentPosition;
 
     @Override
@@ -77,6 +78,24 @@ public class ExaminationActivity extends MvpActivity<ExaminationContract.Present
         });
         subjectRecycleView.setLayoutManager(manager);
         SubjectAdapter adapter = new SubjectAdapter(examListBeans, getApplicationContext());
+        adapter.setOnItemClickListener(new SubjectAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(long id) {
+                for (int i = 0; i < datas.size(); i++) {
+                    if (datas.get(i).getId() == id) {
+                        if (i != currentPosition) {
+                            viewPager.setCurrentItem(i, true);
+                        }
+                        break;
+                    }
+                }
+                if (subjectRecycleView.getVisibility() == View.VISIBLE) {
+                    subjectRecycleView.setVisibility(View.GONE);
+                } else {
+                    subjectRecycleView.setVisibility(View.VISIBLE);
+                }
+            }
+        });
         subjectRecycleView.setAdapter(adapter);
         findViewById(R.id.llCollection).setOnClickListener(this);
         findViewById(R.id.llOrder).setOnClickListener(this);
@@ -132,7 +151,7 @@ public class ExaminationActivity extends MvpActivity<ExaminationContract.Present
         switch (v.getId()) {
             case R.id.llCollection:
                 if (!datas.get(currentPosition).isCollect()) {
-                    mPresenter.collectPaper(datas.get(currentPosition).getPaperSectionId()
+                    mPresenter.collectPaper(datas.get(currentPosition).getId()
                             , App.getInstance().getCurrentUser().getId());
                 }
                 break;
@@ -218,6 +237,13 @@ public class ExaminationActivity extends MvpActivity<ExaminationContract.Present
     }
 
     @Override
+    public void showPaperSectionListData(List<PaperSectionList> list) {
+        examListBeans.clear();
+        examListBeans.addAll(list);
+        subjectRecycleView.getAdapter().notifyDataSetChanged();
+    }
+
+    @Override
     public void showLoading() {
 
     }
@@ -255,8 +281,19 @@ public class ExaminationActivity extends MvpActivity<ExaminationContract.Present
     }
 
     @Override
-    public void onDataChange(List<SectionOption> sectionOptions, int position) {
-        datas.get(position).setSectionOptions(sectionOptions);
+    public void onDataChange(PaperSections sectionOptions, int position) {
+        datas.remove(position);
+        datas.add(position, sectionOptions);
+        for (int i = 0; i < examListBeans.size(); i++) {
+            if (examListBeans.get(i).getType() == 0) {
+                continue;
+            }
+            if (datas.get(position).getId() == examListBeans.get(i).getId()) {
+                examListBeans.get(i).setFinish(true);
+                subjectRecycleView.getAdapter().notifyDataSetChanged();
+                break;
+            }
+        }
     }
 
     private class Adapter extends FragmentStatePagerAdapter {

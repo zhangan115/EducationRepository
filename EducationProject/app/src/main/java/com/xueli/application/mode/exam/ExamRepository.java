@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 
+import com.xueli.application.app.App;
 import com.xueli.application.common.ConstantStr;
 import com.xueli.application.mode.api.Api;
 import com.xueli.application.mode.api.ApiCallBackList1;
@@ -93,5 +94,21 @@ public class ExamRepository implements ExamDataSource {
         return new ApiCallBackObject1<>(Api.createRetrofit().create(ExamApi.class)
                 .cancelPaperCollection(id, jsonObject.toString()))
                 .execute(callBack);
+    }
+
+    @NonNull
+    @Override
+    public Subscription getMyCollection(IListCallBack<PaperSections> callBack) {
+        String token = sp.getString(ConstantStr.TOKEN, "");
+        return new ApiCallBackList1<>(Api.createRetrofit().create(ExamApi.class)
+                .getMyColletion(App.getInstance().getCurrentUser().getId(), token)).execute(callBack);
+    }
+
+    @NonNull
+    @Override
+    public Subscription getMyCollection(long lastId, IListCallBack<PaperSections> callBack) {
+        String token = sp.getString(ConstantStr.TOKEN, "");
+        return new ApiCallBackList1<>(Api.createRetrofit().create(ExamApi.class)
+                .getMyColletion(App.getInstance().getCurrentUser().getId(), lastId, token)).execute(callBack);
     }
 }

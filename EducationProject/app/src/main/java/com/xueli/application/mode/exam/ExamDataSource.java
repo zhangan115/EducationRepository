@@ -31,4 +31,10 @@ public interface ExamDataSource {
     @NonNull
     Subscription unCollectionPaper(long id, IObjectCallBack<PaperCollection> callBack);
 
+    @NonNull
+    Subscription getMyCollection(IListCallBack<PaperSections> callBack);
+
+    @NonNull
+    Subscription getMyCollection(long lastId, IListCallBack<PaperSections> callBack);
+
 }

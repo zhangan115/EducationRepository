@@ -77,6 +77,7 @@ public class SubjectFragment extends MvpFragment implements SingleChooseTypeLayo
             showAnswer = bundle.getBoolean(ConstantStr.KEY_BUNDLE_BOOLEAN);
             position = bundle.getInt(ConstantStr.KEY_BUNDLE_INT);
         }
+
         chooseTypeLayouts = new ArrayList<>();
         inputTypeLayouts = new ArrayList<>();
         TextView tvSectionType = rootView.findViewById(R.id.tvSectionType);
@@ -86,7 +87,12 @@ public class SubjectFragment extends MvpFragment implements SingleChooseTypeLayo
         tvQuestion.setText(Html.fromHtml(paperSections.getQuestion()));
         Type type = new TypeToken<List<SectionOption>>() {
         }.getType();
-        sectionOptions = new Gson().fromJson(paperSections.getOptions(), type);
+        if (paperSections.getSectionOptions() == null) {
+            sectionOptions = new Gson().fromJson(paperSections.getOptions(), type);
+            paperSections.setSectionOptions(sectionOptions);
+        } else {
+            sectionOptions = paperSections.getSectionOptions();
+        }
         LinearLayout llAnswer = rootView.findViewById(R.id.llAnswer);
         if (showAnswer) {
             llAnswer.setVisibility(View.VISIBLE);
@@ -141,11 +147,12 @@ public class SubjectFragment extends MvpFragment implements SingleChooseTypeLayo
             sectionOptions.get(position).setChoose(!sectionOptions.get(position).isChoose());
             chooseTypeLayouts.get(position).refreshUI(sectionOptions.get(position), position);
         }
-        dataChange.onDataChange(sectionOptions, position);
+        dataChange.onDataChange(paperSections, this.position);
     }
 
     @Override
     public void onEnter() {
-        dataChange.onDataChange(sectionOptions, position);
+        dataChange.onDataChange(paperSections, this.position);
     }
+
 }
