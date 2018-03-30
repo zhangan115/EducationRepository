@@ -16,13 +16,17 @@ interface MyCollectionContract {
 
         void hideLoading();
 
-        void showData( List<PaperSections> list);
+        void showData(List<PaperSections> list);
 
         void showMessage(String message);
+
+        void onCancelSuccess();
     }
 
     interface Presenter extends BasePresenter {
 
         void getMyCollection();
+
+        void cancelCollection(long id);
     }
 }

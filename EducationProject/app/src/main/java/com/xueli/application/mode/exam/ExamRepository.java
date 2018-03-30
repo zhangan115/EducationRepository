@@ -12,6 +12,7 @@ import com.xueli.application.mode.api.ApiCallBackObject1;
 import com.xueli.application.mode.bean.exam.ExamList;
 import com.xueli.application.mode.bean.exam.PaperCollection;
 import com.xueli.application.mode.bean.exam.PaperSections;
+import com.xueli.application.mode.bean.exam.QuestionType;
 import com.xueli.application.mode.callback.IListCallBack;
 import com.xueli.application.mode.callback.IObjectCallBack;
 
@@ -99,16 +100,45 @@ public class ExamRepository implements ExamDataSource {
     @NonNull
     @Override
     public Subscription getMyCollection(IListCallBack<PaperSections> callBack) {
-        String token = sp.getString(ConstantStr.TOKEN, "");
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("token", sp.getString(ConstantStr.TOKEN, ""));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         return new ApiCallBackList1<>(Api.createRetrofit().create(ExamApi.class)
-                .getMyColletion(App.getInstance().getCurrentUser().getId(), token)).execute(callBack);
+                .getMyCollection(App.getInstance().getCurrentUser().getId()
+                        , jsonObject.toString()))
+                .execute(callBack);
     }
 
     @NonNull
     @Override
     public Subscription getMyCollection(long lastId, IListCallBack<PaperSections> callBack) {
-        String token = sp.getString(ConstantStr.TOKEN, "");
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("token", sp.getString(ConstantStr.TOKEN, ""));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         return new ApiCallBackList1<>(Api.createRetrofit().create(ExamApi.class)
-                .getMyColletion(App.getInstance().getCurrentUser().getId(), lastId, token)).execute(callBack);
+                .getMyCollection(App.getInstance().getCurrentUser().getId()
+                        , lastId
+                        , jsonObject.toString()))
+                .execute(callBack);
+    }
+
+    @NonNull
+    @Override
+    public Subscription getQuestionTypeList(IListCallBack<QuestionType> callBack) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("token", sp.getString(ConstantStr.TOKEN, ""));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return new ApiCallBackList1<>(Api.createRetrofit().create(ExamApi.class)
+                .getQuestionType(jsonObject.toString()))
+                .execute(callBack);
     }
 }

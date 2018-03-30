@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import com.xueli.application.mode.bean.exam.ExamList;
 import com.xueli.application.mode.bean.exam.PaperCollection;
 import com.xueli.application.mode.bean.exam.PaperSections;
+import com.xueli.application.mode.bean.exam.QuestionType;
 import com.xueli.application.mode.callback.IListCallBack;
 import com.xueli.application.mode.callback.IObjectCallBack;
 
@@ -36,5 +37,8 @@ public interface ExamDataSource {
 
     @NonNull
     Subscription getMyCollection(long lastId, IListCallBack<PaperSections> callBack);
+
+    @NonNull
+    Subscription getQuestionTypeList(IListCallBack<QuestionType> callBack);
 
 }

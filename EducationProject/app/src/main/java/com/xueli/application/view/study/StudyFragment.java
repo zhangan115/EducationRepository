@@ -51,7 +51,7 @@ public class StudyFragment extends MvpFragment {
 
         @Override
         public Fragment getItem(int position) {
-            return StudyListFragment.newInstance(position + 1);
+            return StudyListFragment.newInstance(position+4);
         }
 
         @Override

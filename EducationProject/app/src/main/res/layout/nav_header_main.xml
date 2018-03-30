@@ -164,9 +164,16 @@
                 android:textSize="12dp" />
 
             <LinearLayout
+                android:id="@+id/llQuestionTypes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:visibility="gone"
                 android:weightSum="4">
 
                 <TextView
@@ -234,6 +241,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:orientation="horizontal"
+                android:visibility="gone"
                 android:weightSum="4">
 
                 <TextView
@@ -301,6 +309,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:orientation="horizontal"
+                android:visibility="gone"
                 android:weightSum="4">
 
                 <TextView

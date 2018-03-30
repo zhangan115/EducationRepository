@@ -4,6 +4,7 @@ import com.xueli.application.mode.bean.Bean;
 import com.xueli.application.mode.bean.exam.ExamList;
 import com.xueli.application.mode.bean.exam.PaperCollection;
 import com.xueli.application.mode.bean.exam.PaperSections;
+import com.xueli.application.mode.bean.exam.QuestionType;
 
 import java.util.List;
 import java.util.Map;
@@ -40,10 +41,14 @@ public interface ExamApi {
     @POST("api/usercollect/del")
     Observable<Bean<PaperCollection>> cancelPaperCollection(@Query("id") long id, @Body() String string);
 
-    @GET("api/usercollect/list")
-    Observable<Bean<List<PaperSections>>> getMyColletion(@Query("accountId") long accountId, @Query("token") String string);
+    @POST("api/usercollect/list")
+    Observable<Bean<List<PaperSections>>> getMyCollection(@Query("accountId") long accountId, @Body() String string);
 
-    @GET("api/usercollect/list")
-    Observable<Bean<List<PaperSections>>> getMyColletion(@Query("accountId") long accountId
-            , @Query("lastId") long lastId, @Query("token") String string);
+    @POST("api/usercollect/list")
+    Observable<Bean<List<PaperSections>>> getMyCollection(@Query("accountId") long accountId
+            , @Query("lastId") long lastId
+            , @Body() String string);
+
+    @POST("api/questionType/list")
+    Observable<Bean<List<QuestionType>>> getQuestionType(@Body() String string);
 }

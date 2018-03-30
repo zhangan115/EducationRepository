@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackgroundGray"
@@ -17,4 +17,5 @@
             android:layout_height="match_parent" />
     </com.library.widget.RecycleRefreshLoadLayout>
 
-</LinearLayout>
+    <include layout="@layout/no_data_include" />
+</RelativeLayout>

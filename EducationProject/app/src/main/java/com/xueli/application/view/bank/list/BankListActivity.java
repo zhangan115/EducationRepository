@@ -8,22 +8,27 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.text.TextUtils;
+import android.util.TypedValue;
 import android.view.DragEvent;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.library.adapter.RVAdapter;
+import com.library.utils.DisplayUtil;
 import com.library.widget.ExpendRecycleView;
 import com.library.widget.RecycleRefreshLoadLayout;
 import com.xueli.application.R;
 import com.xueli.application.app.App;
 import com.xueli.application.common.ConstantStr;
 import com.xueli.application.mode.bean.exam.ExamList;
+import com.xueli.application.mode.bean.exam.QuestionType;
 import com.xueli.application.mode.exam.ExamRepository;
 import com.xueli.application.view.BaseActivity;
 import com.xueli.application.view.MvpActivity;
@@ -48,16 +53,18 @@ public class BankListActivity extends MvpActivity<BankListContact.Presenter> imp
     private ExpendRecycleView expendRecycleView;
     private DrawerLayout drawerLayout;
     private RelativeLayout noDataLayout;
+    private LinearLayout llQuestionTypes;
     //筛选
     private EditText etBankName;
     private TextView[] tvTypes = new TextView[3];
     private TextView[] tvYears = new TextView[3];
-    private TextView[] tvSubjects = new TextView[12];
+    private TextView[] tvSubjects;
     //data
     private List<ExamList> datas;
     private String type, isYear;
     private Map<String, String> map;
     private int currentYear;
+    private List<QuestionType> questionTypes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,6 +123,7 @@ public class BankListActivity extends MvpActivity<BankListContact.Presenter> imp
         });
         refreshLoadLayout.setOnRefreshListener(this);
         mPresenter.getBankList(map);
+        mPresenter.getQuestionType();
     }
 
     private void initView() {
@@ -130,6 +138,7 @@ public class BankListActivity extends MvpActivity<BankListContact.Presenter> imp
         tvTypes[0] = navigationView.getHeaderView(0).findViewById(R.id.tvType1);
         tvTypes[1] = navigationView.getHeaderView(0).findViewById(R.id.tvType2);
         tvTypes[2] = navigationView.getHeaderView(0).findViewById(R.id.tvType3);
+        llQuestionTypes = navigationView.getHeaderView(0).findViewById(R.id.llQuestionTypes);
         Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
         currentYear = calendar.get(Calendar.YEAR);
         tvYears[0] = navigationView.getHeaderView(0).findViewById(R.id.tvYear1);
@@ -139,26 +148,11 @@ public class BankListActivity extends MvpActivity<BankListContact.Presenter> imp
         tvYears[1].setText(String.valueOf(currentYear - 1));
         tvYears[2].setText(String.valueOf(currentYear - 2));
 
-        tvSubjects[0] = navigationView.getHeaderView(0).findViewById(R.id.tvSubject1);
-        tvSubjects[1] = navigationView.getHeaderView(0).findViewById(R.id.tvSubject2);
-        tvSubjects[2] = navigationView.getHeaderView(0).findViewById(R.id.tvSubject3);
-        tvSubjects[3] = navigationView.getHeaderView(0).findViewById(R.id.tvSubject4);
-        tvSubjects[4] = navigationView.getHeaderView(0).findViewById(R.id.tvSubject5);
-        tvSubjects[5] = navigationView.getHeaderView(0).findViewById(R.id.tvSubject6);
-        tvSubjects[6] = navigationView.getHeaderView(0).findViewById(R.id.tvSubject7);
-        tvSubjects[7] = navigationView.getHeaderView(0).findViewById(R.id.tvSubject8);
-        tvSubjects[8] = navigationView.getHeaderView(0).findViewById(R.id.tvSubject9);
-        tvSubjects[9] = navigationView.getHeaderView(0).findViewById(R.id.tvSubject10);
-        tvSubjects[10] = navigationView.getHeaderView(0).findViewById(R.id.tvSubject11);
-        tvSubjects[11] = navigationView.getHeaderView(0).findViewById(R.id.tvSubject12);
 
         for (TextView tv : tvTypes) {
             tv.setOnClickListener(this);
         }
         for (TextView tv : tvYears) {
-            tv.setOnClickListener(this);
-        }
-        for (TextView tv : tvSubjects) {
             tv.setOnClickListener(this);
         }
     }
@@ -262,34 +256,6 @@ public class BankListActivity extends MvpActivity<BankListContact.Presenter> imp
                     setTextViewState(year, tvYears);
                 }
                 break;
-            case R.id.tvSubject1:
-            case R.id.tvSubject2:
-            case R.id.tvSubject3:
-            case R.id.tvSubject4:
-            case R.id.tvSubject5:
-            case R.id.tvSubject6:
-            case R.id.tvSubject7:
-            case R.id.tvSubject8:
-            case R.id.tvSubject9:
-            case R.id.tvSubject10:
-            case R.id.tvSubject11:
-            case R.id.tvSubject12:
-                String subjectStr = (String) v.getTag();
-                int subject = Integer.valueOf(subjectStr);
-                if (map.containsKey("questionCatalogId")) {
-                    String typeStr = map.get("questionCatalogId");
-                    if (String.valueOf(subject + 1).equals(typeStr)) {
-                        map.remove("questionCatalogId");
-                        setTextViewState(-1, tvSubjects);
-                    } else {
-                        map.put("questionCatalogId", String.valueOf(subject + 1));
-                        setTextViewState(subject, tvSubjects);
-                    }
-                } else {
-                    map.put("questionCatalogId", String.valueOf(subject + 1));
-                    setTextViewState(subject, tvSubjects);
-                }
-                break;
         }
     }
 
@@ -329,6 +295,57 @@ public class BankListActivity extends MvpActivity<BankListContact.Presenter> imp
     public void showMessage(String message) {
         App.getInstance().showToast(message);
     }
+
+    @Override
+    public void showQuestionData(List<QuestionType> list) {
+        questionTypes = list;
+        tvSubjects = new TextView[list.size()];
+        for (int i = 0; i < list.size(); i++) {
+            LinearLayout layout = new LinearLayout(this);
+            LinearLayout.LayoutParams paramsLayout = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT
+                    , LinearLayout.LayoutParams.WRAP_CONTENT);
+            layout.setWeightSum(4);
+            paramsLayout.setMargins(0, DisplayUtil.dip2px(this, 12), 0, 0);
+            layout.setLayoutParams(paramsLayout);
+            llQuestionTypes.addView(layout);
+            for (int j = 0; j < 4; j++) {
+                TextView textView = new TextView(this);
+                tvSubjects[i] = textView;
+                textView.setText(list.get(i).getTitle());
+                textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13);
+                textView.setTextColor(findColorById(R.color.text_gray_333));
+                textView.setPadding(0, DisplayUtil.dip2px(this, 10)
+                        , 0, DisplayUtil.dip2px(this, 10));
+                textView.setGravity(Gravity.CENTER);
+                textView.setBackground(findDrawById(R.drawable.shape_edit_bg));
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1);
+                if (j == 1) {
+                    params.setMargins(DisplayUtil.dip2px(this, 12), 0
+                            , DisplayUtil.dip2px(this, 12), 0);
+                } else if (j == 2) {
+                    params.setMargins(0, 0
+                            , DisplayUtil.dip2px(this, 12), 0);
+                }
+                textView.setLayoutParams(params);
+                textView.setTag(i);
+                textView.setOnClickListener(clickListener);
+                layout.addView(textView);
+                ++i;
+                if (i == list.size()) {
+                    break;
+                }
+            }
+        }
+    }
+
+    private View.OnClickListener clickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            int position = (int) v.getTag();
+            map.put("questionCatalogId", String.valueOf(questionTypes.get(position).getId()));
+            setTextViewState(position, tvSubjects);
+        }
+    };
 
     @Override
     public void setPresenter(BankListContact.Presenter presenter) {

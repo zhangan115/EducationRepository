@@ -4,6 +4,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.xueli.application.mode.bean.exam.ExamList;
+import com.xueli.application.mode.bean.exam.PaperSections;
+import com.xueli.application.mode.bean.exam.QuestionType;
 import com.xueli.application.mode.callback.IListCallBack;
 import com.xueli.application.mode.exam.ExamDataSource;
 
@@ -56,6 +58,36 @@ class BankListPresenter implements BankListContact.Presenter {
             @Override
             public void noData() {
                 mView.noData();
+            }
+        }));
+    }
+
+    @Override
+    public void getQuestionType() {
+        mSubscriptions.add(mExamDataSource.getQuestionTypeList(new IListCallBack<QuestionType>() {
+            @Override
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onData(@NonNull List<QuestionType> list) {
+                mView.showQuestionData(list);
+            }
+
+            @Override
+            public void onError(@Nullable String message) {
+
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+
+            @Override
+            public void noData() {
+
             }
         }));
     }
