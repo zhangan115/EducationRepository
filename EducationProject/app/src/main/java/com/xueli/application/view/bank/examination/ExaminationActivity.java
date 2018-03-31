@@ -29,8 +29,10 @@ import com.xueli.application.mode.bean.exam.SectionOption;
 import com.xueli.application.mode.exam.ExamRepository;
 import com.xueli.application.view.BaseActivity;
 import com.xueli.application.view.MvpActivity;
+import com.xueli.application.view.bank.answer.AnswerActivity;
 import com.xueli.application.view.subject.SubjectFragment;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,16 +50,27 @@ public class ExaminationActivity extends MvpActivity<ExaminationContract.Present
     private MaterialDialog finishDialog, cancelDialog;
     private RecyclerView subjectRecycleView;
     //data
-    private List<PaperSections> datas;
-    private List<PaperSectionList> examListBeans;
-    private int currentPosition;
+    private List<PaperSections> uploadData;
+    private ArrayList<PaperSections> datas;
+    private ArrayList<PaperSectionList> examListBeans;
+    private boolean showAnswer;
+    private int currentPosition = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getIntent() != null) {
+            datas = getIntent().getParcelableArrayListExtra(ConstantStr.KEY_BUNDLE_LIST);
+            examListBeans = getIntent().getParcelableArrayListExtra(ConstantStr.KEY_BUNDLE_LIST_1);
+            currentPosition = getIntent().getIntExtra(ConstantStr.KEY_BUNDLE_INT, -1);
+        }
+        showAnswer = currentPosition != -1;
+        if (!showAnswer) {
+            datas = new ArrayList<>();
+            examListBeans = new ArrayList<>();
+        }
         setLayoutAndToolbar(R.layout.examination_activity, "考试");
-        datas = new ArrayList<>();
-        examListBeans = new ArrayList<>();
+        uploadData = new ArrayList<>();
         viewPager = findViewById(R.id.view_pager);
         viewPager.setOffscreenPageLimit(4);
         viewPager.addOnPageChangeListener(this);
@@ -99,9 +112,15 @@ public class ExaminationActivity extends MvpActivity<ExaminationContract.Present
         subjectRecycleView.setAdapter(adapter);
         findViewById(R.id.llCollection).setOnClickListener(this);
         findViewById(R.id.llOrder).setOnClickListener(this);
-        long id = getIntent().getLongExtra(ConstantStr.KEY_BUNDLE_LONG, -1);
-        currentPosition = 0;
-        mPresenter.getPaperSections(id);
+        long examId = getIntent().getLongExtra(ConstantStr.KEY_BUNDLE_LONG, -1);
+        if (!showAnswer) {
+            currentPosition = 0;
+            mPresenter.getPaperSections(examId);
+        } else {
+            viewPager.setAdapter(new Adapter(getSupportFragmentManager()));
+            viewPager.setCurrentItem(currentPosition);
+            bottomDataChange(currentPosition);
+        }
     }
 
     @Override
@@ -112,35 +131,25 @@ public class ExaminationActivity extends MvpActivity<ExaminationContract.Present
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.submit_examination, menu);
-        return super.onCreateOptionsMenu(menu);
+        return !showAnswer;
     }
 
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
+        uploadData.clear();
         if (id == R.id.action_submit) {
-            @SuppressLint("InflateParams")
-            View view = getLayoutInflater().inflate(R.layout.complete_exam_dialog, null);
-            view.findViewById(R.id.btnCancel).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    finishDialog.dismiss();
+            for (int i = 0; i < datas.size(); i++) {
+                if (datas.get(i).isFinish()) {
+                    uploadData.add(datas.get(i));
                 }
-            });
-            view.findViewById(R.id.btnFinish).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    finishDialog.dismiss();
-
-                }
-            });
-            if (finishDialog == null) {
-                finishDialog = new MaterialDialog.Builder(ExaminationActivity.this)
-                        .customView(view, false)
-                        .build();
             }
-            finishDialog.show();
+            if (uploadData.size() == datas.size()) {
+                showUploadDataDialog();
+            } else {
+                showCancelDialog();
+            }
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -194,9 +203,28 @@ public class ExaminationActivity extends MvpActivity<ExaminationContract.Present
 
     }
 
-    @Override
-    public void onBackPressed() {
-        showCancelDialog();
+    public void showUploadDataDialog() {
+        @SuppressLint("InflateParams")
+        View view = getLayoutInflater().inflate(R.layout.complete_exam_dialog, null);
+        view.findViewById(R.id.btnCancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finishDialog.dismiss();
+            }
+        });
+        view.findViewById(R.id.btnFinish).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finishDialog.dismiss();
+                uploadData();
+            }
+        });
+        if (finishDialog == null) {
+            finishDialog = new MaterialDialog.Builder(ExaminationActivity.this)
+                    .customView(view, false)
+                    .build();
+        }
+        finishDialog.show();
     }
 
     private void showCancelDialog() {
@@ -212,7 +240,7 @@ public class ExaminationActivity extends MvpActivity<ExaminationContract.Present
             @Override
             public void onClick(View v) {
                 cancelDialog.dismiss();
-                finish();
+                uploadData();
             }
         });
         if (cancelDialog == null) {
@@ -223,9 +251,19 @@ public class ExaminationActivity extends MvpActivity<ExaminationContract.Present
         cancelDialog.show();
     }
 
-    @Override
-    public void toolBarClick() {
-        showCancelDialog();
+    public void uploadData() {
+        if (uploadData.size() == 0) {
+            handExam();
+        } else {
+            mPresenter.uploadData(uploadData);
+        }
+    }
+
+    public void handExam() {
+        Intent intent = new Intent(ExaminationActivity.this, AnswerActivity.class);
+        intent.putParcelableArrayListExtra(ConstantStr.KEY_BUNDLE_LIST, datas);
+        intent.putParcelableArrayListExtra(ConstantStr.KEY_BUNDLE_LIST_1, examListBeans);
+        startActivity(intent);
     }
 
     @Override
@@ -276,20 +314,38 @@ public class ExaminationActivity extends MvpActivity<ExaminationContract.Present
     }
 
     @Override
+    public void showUploadDialog() {
+        showProgressDialog("提交中...");
+    }
+
+    @Override
+    public void hideUploadDialog() {
+        hideProgressDialog();
+    }
+
+    @Override
+    public void uploadSuccess() {
+        App.getInstance().showToast("交卷成功");
+        handExam();
+    }
+
+    @Override
     public void setPresenter(ExaminationContract.Presenter presenter) {
         mPresenter = presenter;
     }
 
     @Override
-    public void onDataChange(PaperSections sectionOptions, int position) {
+    public void onDataChange(PaperSections sectionOptions, int position, boolean isFinish) {
+        sectionOptions.setFinish(isFinish);
         datas.remove(position);
         datas.add(position, sectionOptions);
+
         for (int i = 0; i < examListBeans.size(); i++) {
             if (examListBeans.get(i).getType() == 0) {
                 continue;
             }
             if (datas.get(position).getId() == examListBeans.get(i).getId()) {
-                examListBeans.get(i).setFinish(true);
+                examListBeans.get(i).setFinish(isFinish);
                 subjectRecycleView.getAdapter().notifyDataSetChanged();
                 break;
             }
@@ -304,7 +360,7 @@ public class ExaminationActivity extends MvpActivity<ExaminationContract.Present
 
         @Override
         public Fragment getItem(int position) {
-            return SubjectFragment.newInstance(datas.get(position), position, false);
+            return SubjectFragment.newInstance(datas.get(position), position, showAnswer);
         }
 
         @Override

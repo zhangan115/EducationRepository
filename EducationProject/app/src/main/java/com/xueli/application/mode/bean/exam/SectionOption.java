@@ -9,16 +9,16 @@ import android.os.Parcelable;
 
 public class SectionOption implements Parcelable {
 
-    private String optSta;
+    private boolean optSta;
     private String optVal;
     private boolean choose;
     private String value;
 
-    public String getOptSta() {
+    public boolean getOptSta() {
         return optSta;
     }
 
-    public void setOptSta(String optSta) {
+    public void setOptSta(boolean optSta) {
         this.optSta = optSta;
     }
 
@@ -56,14 +56,14 @@ public class SectionOption implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.optSta);
+        dest.writeByte(this.optSta ? (byte) 1 : (byte) 0);
         dest.writeString(this.optVal);
         dest.writeByte(this.choose ? (byte) 1 : (byte) 0);
         dest.writeString(this.value);
     }
 
     protected SectionOption(Parcel in) {
-        this.optSta = in.readString();
+        this.optSta = in.readByte() != 0;
         this.optVal = in.readString();
         this.choose = in.readByte() != 0;
         this.value = in.readString();

@@ -53,7 +53,7 @@ public class SingleChooseTypeLayout extends LinearLayout implements View.OnClick
 
     @Override
     public void onClick(View v) {
-        if (option != null) {
+        if (iClick != null) {
             iClick.onItemClick(position, flag);
         }
     }

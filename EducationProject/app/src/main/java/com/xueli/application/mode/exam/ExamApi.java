@@ -49,6 +49,11 @@ public interface ExamApi {
             , @Query("lastId") long lastId
             , @Body() String string);
 
+    @Headers({"Content-Type:application/json;charset=utf-8", "Accept:application/json;"})
     @POST("api/questionType/list")
     Observable<Bean<List<QuestionType>>> getQuestionType(@Body() String string);
+
+    @Headers({"Content-Type:application/json;charset=utf-8", "Accept:application/json;"})
+    @POST("api/data/upload")
+    Observable<Bean<String>> uploadData(@Body() String string);
 }

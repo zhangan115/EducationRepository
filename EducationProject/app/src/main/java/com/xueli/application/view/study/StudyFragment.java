@@ -36,6 +36,7 @@ public class StudyFragment extends MvpFragment {
         View rootView = inflater.inflate(R.layout.study_fragment, container, false);
         TabLayout tabLayout = rootView.findViewById(R.id.tabLayout);
         ViewPager viewPager = rootView.findViewById(R.id.view_pager);
+        viewPager.setOffscreenPageLimit(3);
         SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(getChildFragmentManager());
         viewPager.setAdapter(mSectionsPagerAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
@@ -51,7 +52,7 @@ public class StudyFragment extends MvpFragment {
 
         @Override
         public Fragment getItem(int position) {
-            return StudyListFragment.newInstance(position+4);
+            return StudyListFragment.newInstance(position + 4);
         }
 
         @Override

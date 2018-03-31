@@ -206,7 +206,7 @@ public abstract class BaseActivity extends AbsBaseActivity implements OnClickLis
 
     public void hideProgressDialog() {
         if (loadingDialog != null) {
-            loadingDialog.hide();
+            loadingDialog.dismiss();
         }
     }
 

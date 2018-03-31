@@ -63,7 +63,7 @@ class ExaminationPresenter implements ExaminationContract.Presenter {
                 while (iterator.hasNext()) {
                     count++;
                     String key = iterator.next();
-                    String name="";
+                    String name = "";
                     for (int i = 0; i < list.size(); i++) {
                         if (Integer.valueOf(key) == list.get(i).getFlag()) {
                             name = list.get(i).getPaperSectionTitle();
@@ -127,21 +127,22 @@ class ExaminationPresenter implements ExaminationContract.Presenter {
     }
 
     @Override
-    public void unCollectPaper(final long id) {
-        mSubscriptions.add(mDataSource.unCollectionPaper(id, new IObjectCallBack<PaperCollection>() {
+    public void uploadData(List<PaperSections> list) {
+        mView.showUploadDialog();
+        mSubscriptions.add(mDataSource.uploadData(list, new IObjectCallBack<String>() {
             @Override
             public void onSuccess() {
-                mView.collectStateChange(id, false);
+                mView.uploadSuccess();
             }
 
             @Override
-            public void onData(@NonNull PaperCollection paperCollection) {
+            public void onData(@NonNull String s) {
 
             }
 
             @Override
             public void onError(@Nullable String message) {
-                mView.showMessage(message);
+
             }
 
             @Override
@@ -151,7 +152,7 @@ class ExaminationPresenter implements ExaminationContract.Presenter {
 
             @Override
             public void onFinish() {
-
+                mView.hideUploadDialog();
             }
         }));
     }

@@ -21,8 +21,7 @@ interface ExaminationContract {
         //收藏
         void collectPaper(long paperQuestionId, long accountId);
 
-        //取消收藏
-        void unCollectPaper(long id);
+        void uploadData(List<PaperSections> list);
 
     }
 
@@ -41,5 +40,11 @@ interface ExaminationContract {
         void showMessage(String message);
 
         void collectStateChange(long id, boolean isCollect);
+
+        void showUploadDialog();
+
+        void hideUploadDialog();
+
+        void uploadSuccess();
     }
 }

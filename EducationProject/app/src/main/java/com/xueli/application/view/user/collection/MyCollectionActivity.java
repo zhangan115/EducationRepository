@@ -1,5 +1,6 @@
 package com.xueli.application.view.user.collection;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -17,9 +18,11 @@ import com.library.widget.ExpendRecycleView;
 import com.library.widget.RecycleRefreshLoadLayout;
 import com.xueli.application.R;
 import com.xueli.application.app.App;
+import com.xueli.application.common.ConstantStr;
 import com.xueli.application.mode.bean.exam.PaperSections;
 import com.xueli.application.mode.exam.ExamRepository;
 import com.xueli.application.view.MvpActivity;
+import com.xueli.application.view.subject.SubjectActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,7 +57,9 @@ public class MyCollectionActivity extends MvpActivity<MyCollectionContract.Prese
         adapter.setOnItemClickListener(new RVAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-
+                Intent intent = new Intent(MyCollectionActivity.this, SubjectActivity.class);
+                intent.putExtra(ConstantStr.KEY_BUNDLE_OBJECT, paperSections.get(position));
+                startActivity(intent);
             }
         });
         adapter.setOnItemLongListener(new RVAdapter.OnItemLongClickListener() {

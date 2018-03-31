@@ -14,4 +14,5 @@
     <color name="btn_press_blue">#cc308aff</color>
     <color name="colorBackgroundGray">#ececec</color>
     <color name="translucent_background">#00000000</color>
+    <color name="circle_red">#fa5d5d</color>
 </resources>

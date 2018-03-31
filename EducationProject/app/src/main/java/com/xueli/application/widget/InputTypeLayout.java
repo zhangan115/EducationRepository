@@ -38,6 +38,9 @@ public class InputTypeLayout extends LinearLayout {
         this.iEnter = enter;
         choose.setText(position);
         content.setText(option.getValue());
+        if (enter == null) {
+            content.setEnabled(false);
+        }
         content.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -52,21 +55,26 @@ public class InputTypeLayout extends LinearLayout {
             @Override
             public void afterTextChanged(Editable s) {
                 if (iEnter == null) return;
-                String value = s.toString().trim();
-                if (TextUtils.isEmpty(mOption.getValue()) && !TextUtils.isEmpty(value)) {
-                    mOption.setValue(value);
-                    iEnter.onEnter();
-                } else {
-                    if (!mOption.getValue().equals(value)) {
+                try {
+                    boolean isFinish = !TextUtils.isEmpty(s.toString());
+                    String value = s.toString().trim();
+                    if (TextUtils.isEmpty(mOption.getValue()) && !TextUtils.isEmpty(value)) {
                         mOption.setValue(value);
-                        iEnter.onEnter();
+                        iEnter.onEnter(isFinish);
+                    } else {
+                        if (!mOption.getValue().equals(value)) {
+                            mOption.setValue(value);
+                            iEnter.onEnter(isFinish);
+                        }
                     }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
         });
     }
 
     public interface IEnter {
-        void onEnter();
+        void onEnter(boolean isFinish);
     }
 }

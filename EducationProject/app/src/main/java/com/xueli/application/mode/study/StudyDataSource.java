@@ -12,4 +12,14 @@ public interface StudyDataSource {
     @NonNull
     Subscription getStudyList(long id, IListCallBack<StudyMessage> callBack);
 
+    interface IMessageCallBack {
+
+        void onSuccess(String s);
+
+        void onError();
+    }
+
+    @NonNull
+    Subscription getMessageDetail(long id, IMessageCallBack callBack);
+
 }

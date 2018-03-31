@@ -6,9 +6,11 @@ import com.xueli.application.mode.bean.exam.ExamList;
 import com.xueli.application.mode.bean.exam.PaperCollection;
 import com.xueli.application.mode.bean.exam.PaperSections;
 import com.xueli.application.mode.bean.exam.QuestionType;
+import com.xueli.application.mode.bean.exam.UploadData;
 import com.xueli.application.mode.callback.IListCallBack;
 import com.xueli.application.mode.callback.IObjectCallBack;
 
+import java.util.List;
 import java.util.Map;
 
 import rx.Subscription;
@@ -40,5 +42,8 @@ public interface ExamDataSource {
 
     @NonNull
     Subscription getQuestionTypeList(IListCallBack<QuestionType> callBack);
+
+    @NonNull
+    Subscription uploadData(List<PaperSections> data,IObjectCallBack<String> callBack);
 
 }

@@ -14,7 +14,11 @@ import com.xueli.application.mode.callback.IListCallBack;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import rx.Scheduler;
+import rx.Subscriber;
 import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class StudyRepository implements StudyDataSource {
 
@@ -45,5 +49,36 @@ public class StudyRepository implements StudyDataSource {
                 .getMessageList(id, App.getInstance().getCurrentUser().getId()
                         , jsonObject.toString()))
                 .execute(callBack);
+    }
+
+    @NonNull
+    @Override
+    public Subscription getMessageDetail(long id, final IMessageCallBack callBack) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("token", sp.getString(ConstantStr.TOKEN, ""));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return Api.createRetrofit().create(StudyApi.class)
+                .getWebUrl(id, jsonObject.toString())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<String>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callBack.onError();
+                    }
+
+                    @Override
+                    public void onNext(String s) {
+                        callBack.onSuccess(s);
+                    }
+                });
     }
 }

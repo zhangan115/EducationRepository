@@ -7,8 +7,8 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:scrollbars="none"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -28,10 +28,12 @@
                     app:canLoop="true" />
 
                 <LinearLayout
+                    android:id="@+id/llMessage"
                     android:layout_width="match_parent"
                     android:layout_height="36dp"
                     android:background="@color/colorWhite"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:visibility="gone">
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -105,7 +107,8 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:tag="1">
 
                         <ImageView
                             android:layout_width="60dp"
@@ -129,7 +132,8 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:tag="2">
 
                         <ImageView
                             android:layout_width="60dp"
@@ -153,7 +157,8 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:tag="3">
 
                         <ImageView
                             android:layout_width="60dp"
@@ -177,7 +182,8 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:tag="4">
 
                         <ImageView
                             android:layout_width="60dp"
@@ -203,6 +209,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="15dp"
                     android:orientation="horizontal"
+                    android:tag="5"
                     android:weightSum="4">
 
                     <LinearLayout
@@ -234,7 +241,8 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:tag="6">
 
                         <ImageView
                             android:layout_width="60dp"
@@ -258,7 +266,8 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:tag="7">
 
                         <ImageView
                             android:layout_width="60dp"
@@ -282,7 +291,8 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:tag="8">
 
                         <ImageView
                             android:layout_width="60dp"

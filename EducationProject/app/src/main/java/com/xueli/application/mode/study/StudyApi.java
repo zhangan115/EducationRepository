@@ -8,6 +8,7 @@ import java.util.List;
 import retrofit2.http.Body;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 import rx.Observable;
 
@@ -18,4 +19,9 @@ public interface StudyApi {
     Observable<Bean<List<StudyMessage>>> getMessageList(@Query("range") long id
             , @Query("accountId") long accountId
             , @Body() String string);
+
+    @Headers({"Content-Type:application/json;charset=utf-8", "Accept:application/json;"})
+    @POST("api/sysmsg/details")
+    Observable<String> getWebUrl(@Query("id") long id, @Body() String string);
+
 }

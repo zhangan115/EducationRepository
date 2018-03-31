@@ -21,8 +21,26 @@ public class PaperSections implements Parcelable {
     private String question;
     private String paperSectionTitle;
     private String options;
+    private boolean bResult;
     private List<SectionOption> sectionOptions;// 本地属性 题的选择列表
     private boolean isCollect;//本地属性 是否收藏
+    private boolean isFinish;//本地属性 是否完成
+
+    public PaperSections clonePs() {
+        PaperSections paperSections = new PaperSections();
+        paperSections.setId(id);
+        paperSections.setPaperSectionId(paperSectionId);
+        paperSections.setFlag(flag);
+        paperSections.setQuestionCode(questionCode);
+        paperSections.setPagerId(pagerId);
+        paperSections.setScore(score);
+        paperSections.setAnswer(answer);
+        paperSections.setQuestion(question);
+        paperSections.setPaperSectionTitle(paperSectionTitle);
+        paperSections.setOptions(options);
+        paperSections.setbResult(bResult);
+        return paperSections;
+    }
 
     public long getId() {
         return id;
@@ -104,6 +122,14 @@ public class PaperSections implements Parcelable {
         this.options = options;
     }
 
+    public boolean isbResult() {
+        return bResult;
+    }
+
+    public void setbResult(boolean bResult) {
+        this.bResult = bResult;
+    }
+
     public List<SectionOption> getSectionOptions() {
         return sectionOptions;
     }
@@ -120,9 +146,16 @@ public class PaperSections implements Parcelable {
         isCollect = collect;
     }
 
-    public PaperSections() {
+    public boolean isFinish() {
+        return isFinish;
     }
 
+    public void setFinish(boolean finish) {
+        isFinish = finish;
+    }
+
+    public PaperSections() {
+    }
 
     @Override
     public int describeContents() {
@@ -141,8 +174,10 @@ public class PaperSections implements Parcelable {
         dest.writeString(this.question);
         dest.writeString(this.paperSectionTitle);
         dest.writeString(this.options);
+        dest.writeByte(this.bResult ? (byte) 1 : (byte) 0);
         dest.writeTypedList(this.sectionOptions);
         dest.writeByte(this.isCollect ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.isFinish ? (byte) 1 : (byte) 0);
     }
 
     protected PaperSections(Parcel in) {
@@ -156,8 +191,10 @@ public class PaperSections implements Parcelable {
         this.question = in.readString();
         this.paperSectionTitle = in.readString();
         this.options = in.readString();
+        this.bResult = in.readByte() != 0;
         this.sectionOptions = in.createTypedArrayList(SectionOption.CREATOR);
         this.isCollect = in.readByte() != 0;
+        this.isFinish = in.readByte() != 0;
     }
 
     public static final Creator<PaperSections> CREATOR = new Creator<PaperSections>() {

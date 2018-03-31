@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface IDataChange {
 
-    void onDataChange(PaperSections sectionOptions, int position);
+    void onDataChange(PaperSections sectionOptions, int position, boolean isFinish);
 }

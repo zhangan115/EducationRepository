@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 
+import com.orhanobut.logger.Logger;
 import com.xueli.application.app.App;
 import com.xueli.application.common.ConstantStr;
 import com.xueli.application.mode.api.Api;
@@ -13,12 +14,14 @@ import com.xueli.application.mode.bean.exam.ExamList;
 import com.xueli.application.mode.bean.exam.PaperCollection;
 import com.xueli.application.mode.bean.exam.PaperSections;
 import com.xueli.application.mode.bean.exam.QuestionType;
+import com.xueli.application.mode.bean.exam.UploadData;
 import com.xueli.application.mode.callback.IListCallBack;
 import com.xueli.application.mode.callback.IObjectCallBack;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.List;
 import java.util.Map;
 
 import rx.Subscription;
@@ -139,6 +142,17 @@ public class ExamRepository implements ExamDataSource {
         }
         return new ApiCallBackList1<>(Api.createRetrofit().create(ExamApi.class)
                 .getQuestionType(jsonObject.toString()))
+                .execute(callBack);
+    }
+
+    @NonNull
+    @Override
+    public Subscription uploadData(List<PaperSections> data, IObjectCallBack<String> callBack) {
+        UploadData uploadData = new UploadData(sp.getString(ConstantStr.TOKEN, "")
+                , String.valueOf(App.getInstance().getCurrentUser().getId())
+                , data);
+        Logger.d(uploadData.getUploadJson());
+        return new ApiCallBackObject1<>(Api.createRetrofit().create(ExamApi.class).uploadData(uploadData.getUploadJson()))
                 .execute(callBack);
     }
 }
