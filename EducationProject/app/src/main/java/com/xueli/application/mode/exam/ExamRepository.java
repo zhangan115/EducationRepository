@@ -11,6 +11,7 @@ import com.xueli.application.mode.api.Api;
 import com.xueli.application.mode.api.ApiCallBackList1;
 import com.xueli.application.mode.api.ApiCallBackObject1;
 import com.xueli.application.mode.bean.exam.ExamList;
+import com.xueli.application.mode.bean.exam.FaultExam;
 import com.xueli.application.mode.bean.exam.PaperCollection;
 import com.xueli.application.mode.bean.exam.PaperSections;
 import com.xueli.application.mode.bean.exam.QuestionType;
@@ -111,6 +112,20 @@ public class ExamRepository implements ExamDataSource {
         }
         return new ApiCallBackList1<>(Api.createRetrofit().create(ExamApi.class)
                 .getMyCollection(App.getInstance().getCurrentUser().getId()
+                        , jsonObject.toString()))
+                .execute(callBack);
+    }
+
+    @Override
+    public Subscription getMyFaultExam(IListCallBack<FaultExam> callBack) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("token", sp.getString(ConstantStr.TOKEN, ""));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return new ApiCallBackList1<>(Api.createRetrofit().create(ExamApi.class)
+                .getMyFaultExam(App.getInstance().getCurrentUser().getId()
                         , jsonObject.toString()))
                 .execute(callBack);
     }

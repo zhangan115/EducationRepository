@@ -60,11 +60,19 @@ public class InputTypeLayout extends LinearLayout {
                     String value = s.toString().trim();
                     if (TextUtils.isEmpty(mOption.getValue()) && !TextUtils.isEmpty(value)) {
                         mOption.setValue(value);
-                        iEnter.onEnter(isFinish);
+                        if (mOption.getOptSta() && !TextUtils.isEmpty(mOption.getOptVal())) {
+                            iEnter.onEnter(isFinish, mOption.getValue().equals(mOption.getOptVal()));
+                        } else {
+                            iEnter.onEnter(isFinish, false);
+                        }
                     } else {
                         if (!mOption.getValue().equals(value)) {
                             mOption.setValue(value);
-                            iEnter.onEnter(isFinish);
+                            if (mOption.getOptSta() && !TextUtils.isEmpty(mOption.getOptVal())) {
+                                iEnter.onEnter(isFinish, mOption.getValue().equals(mOption.getOptVal()));
+                            } else {
+                                iEnter.onEnter(isFinish, false);
+                            }
                         }
                     }
                 } catch (Exception e) {
@@ -75,6 +83,6 @@ public class InputTypeLayout extends LinearLayout {
     }
 
     public interface IEnter {
-        void onEnter(boolean isFinish);
+        void onEnter(boolean isFinish, boolean isRight);
     }
 }

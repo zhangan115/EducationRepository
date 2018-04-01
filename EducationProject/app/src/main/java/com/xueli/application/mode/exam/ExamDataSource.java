@@ -3,6 +3,7 @@ package com.xueli.application.mode.exam;
 import android.support.annotation.NonNull;
 
 import com.xueli.application.mode.bean.exam.ExamList;
+import com.xueli.application.mode.bean.exam.FaultExam;
 import com.xueli.application.mode.bean.exam.PaperCollection;
 import com.xueli.application.mode.bean.exam.PaperSections;
 import com.xueli.application.mode.bean.exam.QuestionType;
@@ -37,6 +38,8 @@ public interface ExamDataSource {
     @NonNull
     Subscription getMyCollection(IListCallBack<PaperSections> callBack);
 
+    Subscription getMyFaultExam(IListCallBack<FaultExam> callBack);
+
     @NonNull
     Subscription getMyCollection(long lastId, IListCallBack<PaperSections> callBack);
 
@@ -44,6 +47,6 @@ public interface ExamDataSource {
     Subscription getQuestionTypeList(IListCallBack<QuestionType> callBack);
 
     @NonNull
-    Subscription uploadData(List<PaperSections> data,IObjectCallBack<String> callBack);
+    Subscription uploadData(List<PaperSections> data, IObjectCallBack<String> callBack);
 
 }

@@ -4,6 +4,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.xueli.application.mode.bean.exam.ExamList;
+import com.xueli.application.mode.bean.exam.FaultExam;
+import com.xueli.application.mode.bean.exam.PaperSections;
 import com.xueli.application.mode.bean.exam.QuestionType;
 import com.xueli.application.mode.callback.IListCallBack;
 import com.xueli.application.mode.exam.ExamDataSource;
@@ -44,14 +46,14 @@ class ErrorSubjectPresenter implements ErrorSubjectContract.Presenter {
     @Override
     public void getErrorSubjectList(Map<String, String> map) {
         mView.showLoading();
-        mSubscriptions.add(mExamDataSource.getExamList(map, new IListCallBack<ExamList>() {
+        mSubscriptions.add(mExamDataSource.getMyFaultExam( new IListCallBack<FaultExam>() {
             @Override
             public void onSuccess() {
 
             }
 
             @Override
-            public void onData(@NonNull List<ExamList> list) {
+            public void onData(@NonNull List<FaultExam> list) {
                 mView.showData(list);
             }
 

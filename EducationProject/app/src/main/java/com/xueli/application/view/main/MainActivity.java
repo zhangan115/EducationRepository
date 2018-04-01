@@ -35,7 +35,6 @@ public class MainActivity extends MvpActivity<MainContract.Presenter> implements
         new MainPresenter(Injection.getInjection().provideUserRepository(getApp()), this);
     }
 
-
     private void initView() {
         mFragments = getFragments();
         AHBottomNavigation bottomNavigation = findViewById(R.id.bottom_navigation);
@@ -114,5 +113,22 @@ public class MainActivity extends MvpActivity<MainContract.Presenter> implements
     @Override
     public void setPresenter(MainContract.Presenter presenter) {
         mPresenter = presenter;
+    }
+
+    long currentTime = 0;
+
+    @Override
+    public void onBackPressed() {
+        if (currentTime == 0) {
+            currentTime = System.currentTimeMillis();
+            showMessage("再次点击将退出应用");
+        } else {
+            if (System.currentTimeMillis() - currentTime < 3000) {
+                super.onBackPressed();
+            } else {
+                currentTime = 0;
+            }
+        }
+
     }
 }

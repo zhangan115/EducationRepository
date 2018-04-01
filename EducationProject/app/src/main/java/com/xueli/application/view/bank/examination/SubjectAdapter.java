@@ -27,7 +27,7 @@ public class SubjectAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private OnItemClickListener listener;
     private boolean isShowAnswer;
 
-    public SubjectAdapter(List<PaperSectionList> dataList, Context context) {
+    SubjectAdapter(List<PaperSectionList> dataList, Context context) {
         this.dataList = dataList;
         this.context = context;
     }

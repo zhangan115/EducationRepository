@@ -14,10 +14,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.library.adapter.VRVAdapter;
+import com.library.utils.SPHelper;
 import com.orhanobut.logger.Logger;
 import com.xueli.application.R;
 import com.xueli.application.app.App;
@@ -49,12 +51,14 @@ public class ExaminationActivity extends MvpActivity<ExaminationContract.Present
     private ImageView ivCollection;
     private MaterialDialog finishDialog, cancelDialog;
     private RecyclerView subjectRecycleView;
+    private LinearLayout llNote;
     //data
     private List<PaperSections> uploadData;
     private ArrayList<PaperSections> datas;
     private ArrayList<PaperSectionList> examListBeans;
     private boolean showAnswer;
     private int currentPosition = -1;
+    private String NOTE = "note";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,9 +73,10 @@ public class ExaminationActivity extends MvpActivity<ExaminationContract.Present
             datas = new ArrayList<>();
             examListBeans = new ArrayList<>();
         }
-        setLayoutAndToolbar(R.layout.examination_activity, "考试");
+        setLayoutAndToolbar(R.layout.examination_activity, showAnswer ? "答案" : "考试");
         uploadData = new ArrayList<>();
         viewPager = findViewById(R.id.view_pager);
+        llNote = findViewById(R.id.llNote);
         viewPager.setOffscreenPageLimit(4);
         viewPager.addOnPageChangeListener(this);
         tvOrder = findViewById(R.id.tvOrder);
@@ -121,6 +126,9 @@ public class ExaminationActivity extends MvpActivity<ExaminationContract.Present
             viewPager.setCurrentItem(currentPosition);
             bottomDataChange(currentPosition);
         }
+        llNote.setVisibility(SPHelper.readBoolean(getApplicationContext()
+                , ConstantStr.USER_DATA, NOTE, false) ? View.GONE : View.VISIBLE);
+        findViewById(R.id.ivKnow).setOnClickListener(this);
     }
 
     @Override
@@ -170,6 +178,11 @@ public class ExaminationActivity extends MvpActivity<ExaminationContract.Present
                 } else {
                     subjectRecycleView.setVisibility(View.VISIBLE);
                 }
+                break;
+            case R.id.ivKnow:
+                SPHelper.write(getApplicationContext()
+                        , ConstantStr.USER_DATA, NOTE, true);
+                llNote.setVisibility(View.GONE);
                 break;
         }
     }
@@ -339,13 +352,13 @@ public class ExaminationActivity extends MvpActivity<ExaminationContract.Present
         sectionOptions.setFinish(isFinish);
         datas.remove(position);
         datas.add(position, sectionOptions);
-
         for (int i = 0; i < examListBeans.size(); i++) {
             if (examListBeans.get(i).getType() == 0) {
                 continue;
             }
             if (datas.get(position).getId() == examListBeans.get(i).getId()) {
                 examListBeans.get(i).setFinish(isFinish);
+                examListBeans.get(i).setRight(sectionOptions.isbResult());
                 subjectRecycleView.getAdapter().notifyDataSetChanged();
                 break;
             }

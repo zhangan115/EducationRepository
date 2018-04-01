@@ -2,6 +2,7 @@ package com.xueli.application.mode.exam;
 
 import com.xueli.application.mode.bean.Bean;
 import com.xueli.application.mode.bean.exam.ExamList;
+import com.xueli.application.mode.bean.exam.FaultExam;
 import com.xueli.application.mode.bean.exam.PaperCollection;
 import com.xueli.application.mode.bean.exam.PaperSections;
 import com.xueli.application.mode.bean.exam.QuestionType;
@@ -38,12 +39,19 @@ public interface ExamApi {
     Observable<Bean<PaperCollection>> postPaperCollection(@Query("paperQuestionId") long paperQuestionId
             , @Query("accountId") long accountId, @Body() String string);
 
+    @Headers({"Content-Type:application/json;charset=utf-8", "Accept:application/json;"})
     @POST("api/usercollect/del")
     Observable<Bean<PaperCollection>> cancelPaperCollection(@Query("id") long id, @Body() String string);
 
+    @Headers({"Content-Type:application/json;charset=utf-8", "Accept:application/json;"})
     @POST("api/usercollect/list")
     Observable<Bean<List<PaperSections>>> getMyCollection(@Query("accountId") long accountId, @Body() String string);
 
+    @Headers({"Content-Type:application/json;charset=utf-8", "Accept:application/json;"})
+    @POST("api/examed/list")
+    Observable<Bean<List<FaultExam>>> getMyFaultExam(@Query("accountId") long accountId, @Body() String string);
+
+    @Headers({"Content-Type:application/json;charset=utf-8", "Accept:application/json;"})
     @POST("api/usercollect/list")
     Observable<Bean<List<PaperSections>>> getMyCollection(@Query("accountId") long accountId
             , @Query("lastId") long lastId

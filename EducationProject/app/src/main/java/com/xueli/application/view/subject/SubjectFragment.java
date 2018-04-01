@@ -190,10 +190,11 @@ public class SubjectFragment extends MvpFragment implements SingleChooseTypeLayo
     }
 
     @Override
-    public void onEnter(boolean isFinish) {
+    public void onEnter(boolean isFinish, boolean isRight) {
         if (dataChange == null) {
             return;
         }
+        paperSections.setbResult(isRight);
         dataChange.onDataChange(paperSections, this.position, isFinish);
     }
 

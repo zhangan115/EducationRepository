@@ -25,6 +25,7 @@ import com.library.widget.RecycleRefreshLoadLayout;
 import com.xueli.application.R;
 import com.xueli.application.app.App;
 import com.xueli.application.mode.bean.exam.ExamList;
+import com.xueli.application.mode.bean.exam.FaultExam;
 import com.xueli.application.mode.bean.exam.QuestionType;
 import com.xueli.application.mode.exam.ExamRepository;
 import com.xueli.application.view.MvpActivity;
@@ -54,7 +55,7 @@ public class ErrorSubjectActivity extends MvpActivity<ErrorSubjectContract.Prese
     private TextView[] tvYears = new TextView[3];
     private TextView[] tvSubjects;
     //data
-    private List<ExamList> datas;
+    private List<FaultExam> datas;
     private Map<String, String> map;
     private int currentYear;
     private List<QuestionType> questionTypes;
@@ -90,11 +91,11 @@ public class ErrorSubjectActivity extends MvpActivity<ErrorSubjectContract.Prese
         });
         expendRecycleView.setLayoutManager(new GridLayoutManager(this, 1));
         datas = new ArrayList<>();
-        RVAdapter<ExamList> adapter = new RVAdapter<ExamList>(expendRecycleView, datas, R.layout.subject_error_item) {
+        RVAdapter<FaultExam> adapter = new RVAdapter<FaultExam>(expendRecycleView, datas, R.layout.subject_error_item) {
             @Override
-            public void showData(ViewHolder vHolder, ExamList data, int position) {
+            public void showData(ViewHolder vHolder, FaultExam data, int position) {
                 TextView errorSubject = (TextView) vHolder.getView(R.id.tvSubjectContent);
-                errorSubject.setText(data.getTitle());
+
             }
         };
         expendRecycleView.setAdapter(adapter);
@@ -241,7 +242,7 @@ public class ErrorSubjectActivity extends MvpActivity<ErrorSubjectContract.Prese
     }
 
     @Override
-    public void showData(List<ExamList> list) {
+    public void showData(List<FaultExam> list) {
         datas.clear();
         datas.addAll(list);
         expendRecycleView.getAdapter().notifyDataSetChanged();

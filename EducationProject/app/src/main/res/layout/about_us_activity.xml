@@ -51,9 +51,8 @@
                 android:layout_marginBottom="20dp"
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
-                android:textColor="@color/text_gray_999"
-                android:text="学历无忧简介XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-                android:textSize="14dp" />
+                android:text="      学历无忧是阳明教育为成人高等函授教育，学位考试，高职统招本科考试专门开发的一款软件。该软件集合了近四年的考试真题，通过大数据分类集合原理使各位考生能够更顺利通过考试。"
+                android:textColor="@color/text_gray_999" />
         </LinearLayout>
     </LinearLayout>
 

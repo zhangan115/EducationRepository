@@ -2,7 +2,7 @@ package com.xueli.application.view.user.subject_error;
 
 import com.xueli.application.base.BasePresenter;
 import com.xueli.application.base.BaseView;
-import com.xueli.application.mode.bean.exam.ExamList;
+import com.xueli.application.mode.bean.exam.FaultExam;
 import com.xueli.application.mode.bean.exam.QuestionType;
 
 import java.util.List;
@@ -24,7 +24,7 @@ public interface ErrorSubjectContract {
 
     interface View extends BaseView<Presenter> {
 
-        void showData(List<ExamList> datas);
+        void showData(List<FaultExam> datas);
 
         void showMessage(String message);
 
