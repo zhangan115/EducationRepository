@@ -14,6 +14,7 @@ import com.xueli.application.view.bank.examination.ExaminationActivity;
 import com.xueli.application.view.bank.examination.SubjectAdapter;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class AnswerActivity extends BaseActivity {
 
@@ -29,6 +30,30 @@ public class AnswerActivity extends BaseActivity {
         if (paperSectionLists == null || paperSections == null) {
             finish();
             return;
+        }
+        List<PaperSectionList> list = new ArrayList<>();
+        for (int i = 0; i < paperSectionLists.size(); i++) {
+            if (paperSectionLists.get(i).getType() == 0) {
+                list.add(paperSectionLists.get(i));
+            }
+        }
+        for (int i = 0; i < list.size(); i++) {
+            int rightCount = 0, faultCount = 0, finishCount = 0;
+            for (int j = 0; j < paperSectionLists.size(); j++) {
+                if (paperSectionLists.get(j).getType() == 1 && list.get(i).getFlag() == paperSectionLists.get(j).getFlag()) {
+                    if (paperSectionLists.get(j).isRight()) {
+                        rightCount++;
+                    } else {
+                        faultCount++;
+                    }
+                    if (paperSectionLists.get(j).isFinish()) {
+                        finishCount++;
+                    }
+                }
+                list.get(i).setRightCount(rightCount);
+                list.get(i).setFaultCount(faultCount);
+                list.get(i).setFinishCount(finishCount);
+            }
         }
         final RecyclerView recyclerView = findViewById(R.id.recycleAnswer);
         final GridLayoutManager manager = new GridLayoutManager(this.getApplicationContext(), 6);

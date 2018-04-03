@@ -70,10 +70,10 @@ class ExaminationPresenter implements ExaminationContract.Presenter {
                             break;
                         }
                     }
-                    paperSectionLists.add(new PaperSectionList(0, name, count));
+                    paperSectionLists.add(new PaperSectionList(0, name, count, Integer.valueOf(key)));
                     List<PaperSections> paperSections = map.get(key);
                     for (int i = 0; i < paperSections.size(); i++) {
-                        paperSectionLists.add(new PaperSectionList(1, String.valueOf(i + 1), paperSections.get(i).getId()));
+                        paperSectionLists.add(new PaperSectionList(1, String.valueOf(i + 1), paperSections.get(i).getId(), Integer.valueOf(key)));
                     }
                 }
                 mView.showPaperSectionListData(paperSectionLists);
@@ -130,10 +130,10 @@ class ExaminationPresenter implements ExaminationContract.Presenter {
                             break;
                         }
                     }
-                    paperSectionLists.add(new PaperSectionList(0, name, count));
+                    paperSectionLists.add(new PaperSectionList(0, name, count, Integer.valueOf(key)));
                     List<PaperSections> paperSections = map.get(key);
                     for (int i = 0; i < paperSections.size(); i++) {
-                        paperSectionLists.add(new PaperSectionList(1, String.valueOf(i + 1), paperSections.get(i).getId()));
+                        paperSectionLists.add(new PaperSectionList(1, String.valueOf(i + 1), paperSections.get(i).getId(), Integer.valueOf(key)));
                     }
                 }
                 mView.showPaperSectionListData(paperSectionLists);
