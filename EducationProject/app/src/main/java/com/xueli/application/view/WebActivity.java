@@ -1,5 +1,6 @@
 package com.xueli.application.view;
 
+import android.os.Build;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.webkit.JsPromptResult;
@@ -42,6 +43,10 @@ public class WebActivity extends BaseActivity {
         // 设置打开的网页
         // webView.loadUrl("http://orgcent.com");
         // 使用WebView来显示图片
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            ws.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+        }
+        webView.getSettings().setUseWideViewPort(true);
         webView.loadDataWithBaseURL(null, htmlStr, "text/html", "utf-8", null);
     }
 

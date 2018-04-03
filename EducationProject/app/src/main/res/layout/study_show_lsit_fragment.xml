@@ -3,18 +3,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackgroundGray"
+
     android:orientation="vertical">
 
     <com.library.widget.RecycleRefreshLoadLayout
         android:id="@+id/rlyLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingTop="10dp"
         android:visibility="visible">
 
         <com.library.widget.ExpendRecycleView
             android:id="@+id/expendRv"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="wrap_content" />
     </com.library.widget.RecycleRefreshLoadLayout>
 
     <include layout="@layout/no_data_include" />

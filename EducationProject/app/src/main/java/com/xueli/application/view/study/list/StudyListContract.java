@@ -11,9 +11,12 @@ public interface StudyListContract {
     interface Presenter extends BasePresenter {
 
         void getStudyMessage(long id);
+
+        void getStudyMessage(long id, long lastId);
     }
 
     interface View extends BaseView<Presenter> {
+
         void showLoading();
 
         void hideLoading();
@@ -22,6 +25,12 @@ public interface StudyListContract {
 
         void showData(List<StudyMessage> datas);
 
+        void showMoreData(List<StudyMessage> datas);
+
         void showMessage(String message);
+
+        void noMoreData();
+
+        void hideLoadingMore();
     }
 }

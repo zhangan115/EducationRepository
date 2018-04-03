@@ -18,6 +18,8 @@ interface ExaminationContract {
 
         void getPaperSections(long id);
 
+        void getFaultExamPaperSections(long id);
+
         //收藏
         void collectPaper(long paperQuestionId, long accountId);
 

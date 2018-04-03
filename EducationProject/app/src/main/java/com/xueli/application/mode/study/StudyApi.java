@@ -17,7 +17,12 @@ public interface StudyApi {
     @Headers({"Content-Type:application/json;charset=utf-8", "Accept:application/json;"})
     @POST("api/msg/list")
     Observable<Bean<List<StudyMessage>>> getMessageList(@Query("range") long id
-            , @Query("accountId") long accountId
+            , @Query("lastId") long lastId
+            , @Body() String string);
+
+    @Headers({"Content-Type:application/json;charset=utf-8", "Accept:application/json;"})
+    @POST("api/msg/list")
+    Observable<Bean<List<StudyMessage>>> getMessageList(@Query("range") long id
             , @Body() String string);
 
     @Headers({"Content-Type:application/json;charset=utf-8", "Accept:application/json;"})

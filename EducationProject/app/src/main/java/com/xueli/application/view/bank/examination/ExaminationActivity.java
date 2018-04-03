@@ -56,23 +56,28 @@ public class ExaminationActivity extends MvpActivity<ExaminationContract.Present
     private List<PaperSections> uploadData;
     private ArrayList<PaperSections> datas;
     private ArrayList<PaperSectionList> examListBeans;
-    private boolean showAnswer;
+    private boolean showAnswer, isFaultExam;
     private int currentPosition = -1;
     private String NOTE = "note";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        datas = new ArrayList<>();
+        examListBeans = new ArrayList<>();
         if (getIntent() != null) {
-            datas = getIntent().getParcelableArrayListExtra(ConstantStr.KEY_BUNDLE_LIST);
-            examListBeans = getIntent().getParcelableArrayListExtra(ConstantStr.KEY_BUNDLE_LIST_1);
+            ArrayList<PaperSections> datas = getIntent().getParcelableArrayListExtra(ConstantStr.KEY_BUNDLE_LIST);
+            if (datas != null) {
+                this.datas.addAll(datas);
+            }
+            ArrayList<PaperSectionList> examListBeans = getIntent().getParcelableArrayListExtra(ConstantStr.KEY_BUNDLE_LIST_1);
+            if (examListBeans != null) {
+                this.examListBeans.addAll(examListBeans);
+            }
             currentPosition = getIntent().getIntExtra(ConstantStr.KEY_BUNDLE_INT, -1);
+            isFaultExam = getIntent().getBooleanExtra(ConstantStr.KEY_BUNDLE_BOOLEAN, false);
         }
-        showAnswer = currentPosition != -1;
-        if (!showAnswer) {
-            datas = new ArrayList<>();
-            examListBeans = new ArrayList<>();
-        }
+        showAnswer = isFaultExam || currentPosition != -1;
         setLayoutAndToolbar(R.layout.examination_activity, showAnswer ? "答案" : "考试");
         uploadData = new ArrayList<>();
         viewPager = findViewById(R.id.view_pager);
@@ -121,6 +126,9 @@ public class ExaminationActivity extends MvpActivity<ExaminationContract.Present
         if (!showAnswer) {
             currentPosition = 0;
             mPresenter.getPaperSections(examId);
+        } else if (isFaultExam) {
+            currentPosition = 0;
+            mPresenter.getFaultExamPaperSections(examId);
         } else {
             viewPager.setAdapter(new Adapter(getSupportFragmentManager()));
             viewPager.setCurrentItem(currentPosition);

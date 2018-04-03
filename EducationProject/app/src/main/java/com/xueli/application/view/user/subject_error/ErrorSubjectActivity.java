@@ -1,5 +1,6 @@
 package com.xueli.application.view.user.subject_error;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -24,11 +25,14 @@ import com.library.widget.ExpendRecycleView;
 import com.library.widget.RecycleRefreshLoadLayout;
 import com.xueli.application.R;
 import com.xueli.application.app.App;
+import com.xueli.application.common.ConstantStr;
 import com.xueli.application.mode.bean.exam.ExamList;
 import com.xueli.application.mode.bean.exam.FaultExam;
 import com.xueli.application.mode.bean.exam.QuestionType;
 import com.xueli.application.mode.exam.ExamRepository;
 import com.xueli.application.view.MvpActivity;
+import com.xueli.application.view.bank.examination.ExaminationActivity;
+import com.xueli.application.view.bank.list.BankListActivity;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -95,17 +99,19 @@ public class ErrorSubjectActivity extends MvpActivity<ErrorSubjectContract.Prese
             @Override
             public void showData(ViewHolder vHolder, FaultExam data, int position) {
                 TextView errorSubject = (TextView) vHolder.getView(R.id.tvSubjectContent);
-
+                errorSubject.setText(data.getTitle());
             }
         };
         expendRecycleView.setAdapter(adapter);
         adapter.setOnItemClickListener(new RVAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-
+                Intent intent = new Intent(ErrorSubjectActivity.this, ExaminationActivity.class);
+                intent.putExtra(ConstantStr.KEY_BUNDLE_LONG, datas.get(position).getExamedPaperId());
+                intent.putExtra(ConstantStr.KEY_BUNDLE_BOOLEAN, true);
+                startActivity(intent);
             }
         });
-        noDataLayout.setVisibility(View.VISIBLE);
         refreshLoadLayout.setOnRefreshListener(this);
         mPresenter.getErrorSubjectList(map);
         mPresenter.getQuestionType();

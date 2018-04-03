@@ -25,6 +25,7 @@ class StudyListPresenter implements StudyListContract.Presenter {
 
     @Override
     public void getStudyMessage(long id) {
+        mView.showLoading();
         mStudyDataSource.getStudyList(id, new IListCallBack<StudyMessage>() {
             @Override
             public void onSuccess() {
@@ -49,6 +50,36 @@ class StudyListPresenter implements StudyListContract.Presenter {
             @Override
             public void noData() {
                 mView.noData();
+            }
+        });
+    }
+
+    @Override
+    public void getStudyMessage(long id, long lastId) {
+        mStudyDataSource.getStudyList(id, lastId, new IListCallBack<StudyMessage>() {
+            @Override
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onData(@NonNull List<StudyMessage> list) {
+
+            }
+
+            @Override
+            public void onError(@Nullable String message) {
+                mView.showMessage(message);
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+
+            @Override
+            public void noData() {
+
             }
         });
     }

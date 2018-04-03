@@ -33,7 +33,6 @@ public interface ExamApi {
     @POST("api/paper/paperQuestion")
     Observable<Bean<List<PaperSections>>> getExamPaperQuesting(@Query("id") long id, @Body() String string);
 
-
     @Headers({"Content-Type:application/json;charset=utf-8", "Accept:application/json;"})
     @POST("api/usercollect/insert")
     Observable<Bean<PaperCollection>> postPaperCollection(@Query("paperQuestionId") long paperQuestionId
@@ -48,8 +47,12 @@ public interface ExamApi {
     Observable<Bean<List<PaperSections>>> getMyCollection(@Query("accountId") long accountId, @Body() String string);
 
     @Headers({"Content-Type:application/json;charset=utf-8", "Accept:application/json;"})
-    @POST("api/examed/list")
+    @POST("api/examed/examedQuestion")
     Observable<Bean<List<FaultExam>>> getMyFaultExam(@Query("accountId") long accountId, @Body() String string);
+
+    @Headers({"Content-Type:application/json;charset=utf-8", "Accept:application/json;"})
+    @POST("api/examed/examedQuestion")
+    Observable<Bean<List<PaperSections>>> getMyFaultExamPaper(@Query("examedPaperId") long examedPaperId, @Body() String string);
 
     @Headers({"Content-Type:application/json;charset=utf-8", "Accept:application/json;"})
     @POST("api/usercollect/list")

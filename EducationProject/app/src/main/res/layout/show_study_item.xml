@@ -12,15 +12,18 @@
         android:padding="15dp">
 
         <FrameLayout
+            android:id="@+id/frameImage"
             android:layout_width="90dp"
             android:layout_height="60dp">
 
             <ImageView
+                android:id="@+id/ivImage"
                 android:layout_width="90dp"
                 android:layout_height="60dp"
                 android:src="@drawable/img_learn1" />
 
             <ImageView
+                android:id="@+id/ivVideo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -38,7 +41,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:text="【置顶】有关成人高考的10个问题，你想知道的答案都在这里！"
                 android:textColor="@color/text_gray_333"
                 android:textSize="13dp" />
 
@@ -51,7 +53,7 @@
                     android:id="@+id/tvLearnFrom"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="学考网"
+                    android:layout_marginRight="20dp"
                     android:textColor="@color/text_gray_999"
                     android:textSize="12dp" />
 
@@ -59,8 +61,7 @@
                     android:id="@+id/tvReadCounts"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:text="19 浏览"
+
                     android:textColor="@color/text_gray_999"
                     android:textSize="12dp" />
 

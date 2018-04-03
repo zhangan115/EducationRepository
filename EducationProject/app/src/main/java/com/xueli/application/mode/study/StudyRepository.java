@@ -46,8 +46,20 @@ public class StudyRepository implements StudyDataSource {
             e.printStackTrace();
         }
         return new ApiCallBackList1<>(Api.createRetrofit().create(StudyApi.class)
-                .getMessageList(id, App.getInstance().getCurrentUser().getId()
-                        , jsonObject.toString()))
+                .getMessageList(id, jsonObject.toString()))
+                .execute(callBack);
+    }
+
+    @Override
+    public Subscription getStudyList(long id, long lastId, IListCallBack<StudyMessage> callBack) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("token", sp.getString(ConstantStr.TOKEN, ""));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return new ApiCallBackList1<>(Api.createRetrofit().create(StudyApi.class)
+                .getMessageList(id, lastId, jsonObject.toString()))
                 .execute(callBack);
     }
 

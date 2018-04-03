@@ -132,6 +132,19 @@ public class ExamRepository implements ExamDataSource {
 
     @NonNull
     @Override
+    public Subscription getMyFaultExamPaper(long id, IListCallBack<PaperSections> callBack) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("token", sp.getString(ConstantStr.TOKEN, ""));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return new ApiCallBackList1<>(Api.createRetrofit().create(ExamApi.class)
+                .getMyFaultExamPaper(id, jsonObject.toString())).execute(callBack);
+    }
+
+    @NonNull
+    @Override
     public Subscription getMyCollection(long lastId, IListCallBack<PaperSections> callBack) {
         JSONObject jsonObject = new JSONObject();
         try {

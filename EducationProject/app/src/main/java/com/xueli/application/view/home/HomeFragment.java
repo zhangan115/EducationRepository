@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
@@ -38,10 +39,12 @@ public class HomeFragment extends MvpFragment implements View.OnClickListener, H
 
     private ConvenientBanner convenientBanner;
     private LinearLayout llMessage;
+    private TextView tvNotify;
 
     private List<Integer> localImages;
     private List<StudyMessage> messageList;
     private HomeContract.Presenter mPresenter;
+    private List<StudyMessage> studyMessages;
 
     public static HomeFragment newInstance() {
         Bundle args = new Bundle();
@@ -61,12 +64,13 @@ public class HomeFragment extends MvpFragment implements View.OnClickListener, H
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.home_fragment, container, false);
         convenientBanner = rootView.findViewById(R.id.convenientBanner);
+        tvNotify = rootView.findViewById(R.id.tvNotify);
         localImages = new ArrayList<>();
         messageList = new ArrayList<>();
 
         rootView.findViewById(R.id.tvSignUp).setOnClickListener(this);
         llMessage = rootView.findViewById(R.id.llMessage);
-
+        llMessage.setOnClickListener(this);
         rootView.findViewById(R.id.llSignUpTime).setTag(R.id.tag_id, 1L);
         rootView.findViewById(R.id.llSignUpTime).setTag(R.id.tag_title, "报名时间");
         rootView.findViewById(R.id.llSignUpTime).setOnClickListener(clickListener);
@@ -118,6 +122,15 @@ public class HomeFragment extends MvpFragment implements View.OnClickListener, H
             case R.id.tvSignUp:
                 startActivity(new Intent(getActivity(), EnrolActivity.class));
                 break;
+            case R.id.llMessage:
+                if (studyMessages == null) {
+                    return;
+                }
+                Intent messageIntent = new Intent(getActivity(), MessageDetailActivity.class);
+                messageIntent.putExtra(ConstantStr.KEY_BUNDLE_STR, "通知");
+                messageIntent.putExtra(ConstantStr.KEY_BUNDLE_STR_1, studyMessages.get(0).getDetail());
+                startActivity(messageIntent);
+                break;
         }
     }
 
@@ -147,7 +160,11 @@ public class HomeFragment extends MvpFragment implements View.OnClickListener, H
 
     @Override
     public void showMessageList(List<StudyMessage> list) {
+        studyMessages = list;
         llMessage.setVisibility(View.VISIBLE);
+        if (list.size() > 0) {
+            tvNotify.setText(list.get(0).getTitle());
+        }
     }
 
     @Override

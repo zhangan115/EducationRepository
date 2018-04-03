@@ -5,7 +5,7 @@ public class StudyMessage {
     /**
      * 消息类型 1：视频 2：图片 3：纯文本
      */
-    private String msgType;
+    private int msgType;
     /**
      * 图片  首页广告中用
      */
@@ -13,13 +13,15 @@ public class StudyMessage {
     private String title;
     private String brief;
     private String detail;
+    private String videoUrl;
     private Long id;
+    private int browseCount;
 
-    public String getMsgType() {
+    public int getMsgType() {
         return msgType;
     }
 
-    public void setMsgType(String msgType) {
+    public void setMsgType(int msgType) {
         this.msgType = msgType;
     }
 
@@ -61,5 +63,21 @@ public class StudyMessage {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getVideoUrl() {
+        return videoUrl;
+    }
+
+    public void setVideoUrl(String videoUrl) {
+        this.videoUrl = videoUrl;
+    }
+
+    public int getBrowseCount() {
+        return browseCount;
+    }
+
+    public void setBrowseCount(int browseCount) {
+        this.browseCount = browseCount;
     }
 }
