@@ -8,7 +8,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,23 +17,17 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.library.adapter.VRVAdapter;
 import com.library.utils.SPHelper;
-import com.orhanobut.logger.Logger;
 import com.xueli.application.R;
 import com.xueli.application.app.App;
 import com.xueli.application.common.ConstantStr;
-import com.xueli.application.mode.bean.exam.ExamListBean;
 import com.xueli.application.mode.bean.exam.PaperSectionList;
 import com.xueli.application.mode.bean.exam.PaperSections;
-import com.xueli.application.mode.bean.exam.SectionOption;
 import com.xueli.application.mode.exam.ExamRepository;
-import com.xueli.application.view.BaseActivity;
 import com.xueli.application.view.MvpActivity;
 import com.xueli.application.view.bank.answer.AnswerActivity;
 import com.xueli.application.view.subject.SubjectFragment;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,6 +41,7 @@ public class ExaminationActivity extends MvpActivity<ExaminationContract.Present
     //view
     private ViewPager viewPager;
     private TextView tvOrder, tvCollection;
+    private TextView tvExamState, tvExamScore;
     private ImageView ivCollection;
     private MaterialDialog finishDialog, cancelDialog;
     private RecyclerView subjectRecycleView;
@@ -59,6 +53,7 @@ public class ExaminationActivity extends MvpActivity<ExaminationContract.Present
     private boolean showAnswer, isFaultExam;
     private int currentPosition = -1;
     private String NOTE = "note";
+    private int totalScore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +80,8 @@ public class ExaminationActivity extends MvpActivity<ExaminationContract.Present
         viewPager.setOffscreenPageLimit(4);
         viewPager.addOnPageChangeListener(this);
         tvOrder = findViewById(R.id.tvOrder);
+        tvExamState = findViewById(R.id.tvExamState);
+        tvExamScore = findViewById(R.id.tvExamScore);
         ivCollection = findViewById(R.id.ivCollection);
         tvCollection = findViewById(R.id.tvCollection);
         subjectRecycleView = findViewById(R.id.recycleSubject);
@@ -128,6 +125,7 @@ public class ExaminationActivity extends MvpActivity<ExaminationContract.Present
             mPresenter.getPaperSections(examId);
         } else if (isFaultExam) {
             currentPosition = 0;
+            findViewById(R.id.llExamState).setVisibility(View.GONE);
             mPresenter.getFaultExamPaperSections(examId);
         } else {
             viewPager.setAdapter(new Adapter(getSupportFragmentManager()));
@@ -149,7 +147,6 @@ public class ExaminationActivity extends MvpActivity<ExaminationContract.Present
         getMenuInflater().inflate(R.menu.submit_examination, menu);
         return !showAnswer;
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -175,7 +172,7 @@ public class ExaminationActivity extends MvpActivity<ExaminationContract.Present
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.llCollection:
-                if (!datas.get(currentPosition).isCollect()) {
+                if (!datas.get(currentPosition).isCollect() && datas.get(currentPosition).getId() != 0) {
                     mPresenter.collectPaper(datas.get(currentPosition).getId()
                             , App.getInstance().getCurrentUser().getId());
                 }
@@ -217,6 +214,8 @@ public class ExaminationActivity extends MvpActivity<ExaminationContract.Present
         }
         String str = (position + 1) + "/" + datas.size() + "题序";
         tvOrder.setText(str);
+        tvExamState.setText(String.valueOf(position + 1) + "/" + datas.size());
+        tvExamScore.setText("本题" + datas.get(position).getScore() + "分,共" + totalScore + "分");
     }
 
     @Override
@@ -285,6 +284,7 @@ public class ExaminationActivity extends MvpActivity<ExaminationContract.Present
         intent.putParcelableArrayListExtra(ConstantStr.KEY_BUNDLE_LIST, datas);
         intent.putParcelableArrayListExtra(ConstantStr.KEY_BUNDLE_LIST_1, examListBeans);
         startActivity(intent);
+        finish();
     }
 
     @Override
@@ -292,6 +292,9 @@ public class ExaminationActivity extends MvpActivity<ExaminationContract.Present
         datas.clear();
         datas.addAll(list);
         viewPager.setAdapter(new Adapter(getSupportFragmentManager()));
+        for (int i = 0; i < list.size(); i++) {
+            totalScore = totalScore + list.get(i).getScore();
+        }
         bottomDataChange(0);
     }
 

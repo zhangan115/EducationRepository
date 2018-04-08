@@ -25,6 +25,33 @@
                     android:layout_height="8dp"
                     android:background="@color/colorBackgroundGray" />
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorWhite"
+                    android:id="@+id/llExamState"
+                    android:orientation="horizontal"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="15dp"
+                    android:paddingTop="10dp">
+
+                    <TextView
+                        android:id="@+id/tvExamState"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:textColor="@color/text_blue"
+                        android:textSize="12dp" />
+
+                    <TextView
+                        android:id="@+id/tvExamScore"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/text_gray_999"
+                        android:textSize="12dp" />
+                </LinearLayout>
+
+
                 <android.support.v4.view.ViewPager
                     android:id="@+id/view_pager"
                     android:layout_width="match_parent"
@@ -111,7 +138,6 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_marginLeft="8dp"
-                            android:text="1/12题序"
                             android:textColor="@color/text_gray_333"
                             android:textSize="14dp" />
                     </LinearLayout>

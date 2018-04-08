@@ -15,9 +15,8 @@ public class InputTypeLayout extends LinearLayout {
 
     private TextView choose;
     private EditText content;
-    private Context context;
     private SectionOption mOption;
-    private String position;
+    private int position;
     private IEnter iEnter;
 
     public InputTypeLayout(Context context) {
@@ -26,17 +25,16 @@ public class InputTypeLayout extends LinearLayout {
     }
 
     private void init(Context context) {
-        this.context = context;
         inflate(context, R.layout.input_type_layout, this);
         choose = findViewById(R.id.tvChoose);
         content = findViewById(R.id.tvContent);
     }
 
-    public void setData(final SectionOption option, String position, IEnter enter) {
+    public void setData(final SectionOption option, int position, IEnter enter) {
         this.mOption = option;
         this.position = position;
         this.iEnter = enter;
-        choose.setText(position);
+        choose.setText(String.valueOf(position + 1));
         content.setText(option.getValue());
         if (enter == null) {
             content.setEnabled(false);
@@ -56,22 +54,24 @@ public class InputTypeLayout extends LinearLayout {
             public void afterTextChanged(Editable s) {
                 if (iEnter == null) return;
                 try {
-                    boolean isFinish = !TextUtils.isEmpty(s.toString());
                     String value = s.toString().trim();
                     if (TextUtils.isEmpty(mOption.getValue()) && !TextUtils.isEmpty(value)) {
                         mOption.setValue(value);
                         if (mOption.getOptSta() && !TextUtils.isEmpty(mOption.getOptVal())) {
-                            iEnter.onEnter(isFinish, mOption.getValue().equals(mOption.getOptVal()));
+                            iEnter.onEnter();
                         } else {
-                            iEnter.onEnter(isFinish, false);
+                            iEnter.onEnter();
                         }
                     } else {
+                        if (TextUtils.isEmpty(value)) {
+                            return;
+                        }
                         if (!mOption.getValue().equals(value)) {
                             mOption.setValue(value);
                             if (mOption.getOptSta() && !TextUtils.isEmpty(mOption.getOptVal())) {
-                                iEnter.onEnter(isFinish, mOption.getValue().equals(mOption.getOptVal()));
+                                iEnter.onEnter();
                             } else {
-                                iEnter.onEnter(isFinish, false);
+                                iEnter.onEnter();
                             }
                         }
                     }
@@ -83,6 +83,6 @@ public class InputTypeLayout extends LinearLayout {
     }
 
     public interface IEnter {
-        void onEnter(boolean isFinish, boolean isRight);
+        void onEnter();
     }
 }

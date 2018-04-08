@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.Html;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -84,7 +85,15 @@ public class SubjectFragment extends MvpFragment implements SingleChooseTypeLayo
         TextView tvQuestion = rootView.findViewById(R.id.tvQuestion);
         TextView tvAnswer = rootView.findViewById(R.id.tvAnswer);
         LinearLayout llOptions = rootView.findViewById(R.id.llOptions);
-        tvSectionType.setText(paperSections.getPaperSectionTitle());
+        if (paperSections.getFlag() == 1) {
+            tvSectionType.setText("填空题");
+        } else if (paperSections.getFlag() == 2) {
+            tvSectionType.setText("选择题");
+        } else if (paperSections.getFlag() == 3) {
+            tvSectionType.setText("多选题");
+        } else if (paperSections.getFlag() == 4) {
+            tvSectionType.setText("判断题");
+        }
         tvQuestion.setText(Html.fromHtml(paperSections.getQuestion()));
         Type type = new TypeToken<List<SectionOption>>() {
         }.getType();
@@ -115,7 +124,7 @@ public class SubjectFragment extends MvpFragment implements SingleChooseTypeLayo
         if (paperSections.getFlag() == 1) {//填空题
             for (int i = 0; i < sectionOptions.size(); i++) {
                 InputTypeLayout typeLayout = new InputTypeLayout(getActivity());
-                typeLayout.setData(sectionOptions.get(i), String.valueOf((i + 1)), showAnswer ? null : this);
+                typeLayout.setData(sectionOptions.get(i), i, showAnswer ? null : this);
                 inputTypeLayouts.add(typeLayout);
                 llOptions.addView(typeLayout);
             }
@@ -190,12 +199,24 @@ public class SubjectFragment extends MvpFragment implements SingleChooseTypeLayo
     }
 
     @Override
-    public void onEnter(boolean isFinish, boolean isRight) {
+    public void onEnter() {
         if (dataChange == null) {
             return;
         }
-        paperSections.setbResult(isRight);
-        dataChange.onDataChange(paperSections, this.position, isFinish);
+        int rightCount = 0;
+        int finishCount = 0;
+        for (int i = 0; i < sectionOptions.size(); i++) {
+            if (!TextUtils.isEmpty(sectionOptions.get(i).getValue())) {
+                finishCount++;
+            }
+            if (sectionOptions.get(i).getOptSta() && sectionOptions.get(i).getValue()
+                    .equals(sectionOptions.get(i).getOptVal())) {
+                rightCount++;
+            }
+        }
+        paperSections.setbResult(rightCount == sectionOptions.size());
+        dataChange.onDataChange(paperSections, this.position
+                , finishCount == sectionOptions.size());
     }
 
 }

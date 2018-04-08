@@ -8,6 +8,7 @@ import com.xueli.application.mode.bean.study.StudyMessage;
 import com.xueli.application.mode.callback.IListCallBack;
 import com.xueli.application.mode.study.StudyDataSource;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import rx.subscriptions.CompositeSubscription;
@@ -38,6 +39,37 @@ class HomePresenter implements HomeContract.Presenter {
             @Override
             public void onData(@NonNull List<StudyMessage> list) {
                 mView.showHeaderAd(list);
+            }
+
+            @Override
+            public void onError(@Nullable String message) {
+                mView.showMessage(message);
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+
+            @Override
+            public void noData() {
+                mView.noHeaderAd();
+            }
+        }));
+    }
+
+    @Override
+    public void getHot() {
+        subscription.add(mDataSource.getStudyList(7, new IListCallBack<StudyMessage>() {
+
+            @Override
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onData(@NonNull List<StudyMessage> list) {
+                mView.showHot(new ArrayList<>(list));
             }
 
             @Override

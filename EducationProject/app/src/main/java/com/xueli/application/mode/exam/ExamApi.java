@@ -51,7 +51,7 @@ public interface ExamApi {
     Observable<Bean<List<FaultExam>>> getMyFaultExam(@Query("accountId") long accountId, @Body() String string);
 
     @Headers({"Content-Type:application/json;charset=utf-8", "Accept:application/json;"})
-    @POST("api/examed/examedQuestion")
+    @POST("api/examed/list")
     Observable<Bean<List<PaperSections>>> getMyFaultExamPaper(@Query("examedPaperId") long examedPaperId, @Body() String string);
 
     @Headers({"Content-Type:application/json;charset=utf-8", "Accept:application/json;"})

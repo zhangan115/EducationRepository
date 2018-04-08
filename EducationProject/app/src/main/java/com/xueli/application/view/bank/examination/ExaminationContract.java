@@ -24,7 +24,6 @@ interface ExaminationContract {
         void collectPaper(long paperQuestionId, long accountId);
 
         void uploadData(List<PaperSections> list);
-
     }
 
     interface View extends BaseView<Presenter> {

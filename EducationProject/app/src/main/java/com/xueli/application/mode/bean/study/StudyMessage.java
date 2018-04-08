@@ -1,6 +1,9 @@
 package com.xueli.application.mode.bean.study;
 
-public class StudyMessage {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class StudyMessage implements Parcelable{
 
     /**
      * 消息类型 1：视频 2：图片 3：纯文本
@@ -80,4 +83,47 @@ public class StudyMessage {
     public void setBrowseCount(int browseCount) {
         this.browseCount = browseCount;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.msgType);
+        dest.writeString(this.firstPic);
+        dest.writeString(this.title);
+        dest.writeString(this.brief);
+        dest.writeString(this.detail);
+        dest.writeString(this.videoUrl);
+        dest.writeValue(this.id);
+        dest.writeInt(this.browseCount);
+    }
+
+    public StudyMessage() {
+    }
+
+    protected StudyMessage(Parcel in) {
+        this.msgType = in.readInt();
+        this.firstPic = in.readString();
+        this.title = in.readString();
+        this.brief = in.readString();
+        this.detail = in.readString();
+        this.videoUrl = in.readString();
+        this.id = (Long) in.readValue(Long.class.getClassLoader());
+        this.browseCount = in.readInt();
+    }
+
+    public static final Creator<StudyMessage> CREATOR = new Creator<StudyMessage>() {
+        @Override
+        public StudyMessage createFromParcel(Parcel source) {
+            return new StudyMessage(source);
+        }
+
+        @Override
+        public StudyMessage[] newArray(int size) {
+            return new StudyMessage[size];
+        }
+    };
 }

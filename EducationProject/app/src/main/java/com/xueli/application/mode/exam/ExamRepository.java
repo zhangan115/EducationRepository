@@ -116,6 +116,7 @@ public class ExamRepository implements ExamDataSource {
                 .execute(callBack);
     }
 
+    @NonNull
     @Override
     public Subscription getMyFaultExam(IListCallBack<FaultExam> callBack) {
         JSONObject jsonObject = new JSONObject();
@@ -180,7 +181,8 @@ public class ExamRepository implements ExamDataSource {
                 , String.valueOf(App.getInstance().getCurrentUser().getId())
                 , data);
         Logger.d(uploadData.getUploadJson());
-        return new ApiCallBackObject1<>(Api.createRetrofit().create(ExamApi.class).uploadData(uploadData.getUploadJson()))
+        return new ApiCallBackObject1<>(Api.createRetrofit().create(ExamApi.class)
+                .uploadData(uploadData.getUploadJson()))
                 .execute(callBack);
     }
 }

@@ -46,7 +46,8 @@ import java.util.TimeZone;
  * Created by pingan on 2018/3/25.
  */
 
-public class ErrorSubjectActivity extends MvpActivity<ErrorSubjectContract.Presenter> implements ErrorSubjectContract.View, SwipeRefreshLayout.OnRefreshListener {
+public class ErrorSubjectActivity extends MvpActivity<ErrorSubjectContract.Presenter> implements ErrorSubjectContract.View
+        , SwipeRefreshLayout.OnRefreshListener {
 
     private RecycleRefreshLoadLayout refreshLoadLayout;
     private ExpendRecycleView expendRecycleView;

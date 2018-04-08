@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +18,7 @@ import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
 import com.bigkoo.convenientbanner.holder.Holder;
 import com.bigkoo.convenientbanner.listener.OnItemClickListener;
+import com.library.utils.DisplayUtil;
 import com.library.utils.GlideUtils;
 import com.xueli.application.R;
 import com.xueli.application.app.App;
@@ -24,8 +27,10 @@ import com.xueli.application.mode.bean.study.StudyMessage;
 import com.xueli.application.mode.study.StudyRepository;
 import com.xueli.application.view.MvpFragment;
 import com.xueli.application.view.enrol.EnrolActivity;
+import com.xueli.application.view.home.hot.HotListActivity;
 import com.xueli.application.view.study.StudyListActivity;
 import com.xueli.application.view.web.MessageDetailActivity;
+import com.xueli.application.widget.HotItemLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +50,7 @@ public class HomeFragment extends MvpFragment implements View.OnClickListener, H
     private List<StudyMessage> messageList;
     private HomeContract.Presenter mPresenter;
     private List<StudyMessage> studyMessages;
+    private LinearLayout llHot;
 
     public static HomeFragment newInstance() {
         Bundle args = new Bundle();
@@ -110,6 +116,8 @@ public class HomeFragment extends MvpFragment implements View.OnClickListener, H
         rootView.findViewById(R.id.llComputerTrain).setTag(R.id.tag_id, 6L);
         rootView.findViewById(R.id.llComputerTrain).setTag(R.id.tag_title, "计算机培训");
         rootView.findViewById(R.id.llComputerTrain).setOnClickListener(studyClick);
+
+        llHot = rootView.findViewById(R.id.llHot);
         noHeaderAd();
         mPresenter.getHeaderAd();
         mPresenter.getMessage();
@@ -156,6 +164,40 @@ public class HomeFragment extends MvpFragment implements View.OnClickListener, H
             }
         }, messageList).setPageIndicator(new int[]{R.drawable.shape_circle_blue, R.drawable.shape_circle_whit})
                 .setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.CENTER_HORIZONTAL);
+    }
+
+    @Override
+    public void showHot(final ArrayList<StudyMessage> list) {
+        for (int i = 0; i < list.size(); i++) {
+            if (i == 3) {
+                break;
+            }
+            HotItemLayout layout = new HotItemLayout(getActivity());
+            layout.setData(list.get(i).getTitle());
+            layout.setTag(R.id.tag_title, list.get(i).getTitle());
+            layout.setTag(R.id.tag_id, list.get(i).getDetail());
+            layout.setOnClickListener(hotClick);
+            llHot.addView(layout);
+        }
+        if (list.size() > 3) {
+            TextView textView = new TextView(getActivity());
+            textView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            textView.setGravity(Gravity.CENTER);
+            textView.setPadding(0, DisplayUtil.dip2px(getActivity(), 10), 0, DisplayUtil.dip2px(getActivity(), 10));
+            textView.setText("更多资讯");
+            textView.setTextColor(findColorById(R.color.text_blue));
+            textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15f);
+            textView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getActivity(), HotListActivity.class);
+                    intent.putParcelableArrayListExtra(ConstantStr.KEY_BUNDLE_LIST, list);
+                    startActivity(intent);
+                }
+            });
+            llHot.addView(textView);
+        }
+
     }
 
     @Override
@@ -274,6 +316,18 @@ public class HomeFragment extends MvpFragment implements View.OnClickListener, H
             intent.putExtra(ConstantStr.KEY_BUNDLE_LONG, id);
             intent.putExtra(ConstantStr.KEY_BUNDLE_STR, title);
             startActivity(intent);
+        }
+    };
+
+    View.OnClickListener hotClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Intent messageIntent = new Intent(getActivity(), MessageDetailActivity.class);
+            String title = (String) v.getTag(R.id.tag_title);
+            String content = (String) v.getTag(R.id.tag_id);
+            messageIntent.putExtra(ConstantStr.KEY_BUNDLE_STR, title);
+            messageIntent.putExtra(ConstantStr.KEY_BUNDLE_STR_1, content);
+            startActivity(messageIntent);
         }
     };
 }

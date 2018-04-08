@@ -14,6 +14,13 @@ public class SectionOption implements Parcelable {
     private boolean choose;
     private String value;
 
+    public SectionOptionClone cloneSection() {
+        SectionOptionClone option = new SectionOptionClone();
+        option.setOptSta(optSta);
+        option.setOptVal(optVal);
+        return option;
+    }
+
     public boolean getOptSta() {
         return optSta;
     }
