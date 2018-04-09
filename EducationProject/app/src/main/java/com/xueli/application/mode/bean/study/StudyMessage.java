@@ -19,6 +19,7 @@ public class StudyMessage implements Parcelable{
     private String videoUrl;
     private Long id;
     private int browseCount;
+    private String createTimeStr;
 
     public int getMsgType() {
         return msgType;
@@ -84,6 +85,17 @@ public class StudyMessage implements Parcelable{
         this.browseCount = browseCount;
     }
 
+    public String getCreateTimeStr() {
+        return createTimeStr;
+    }
+
+    public void setCreateTimeStr(String createTimeStr) {
+        this.createTimeStr = createTimeStr;
+    }
+
+    public StudyMessage() {
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -99,9 +111,7 @@ public class StudyMessage implements Parcelable{
         dest.writeString(this.videoUrl);
         dest.writeValue(this.id);
         dest.writeInt(this.browseCount);
-    }
-
-    public StudyMessage() {
+        dest.writeString(this.createTimeStr);
     }
 
     protected StudyMessage(Parcel in) {
@@ -113,6 +123,7 @@ public class StudyMessage implements Parcelable{
         this.videoUrl = in.readString();
         this.id = (Long) in.readValue(Long.class.getClassLoader());
         this.browseCount = in.readInt();
+        this.createTimeStr = in.readString();
     }
 
     public static final Creator<StudyMessage> CREATOR = new Creator<StudyMessage>() {

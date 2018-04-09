@@ -27,11 +27,16 @@ public class MessageDetailActivity extends WebActivity implements MessageDetailC
         }
         setLayoutAndToolbar(R.layout.message_detail_activity, title);
         webView = findViewById(R.id.web_view);
-        new MessageDetailPresenter(StudyRepository.getRepository(this), this);
-        if (TextUtils.isEmpty(content)) {
-            mPresenter.getUrl(id);
+        boolean requestUrl = getIntent().getBooleanExtra(ConstantStr.KEY_BUNDLE_BOOLEAN, false);
+        if (requestUrl) {
+            loadUrl(webView, content);
         } else {
-            showUrl(content);
+            new MessageDetailPresenter(StudyRepository.getRepository(this), this);
+            if (TextUtils.isEmpty(content)) {
+                mPresenter.getUrl(id);
+            } else {
+                showUrl(content);
+            }
         }
     }
 

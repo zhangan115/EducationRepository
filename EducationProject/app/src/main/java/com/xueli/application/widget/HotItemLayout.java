@@ -22,8 +22,8 @@ public class HotItemLayout extends LinearLayout {
         tvTime = findViewById(R.id.tvTime);
     }
 
-    public void setData(String title) {
+    public void setData(String title, String time) {
         tvTitle.setText(title);
-        tvTime.setVisibility(GONE);
+        tvTime.setText(time);
     }
 }

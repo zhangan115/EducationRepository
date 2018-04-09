@@ -31,6 +31,7 @@ import com.xueli.application.view.home.hot.HotListActivity;
 import com.xueli.application.view.study.StudyListActivity;
 import com.xueli.application.view.web.MessageDetailActivity;
 import com.xueli.application.widget.HotItemLayout;
+import com.xueli.application.widget.marqueeText;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +45,7 @@ public class HomeFragment extends MvpFragment implements View.OnClickListener, H
 
     private ConvenientBanner convenientBanner;
     private LinearLayout llMessage;
-    private TextView tvNotify;
+    private marqueeText tvNotify;
 
     private List<Integer> localImages;
     private List<StudyMessage> messageList;
@@ -67,7 +68,7 @@ public class HomeFragment extends MvpFragment implements View.OnClickListener, H
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull final LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.home_fragment, container, false);
         convenientBanner = rootView.findViewById(R.id.convenientBanner);
         tvNotify = rootView.findViewById(R.id.tvNotify);
@@ -107,7 +108,16 @@ public class HomeFragment extends MvpFragment implements View.OnClickListener, H
 
         rootView.findViewById(R.id.llEducationQuery).setTag(R.id.tag_id, 8L);
         rootView.findViewById(R.id.llEducationQuery).setTag(R.id.tag_title, "学历查询");
-        rootView.findViewById(R.id.llEducationQuery).setOnClickListener(clickListener);
+        rootView.findViewById(R.id.llEducationQuery).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), MessageDetailActivity.class);
+                intent.putExtra(ConstantStr.KEY_BUNDLE_BOOLEAN, true);
+                intent.putExtra(ConstantStr.KEY_BUNDLE_STR_1, "http://www.chsi.com.cn");
+                intent.putExtra(ConstantStr.KEY_BUNDLE_STR, "学历查询");
+                startActivity(intent);
+            }
+        });
 
         rootView.findViewById(R.id.llDegreeEnglish).setTag(R.id.tag_id, 5L);
         rootView.findViewById(R.id.llDegreeEnglish).setTag(R.id.tag_title, "学位英语");
@@ -121,6 +131,7 @@ public class HomeFragment extends MvpFragment implements View.OnClickListener, H
         noHeaderAd();
         mPresenter.getHeaderAd();
         mPresenter.getMessage();
+        mPresenter.getHot();
         return rootView;
     }
 
@@ -173,7 +184,7 @@ public class HomeFragment extends MvpFragment implements View.OnClickListener, H
                 break;
             }
             HotItemLayout layout = new HotItemLayout(getActivity());
-            layout.setData(list.get(i).getTitle());
+            layout.setData(list.get(i).getTitle(), list.get(i).getCreateTimeStr());
             layout.setTag(R.id.tag_title, list.get(i).getTitle());
             layout.setTag(R.id.tag_id, list.get(i).getDetail());
             layout.setOnClickListener(hotClick);

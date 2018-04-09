@@ -50,6 +50,39 @@ public class WebActivity extends BaseActivity {
         webView.loadDataWithBaseURL(null, htmlStr, "text/html", "utf-8", null);
     }
 
+
+    protected void loadUrl(WebView webView, String url) {
+        this.webView = webView;
+        WebSettings ws = webView.getSettings();
+        ws.setJavaScriptEnabled(true); // 设置支持javascript脚本
+        ws.setAllowFileAccess(true); // 允许访问文件
+        ws.setBuiltInZoomControls(true); // 设置显示缩放按钮
+        ws.setSupportZoom(true); // 支持缩放 <span style="color:#337fe5;"> /**
+        // * 用WebView显示图片，可使用这个参数
+        // * 设置网页布局类型：
+        // * 1、LayoutAlgorithm.NARROW_COLUMNS ： 适应内容大小
+        // * 2、LayoutAlgorithm.SINGLE_COLUMN:适应屏幕，内容将自动缩放
+        // */
+        ws.setUseWideViewPort(true);
+        ws.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+        ws.setLoadWithOverviewMode(true);
+        ws.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
+        ws.setDefaultTextEncodingName("utf-8"); // 设置文本编码
+        ws.setAppCacheEnabled(true);
+        ws.setCacheMode(WebSettings.LOAD_DEFAULT);// 设置缓存模式</span>
+        //添加Javascript调用java对象
+        webView.setWebViewClient(new WebViewClientDemo());
+        webView.setWebChromeClient(new WebViewChromeClientDemo());
+        // 设置打开的网页
+        // webView.loadUrl("http://orgcent.com");
+        // 使用WebView来显示图片
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            ws.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+        }
+        webView.getSettings().setUseWideViewPort(true);
+        webView.loadUrl(url);
+    }
+
     private class WebViewClientDemo extends WebViewClient {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {

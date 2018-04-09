@@ -109,7 +109,8 @@ public class StudyListFragment extends LazyLoadFragment implements RecycleRefres
                     frameImage.setVisibility(View.GONE);
                 }
                 tvLearnTitle.setText(data.getTitle());
-                tvLearnFrom.setVisibility(View.GONE);
+                tvLearnFrom.setVisibility(View.VISIBLE);
+                tvLearnFrom.setText(data.getCreateTimeStr());
                 tvReadCounts.setText(data.getBrowseCount() + " 浏览");
             }
         };

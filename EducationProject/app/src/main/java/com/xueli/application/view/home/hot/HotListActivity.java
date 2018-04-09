@@ -33,6 +33,7 @@ public class HotListActivity extends BaseActivity {
                 TextView title = (TextView) vHolder.getView(R.id.tvTitle);
                 TextView time = (TextView) vHolder.getView(R.id.tvTime);
                 title.setText(data.getTitle());
+                time.setText(data.getCreateTimeStr());
 
             }
         };
