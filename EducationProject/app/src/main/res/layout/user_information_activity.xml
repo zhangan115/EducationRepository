@@ -67,7 +67,7 @@
                     android:id="@+id/ivUserPhoto"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
-                    android:src="@drawable/img_avatar" />
+                    android:src="@drawable/img_avatar_default" />
 
                 <ImageView
                     android:layout_width="wrap_content"
