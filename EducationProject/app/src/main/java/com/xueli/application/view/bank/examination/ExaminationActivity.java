@@ -3,6 +3,7 @@ package com.xueli.application.view.bank.examination;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -16,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.library.utils.SPHelper;
 import com.xueli.application.R;
@@ -393,4 +395,35 @@ public class ExaminationActivity extends MvpActivity<ExaminationContract.Present
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        new MaterialDialog.Builder(this)
+                .content("是否退出考试?")
+                .negativeText("取消")
+                .positiveText("确定")
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        ExaminationActivity.super.onBackPressed();
+                    }
+                })
+                .build()
+                .show();
+    }
+
+    @Override
+    public void toolBarClick() {
+        new MaterialDialog.Builder(this)
+                .content("是否退出考试?")
+                .negativeText("取消")
+                .positiveText("确定")
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        ExaminationActivity.super.toolBarClick();
+                    }
+                })
+                .build()
+                .show();
+    }
 }
