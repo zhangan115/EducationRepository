@@ -36,4 +36,8 @@
         <item>1</item>
         <item>0</item>
     </string-array>
+
+
+    <string name="str_choose_camera">拍照</string>
+    <string name="str_choose_photo">相册</string>
 </resources>

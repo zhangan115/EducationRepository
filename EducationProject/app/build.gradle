@@ -61,4 +61,5 @@ dependencies {
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     implementation 'com.aurelhubert:ahbottomnavigation:2.1.0'
     implementation 'com.bigkoo:convenientbanner:2.0.5'
+    implementation 'com.soundcloud.android:android-crop:1.0.1@aar'
 }

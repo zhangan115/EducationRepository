@@ -5,12 +5,16 @@ import com.xueli.application.mode.bean.user.User;
 import com.xueli.application.mode.bean.user.VerificationCode;
 
 
+import java.util.List;
 import java.util.Map;
 
+import okhttp3.MultipartBody;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
 import rx.Observable;
@@ -43,4 +47,14 @@ public interface UserApi {
     @POST("account/reg")
     Observable<Bean<String>> userReg(@QueryMap() Map<String, String> map);
 
+
+    /**
+     * 文件上传
+     *
+     * @param partList 参数
+     * @return 订阅
+     */
+    @POST("api/maccount/image/upload")
+    @Multipart
+    Observable<Bean<List<String>>> postFile(@Part List<MultipartBody.Part> partList);
 }

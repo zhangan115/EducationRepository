@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import com.xueli.application.mode.bean.user.VerificationCode;
 import com.xueli.application.mode.callback.IObjectCallBack;
 
+import java.io.File;
 import java.util.Map;
 
 import rx.Subscription;
@@ -75,4 +76,15 @@ public interface UserDataSource {
 
     @NonNull
     Subscription userReg(Map<String, String> map, IObjectCallBack<String> callBack);
+
+
+    /**
+     * 上传文件
+     *
+     * @param file     文件
+     * @param callBack 回调
+     * @return 订阅
+     */
+    @NonNull
+    Subscription uploadUserPhoto(@NonNull File file, @NonNull final IObjectCallBack<String> callBack);
 }

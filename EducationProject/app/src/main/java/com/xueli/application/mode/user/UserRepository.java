@@ -8,14 +8,18 @@ import android.text.TextUtils;
 
 import com.xueli.application.app.App;
 import com.xueli.application.common.ConstantStr;
+import com.xueli.application.mode.FilePartManager;
 import com.xueli.application.mode.api.Api;
+import com.xueli.application.mode.api.ApiCallBackList;
 import com.xueli.application.mode.api.ApiCallBackObject1;
 import com.xueli.application.mode.bean.Bean;
 import com.xueli.application.mode.bean.user.User;
 import com.xueli.application.mode.bean.user.VerificationCode;
 import com.xueli.application.mode.callback.IObjectCallBack;
 
+import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -145,25 +149,52 @@ public class UserRepository implements UserDataSource {
         return new ApiCallBackObject1<>(observable).execute(callBack);
     }
 
-    private void autoFinish(long startTime, @NonNull final AutoLoginCallBack callBack, final boolean isSuccess) {
-        long finishTime = System.currentTimeMillis();
-        long WELCOME_TIME = 1500;
-        if (finishTime - startTime < WELCOME_TIME) {
-            long waiteTime = WELCOME_TIME - (finishTime - startTime);
-            Observable.just(null).delaySubscription(waiteTime, TimeUnit.MILLISECONDS)
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Action1<Object>() {
-                        @Override
-                        public void call(Object o) {
-                            if (isSuccess) {
-                                callBack.onAutoFinish();
-                            } else {
-                                callBack.onNeedLogin();
-                            }
-                        }
-                    });
-        } else {
-            callBack.onAutoFinish();
-        }
+    @NonNull
+    @Override
+    public Subscription uploadUserPhoto(@NonNull File file, @NonNull final IObjectCallBack<String> callBack) {
+        Observable<Bean<List<String>>> observable = Api.createRetrofit().create(UserApi.class)
+                .postFile(FilePartManager.getPostFileParts(sp.getString(ConstantStr.TOKEN, ""),file));
+        return new ApiCallBackList<String>(observable) {
+            @Override
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onData(List<String> strings) {
+                callBack.onData(strings.get(0));
+            }
+
+            @Override
+            public void onFail(@NonNull String message) {
+                callBack.onError(message);
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+
+            @Override
+            public void noData() {
+
+            }
+        }.execute().subscribe(new Subscriber<List<String>>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onNext(List<String> strings) {
+
+            }
+        });
     }
+
 }
