@@ -9,6 +9,7 @@ import com.xueli.application.common.ConstantStr;
 import com.xueli.application.mode.api.Api;
 import com.xueli.application.mode.api.ApiCallBackList1;
 import com.xueli.application.mode.api.ApiCallBackObject1;
+import com.xueli.application.mode.bean.user.User;
 import com.xueli.application.mode.callback.IListCallBack;
 import com.xueli.application.mode.callback.IObjectCallBack;
 import com.xueli.application.mode.enrol.bean.MajorBean;
@@ -66,7 +67,7 @@ public class EnrolRepository implements EnrolDataSource {
 
     @NonNull
     @Override
-    public Subscription uploadData(JSONObject jsonObject, IObjectCallBack<String> callBack) {
+    public Subscription uploadData(JSONObject jsonObject, IObjectCallBack<User> callBack) {
         try {
             jsonObject.put("token", sp.getString(ConstantStr.TOKEN, ""));
             jsonObject.put("accountId", App.getInstance().getCurrentUser().getId());

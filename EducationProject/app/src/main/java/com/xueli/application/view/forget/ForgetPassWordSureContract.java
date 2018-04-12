@@ -16,9 +16,9 @@ public interface ForgetPassWordSureContract {
 
         void showMessage(String message);
 
-        void chengeSuccess();
+        void changeSuccess();
 
-        void changeFail();
+        void changeFail(String str);
 
     }
 }

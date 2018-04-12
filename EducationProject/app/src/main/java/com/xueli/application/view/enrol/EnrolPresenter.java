@@ -3,6 +3,7 @@ package com.xueli.application.view.enrol;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.xueli.application.mode.bean.user.User;
 import com.xueli.application.mode.callback.IListCallBack;
 import com.xueli.application.mode.callback.IObjectCallBack;
 import com.xueli.application.mode.enrol.EnrolDataSource;
@@ -99,14 +100,14 @@ class EnrolPresenter implements EnrolContract.Presenter {
 
     @Override
     public void uploadData(JSONObject jsonObject) {
-        subscription.add(mDataSource.uploadData(jsonObject, new IObjectCallBack<String>() {
+        subscription.add(mDataSource.uploadData(jsonObject, new IObjectCallBack<User>() {
             @Override
             public void onSuccess() {
                 mView.uploadSuccess();
             }
 
             @Override
-            public void onData(@NonNull String s) {
+            public void onData(@NonNull User s) {
 
             }
 

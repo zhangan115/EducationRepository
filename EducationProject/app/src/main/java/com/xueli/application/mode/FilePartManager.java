@@ -18,11 +18,10 @@ import okhttp3.RequestBody;
 
 public class FilePartManager {
 
-    public static List<MultipartBody.Part> getPostFileParts(String token, @NonNull File file) {
+    public static List<MultipartBody.Part> getPostFileParts(@NonNull File file) {
         MultipartBody.Builder builder = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
-                .addFormDataPart("accountId", String.valueOf(App.getInstance().getCurrentUser().getId()))
-                .addFormDataPart("token", token);
+                .addFormDataPart("accountId", String.valueOf(App.getInstance().getCurrentUser().getId()));
         RequestBody requestFile =
                 RequestBody.create(MediaType.parse("multipart/form-data"), file);
         builder.addFormDataPart("file", file.getName(), requestFile);

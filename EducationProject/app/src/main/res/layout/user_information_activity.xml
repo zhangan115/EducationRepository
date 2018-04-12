@@ -90,21 +90,23 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="0dp"
+                    android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="15dp"
-                    android:layout_weight="1"
                     android:text="昵称"
                     android:textColor="@color/text_gray_333"
                     android:textSize="14dp" />
 
-                <TextView
-                    android:id="@+id/tvUserNickName"
-                    android:layout_width="wrap_content"
+                <EditText
+                    android:id="@+id/etUserNickName"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginRight="15dp"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:gravity="right"
                     android:textColor="@color/text_gray_333"
                     android:textSize="14dp" />
             </LinearLayout>
@@ -137,22 +139,24 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="0dp"
+                    android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="15dp"
-                    android:layout_weight="1"
+
                     android:text="真实姓名"
                     android:textColor="@color/text_gray_333"
                     android:textSize="14dp" />
 
-                <TextView
-                    android:id="@+id/tvUserName"
-                    android:layout_width="wrap_content"
+                <EditText
+                    android:id="@+id/etUserName"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginRight="15dp"
-                    android:text="张杰"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:gravity="right"
                     android:textColor="@color/text_gray_333"
                     android:textSize="14dp" />
             </LinearLayout>
@@ -169,22 +173,23 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="0dp"
+                    android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="15dp"
-                    android:layout_weight="1"
                     android:text="身份证号"
                     android:textColor="@color/text_gray_333"
                     android:textSize="14dp" />
 
-                <TextView
-                    android:id="@+id/tvUserNum"
-                    android:layout_width="wrap_content"
+                <EditText
+                    android:id="@+id/etUserNum"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginRight="15dp"
-                    android:text="440"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:gravity="right"
                     android:textColor="@color/text_gray_333"
                     android:textSize="14dp" />
             </LinearLayout>
@@ -201,22 +206,22 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="0dp"
+                    android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="15dp"
-                    android:layout_weight="1"
                     android:text="出生年月"
                     android:textColor="@color/text_gray_333"
                     android:textSize="14dp" />
 
                 <TextView
                     android:id="@+id/tvUserData"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginRight="15dp"
-                    android:text="1984-11-05"
+                    android:layout_weight="1"
+                    android:gravity="right"
                     android:textColor="@color/text_gray_333"
                     android:textSize="14dp" />
             </LinearLayout>
@@ -248,7 +253,6 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginRight="15dp"
-                    android:text="男"
                     android:textColor="@color/text_gray_333"
                     android:textSize="14dp" />
             </LinearLayout>
@@ -257,6 +261,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="1px"
                 android:background="@color/color_division" />
+
+            <Button
+                android:id="@+id/btnSure"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/btn_blue"
+                android:text="确定"
+                android:textColor="@color/colorWhite"
+                android:textSize="16dp" />
         </LinearLayout>
 
     </ScrollView>

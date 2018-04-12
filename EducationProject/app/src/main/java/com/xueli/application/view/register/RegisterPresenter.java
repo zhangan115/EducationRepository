@@ -27,7 +27,6 @@ class RegisterPresenter implements RegisterContract.Presenter {
         this.mView = mView;
         mView.setPresenter(this);
     }
-
     private boolean isCountDown = false;
 
     @Override
@@ -42,7 +41,6 @@ class RegisterPresenter implements RegisterContract.Presenter {
             @Override
             public void onData(@NonNull VerificationCode s) {
                 mView.sendCodeSuccess();
-                startCountDown();
             }
 
             @Override

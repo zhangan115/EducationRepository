@@ -2,6 +2,7 @@ package com.xueli.application.mode.enrol;
 
 import android.support.annotation.NonNull;
 
+import com.xueli.application.mode.bean.user.User;
 import com.xueli.application.mode.callback.IListCallBack;
 import com.xueli.application.mode.callback.IObjectCallBack;
 import com.xueli.application.mode.enrol.bean.MajorBean;
@@ -20,5 +21,5 @@ public interface EnrolDataSource {
     Subscription getMajorList(Long schoolId, IListCallBack<MajorBean> callBack);
 
     @NonNull
-    Subscription uploadData(JSONObject jsonObject, IObjectCallBack<String> callBack);
+    Subscription uploadData(JSONObject jsonObject, IObjectCallBack<User> callBack);
 }

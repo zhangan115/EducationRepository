@@ -1,6 +1,7 @@
 package com.xueli.application.mode.enrol;
 
 import com.xueli.application.mode.bean.Bean;
+import com.xueli.application.mode.bean.user.User;
 import com.xueli.application.mode.enrol.bean.MajorBean;
 import com.xueli.application.mode.enrol.bean.SchoolBean;
 
@@ -22,10 +23,8 @@ public interface EnrolApi {
     @POST("api/specialtyCatalog/list")
     Observable<Bean<List<MajorBean>>> getMajorList(@Query("schoolId") Long schoolId, @Body() String string);
 
-
     @Headers({"Content-Type:application/json;charset=utf-8", "Accept:application/json;"})
     @POST("api/maccount/signup")
-    Observable<Bean<String>> uploadData(@Body() String string);
-
+    Observable<Bean<User>> uploadData(@Body() String string);
 
 }

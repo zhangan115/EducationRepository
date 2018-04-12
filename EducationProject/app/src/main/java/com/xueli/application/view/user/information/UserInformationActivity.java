@@ -5,18 +5,27 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.library.utils.GlideUtils;
+import com.library.utils.IdcardUtils;
 import com.library.utils.PhotoUtils;
 import com.soundcloud.android.crop.Crop;
 import com.xueli.application.R;
 import com.xueli.application.app.App;
+import com.xueli.application.mode.bean.user.User;
 import com.xueli.application.mode.user.UserRepository;
 import com.xueli.application.view.MvpActivity;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 
@@ -32,16 +41,75 @@ public class UserInformationActivity extends MvpActivity<UserInformationContract
     private static final int ACTION_START_CAMERA = 100;
     private static final int ACTION_START_PHOTO = 101;
     private ImageView ivUserPhoto;
+    private JSONObject jsonObject;
+    private TextView tvUserData;
+    private TextView tvUserGender;
+    private EditText etUserNum;
+    private EditText etUserNickName, etUserName;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setLayoutAndToolbar(R.layout.user_information_activity, "个人信息");
+        jsonObject = new JSONObject();
         ivUserPhoto = findViewById(R.id.ivUserPhoto);
-        GlideUtils.ShowImage(this, App.getInstance().getCurrentUser().getHeadImage(), ivUserPhoto, R.drawable.img_avatar);
-        TextView tvUserNickName = findViewById(R.id.tvUserNickName);
-        tvUserNickName.setText(App.getInstance().getCurrentUser().getAccountName());
+        user = App.getInstance().getCurrentUser();
+        GlideUtils.ShowCircleImage(this, user.getHeadImage(), ivUserPhoto, R.drawable.img_avatar_default);
+        etUserNickName = findViewById(R.id.etUserNickName);
+        if (!TextUtils.isEmpty(user.getUserName())) {
+            etUserNickName.setText(user.getUserName());
+        }
+        etUserName = findViewById(R.id.etUserName);
+        if (!TextUtils.isEmpty(user.getRealName())) {
+            etUserName.setText(user.getRealName());
+        }
         findViewById(R.id.ivUserPhoto).setOnClickListener(this);
+        findViewById(R.id.btnSure).setOnClickListener(this);
+        etUserNum = findViewById(R.id.etUserNum);
+        tvUserData = findViewById(R.id.tvUserData);
+        tvUserGender = findViewById(R.id.tvUserGender);
+        etUserNum.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (IdcardUtils.validateCard(s.toString())) {
+                    Short yyyy = IdcardUtils.getYearByIdCard(s.toString());
+                    Short mm = IdcardUtils.getMonthByIdCard(s.toString());
+                    Short dd = IdcardUtils.getDateByIdCard(s.toString());
+                    StringBuffer sb = new StringBuffer();
+                    if (yyyy != null) {
+                        sb.append(String.valueOf(yyyy));
+                        sb.append("-");
+                    }
+                    if (mm != null) {
+                        sb.append(String.valueOf(mm));
+                        sb.append("-");
+                    }
+                    if (dd != null) {
+                        sb.append(String.valueOf(dd));
+                    }
+                    tvUserData.setText(sb.toString());
+                    if (IdcardUtils.getGenderByIdCard(s.toString()).equals("M")) {
+                        tvUserGender.setText("男");
+                    } else if (IdcardUtils.getGenderByIdCard(s.toString()).equals("F")) {
+                        tvUserGender.setText("女");
+                    }
+                }
+            }
+        });
+        if (!TextUtils.isEmpty(user.getIdcard())) {
+            etUserNum.setText(user.getIdcard());
+        }
     }
 
     @Override
@@ -76,6 +144,36 @@ public class UserInformationActivity extends MvpActivity<UserInformationContract
                             }
                         })
                         .show();
+                break;
+            case R.id.btnSure:
+                try {
+                    if (TextUtils.isEmpty(etUserNum.getText().toString())) {
+                        App.getInstance().showToast("请输入身份证号码");
+                        return;
+                    }
+                    jsonObject.put("idcard", etUserNum.getText().toString());
+                    if (TextUtils.isEmpty(etUserNickName.getText().toString())) {
+                        App.getInstance().showToast("请输入昵称");
+                        return;
+                    }
+                    jsonObject.put("userName", etUserNickName.getText().toString());
+                    if (TextUtils.isEmpty(etUserName.getText().toString())) {
+                        App.getInstance().showToast("请输入真实姓名");
+                        return;
+                    }
+                    jsonObject.put("realName", etUserName.getText().toString());
+                    if (IdcardUtils.getGenderByIdCard(etUserNum.getText().toString()).equals("M")) {
+                        jsonObject.put("sex", 1);
+                    } else if (IdcardUtils.getGenderByIdCard(etUserNum.getText().toString()).equals("F")) {
+                        jsonObject.put("sex", 0);
+                    } else {
+                        App.getInstance().showToast("无法识别");
+                        return;
+                    }
+                    mPresenter.updateUserInfo(jsonObject);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 break;
         }
     }
@@ -118,13 +216,14 @@ public class UserInformationActivity extends MvpActivity<UserInformationContract
 
     @Override
     public void uploadUserPhotoSuccess(String url) {
-        App.getInstance().getCurrentUser().setHeadImage(url);
-        GlideUtils.ShowCircleImage(this, userPhoto.getAbsolutePath(), ivUserPhoto, R.drawable.img_avatar);
+        user.setHeadImage(url);
+        App.getInstance().setCurrentUser(user);
+        GlideUtils.ShowCircleImage(this, userPhoto.getAbsolutePath(), ivUserPhoto, R.drawable.img_avatar_default);
     }
 
     @Override
     public void uploadUserPhotoFail() {
-
+        hideProgressDialog();
     }
 
     @Override
@@ -138,7 +237,20 @@ public class UserInformationActivity extends MvpActivity<UserInformationContract
     }
 
     @Override
+    public void updateUserInfoSuccess(User user) {
+        this.user = user;
+        App.getInstance().setCurrentUser(user);
+        finish();
+    }
+
+    @Override
+    public void updateUserInfoFail() {
+
+    }
+
+    @Override
     public void setPresenter(UserInformationContract.Presenter presenter) {
         mPresenter = presenter;
     }
+
 }

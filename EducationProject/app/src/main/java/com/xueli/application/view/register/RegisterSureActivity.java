@@ -103,6 +103,7 @@ public class RegisterSureActivity extends MvpActivity<RegisterContract.Presenter
     @Override
     public void sendCodeSuccess() {
         App.getInstance().showToast("发送成功");
+        mPresenter.startCountDown();
     }
 
     @Override

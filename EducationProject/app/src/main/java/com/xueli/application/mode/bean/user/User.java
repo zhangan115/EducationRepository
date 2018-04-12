@@ -12,6 +12,10 @@ public class User {
     private long id;
     private boolean locked;
     private String phone;
+    private String userName;
+    private String realName;
+    private String idcard;
+    private int sex;
     private String token;
 
     public String getAccountName() {
@@ -62,6 +66,38 @@ public class User {
         this.phone = phone;
     }
 
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getRealName() {
+        return realName;
+    }
+
+    public void setRealName(String realName) {
+        this.realName = realName;
+    }
+
+    public String getIdcard() {
+        return idcard;
+    }
+
+    public void setIdcard(String idcard) {
+        this.idcard = idcard;
+    }
+
+    public int getSex() {
+        return sex;
+    }
+
+    public void setSex(int sex) {
+        this.sex = sex;
+    }
+
     public String getToken() {
         return token;
     }
@@ -69,5 +105,4 @@ public class User {
     public void setToken(String token) {
         this.token = token;
     }
-
 }

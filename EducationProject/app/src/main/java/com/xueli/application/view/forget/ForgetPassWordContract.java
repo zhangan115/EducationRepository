@@ -7,7 +7,7 @@ public interface ForgetPassWordContract {
 
     interface Presenter extends BasePresenter {
 
-        void sendPhoneCode(String phoneNum);
+        void sendPhoneCode(String userName, String phoneNum);
 
         boolean isCountDown();
 

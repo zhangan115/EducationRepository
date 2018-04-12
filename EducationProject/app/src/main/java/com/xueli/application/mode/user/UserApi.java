@@ -47,6 +47,13 @@ public interface UserApi {
     @POST("account/reg")
     Observable<Bean<String>> userReg(@QueryMap() Map<String, String> map);
 
+    @Headers({"Content-Type:application/json;charset=utf-8", "Accept:application/json;"})
+    @POST("account/forgetpassword")
+    Observable<Bean<VerificationCode>> userForgetPass(@Query("accountName") String accountName, @Query("phone") String phone);
+
+    @Headers({"Content-Type:application/json;charset=utf-8", "Accept:application/json;"})
+    @POST("account/updatepassword")
+    Observable<Bean<String>> userUpdatePass(@QueryMap() Map<String, String> map);
 
     /**
      * 文件上传
@@ -54,7 +61,8 @@ public interface UserApi {
      * @param partList 参数
      * @return 订阅
      */
-    @POST("api/maccount/image/upload")
+    @POST("maccount/image/upload")
     @Multipart
     Observable<Bean<List<String>>> postFile(@Part List<MultipartBody.Part> partList);
+
 }
