@@ -106,8 +106,6 @@ public class HomeFragment extends MvpFragment implements View.OnClickListener, H
         rootView.findViewById(R.id.llConsultation).setTag(R.id.tag_title, "招生咨询");
         rootView.findViewById(R.id.llConsultation).setOnClickListener(clickListener);
 
-        rootView.findViewById(R.id.llEducationQuery).setTag(R.id.tag_id, 8L);
-        rootView.findViewById(R.id.llEducationQuery).setTag(R.id.tag_title, "学历查询");
         rootView.findViewById(R.id.llEducationQuery).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
