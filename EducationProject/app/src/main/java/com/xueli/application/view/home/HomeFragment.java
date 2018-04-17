@@ -119,13 +119,13 @@ public class HomeFragment extends MvpFragment implements View.OnClickListener, H
             }
         });
 
-        rootView.findViewById(R.id.llDegreeEnglish).setTag(R.id.tag_id, 5L);
+        rootView.findViewById(R.id.llDegreeEnglish).setTag(R.id.tag_id, 8L);
         rootView.findViewById(R.id.llDegreeEnglish).setTag(R.id.tag_title, "学位英语");
-        rootView.findViewById(R.id.llDegreeEnglish).setOnClickListener(studyClick);
+        rootView.findViewById(R.id.llDegreeEnglish).setOnClickListener(clickListener);
 
-        rootView.findViewById(R.id.llComputerTrain).setTag(R.id.tag_id, 6L);
+        rootView.findViewById(R.id.llComputerTrain).setTag(R.id.tag_id, 9L);
         rootView.findViewById(R.id.llComputerTrain).setTag(R.id.tag_title, "计算机培训");
-        rootView.findViewById(R.id.llComputerTrain).setOnClickListener(studyClick);
+        rootView.findViewById(R.id.llComputerTrain).setOnClickListener(clickListener);
 
         llHot = rootView.findViewById(R.id.llHot);
         noHeaderAd();
@@ -312,18 +312,6 @@ public class HomeFragment extends MvpFragment implements View.OnClickListener, H
             long id = (long) v.getTag(R.id.tag_id);
             String title = (String) v.getTag(R.id.tag_title);
             Intent intent = new Intent(getActivity(), MessageDetailActivity.class);
-            intent.putExtra(ConstantStr.KEY_BUNDLE_LONG, id);
-            intent.putExtra(ConstantStr.KEY_BUNDLE_STR, title);
-            startActivity(intent);
-        }
-    };
-
-    View.OnClickListener studyClick = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            long id = (long) v.getTag(R.id.tag_id);
-            String title = (String) v.getTag(R.id.tag_title);
-            Intent intent = new Intent(getActivity(), StudyListActivity.class);
             intent.putExtra(ConstantStr.KEY_BUNDLE_LONG, id);
             intent.putExtra(ConstantStr.KEY_BUNDLE_STR, title);
             startActivity(intent);
