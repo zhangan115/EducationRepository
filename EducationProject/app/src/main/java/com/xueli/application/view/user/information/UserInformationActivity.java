@@ -1,10 +1,12 @@
 package com.xueli.application.view.user.information;
 
+import android.Manifest;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -28,13 +30,18 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.util.List;
+
+import pub.devrel.easypermissions.AfterPermissionGranted;
+import pub.devrel.easypermissions.AppSettingsDialog;
+import pub.devrel.easypermissions.EasyPermissions;
 
 /**
  * 用户信息
  * Created by pingan on 2018/3/13.
  */
 
-public class UserInformationActivity extends MvpActivity<UserInformationContract.Presenter> implements UserInformationContract.View {
+public class UserInformationActivity extends MvpActivity<UserInformationContract.Presenter> implements UserInformationContract.View, EasyPermissions.PermissionCallbacks {
 
 
     private File photoFile;
@@ -121,29 +128,7 @@ public class UserInformationActivity extends MvpActivity<UserInformationContract
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ivUserPhoto:
-                new MaterialDialog.Builder(this)
-                        .items(R.array.choose_photo)
-                        .itemsCallback(new MaterialDialog.ListCallback() {
-                            @Override
-                            public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
-                                if (position == 0) {
-                                    photoFile = new File(App.getInstance().imageCacheFile(), System.currentTimeMillis() + ".jpg");
-                                    Intent intent = new Intent();
-                                    intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
-                                    intent.addCategory(Intent.CATEGORY_DEFAULT);
-                                    ContentValues contentValues = new ContentValues(1);
-                                    contentValues.put(MediaStore.Images.Media.DATA, photoFile.getAbsolutePath());
-                                    Uri uri = getApplicationContext().getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
-                                    intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
-                                    startActivityForResult(intent, ACTION_START_CAMERA);
-                                } else {
-                                    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                                    intent.setType("image/*");
-                                    startActivityForResult(intent, ACTION_START_PHOTO);
-                                }
-                            }
-                        })
-                        .show();
+                checkPermission();
                 break;
             case R.id.btnSure:
                 try {
@@ -253,4 +238,67 @@ public class UserInformationActivity extends MvpActivity<UserInformationContract
         mPresenter = presenter;
     }
 
+    @AfterPermissionGranted(REQUEST_EXTERNAL)
+    public void checkPermission() {
+        if (!EasyPermissions.hasPermissions(this.getApplicationContext(), android.Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            EasyPermissions.requestPermissions(this, getString(R.string.request_permissions),
+                    REQUEST_EXTERNAL, android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        } else {
+            requestTakePhoto();
+        }
+    }
+
+    public void requestTakePhoto() {
+        new MaterialDialog.Builder(this)
+                .items(R.array.choose_photo)
+                .itemsCallback(new MaterialDialog.ListCallback() {
+                    @Override
+                    public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
+                        if (position == 0) {
+                            photoFile = new File(App.getInstance().imageCacheFile(), System.currentTimeMillis() + ".jpg");
+                            Intent intent = new Intent();
+                            intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
+                            intent.addCategory(Intent.CATEGORY_DEFAULT);
+                            ContentValues contentValues = new ContentValues(1);
+                            contentValues.put(MediaStore.Images.Media.DATA, photoFile.getAbsolutePath());
+                            Uri uri = getApplicationContext().getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
+                            intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+                            startActivityForResult(intent, ACTION_START_CAMERA);
+                        } else {
+                            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                            intent.setType("image/*");
+                            startActivityForResult(intent, ACTION_START_PHOTO);
+                        }
+                    }
+                })
+                .show();
+    }
+
+    @Override
+    public void onPermissionsGranted(int requestCode, @NonNull List<String> perms) {
+        if (requestCode == REQUEST_EXTERNAL) {
+            if (EasyPermissions.hasPermissions(this.getApplicationContext(), android.Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                requestTakePhoto();
+            }
+        }
+    }
+
+
+    public static final int REQUEST_EXTERNAL = 10;//内存卡权限
+
+    @Override
+    public void onPermissionsDenied(int requestCode, @NonNull List<String> perms) {
+        if (requestCode == REQUEST_EXTERNAL) {
+            if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
+                new AppSettingsDialog.Builder(this)
+                        .setRationale(getString(R.string.need_save_setting))
+                        .setTitle(getString(R.string.request_permissions))
+                        .setPositiveButton(getString(R.string.sure))
+                        .setNegativeButton(getString(R.string.cancel))
+                        .setRequestCode(REQUEST_EXTERNAL)
+                        .build()
+                        .show();
+            }
+        }
+    }
 }

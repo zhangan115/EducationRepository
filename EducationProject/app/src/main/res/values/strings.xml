@@ -4,4 +4,9 @@
     <string name="str_first_nav_3">学习</string>
     <string name="str_first_nav_4">我的</string>
     <string name="filter_code">0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
+    <string name="need_save_setting">当前App需要申请存储权限,需要打开设置页面么?</string>
+    <string name="request_permissions">需要请求内存卡权限</string>
+    <string name="sure">确认</string>
+    <string name="update_new_version">版本更新</string>
+    <string name="cancel">取消</string>
 </resources>
