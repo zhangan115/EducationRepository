@@ -2,11 +2,9 @@ package com.xueli.application.view.user.spread_envoy;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.library.utils.DisplayUtil;
 import com.xueli.application.R;
@@ -48,7 +46,7 @@ public class SpreadEnvoyActivity extends BaseActivity {
         frameLayout.setDrawingCacheEnabled(true);
         frameLayout.buildDrawingCache();
 
-
+        findViewById(R.id.tvShare).setOnClickListener(this);
         Observable.just(App.getInstance().getCurrentUser().getAccountName() + ".jpg").subscribeOn(Schedulers.io())
                 .flatMap(new Func1<String, Observable<Bitmap>>() {
                     @Override
@@ -75,14 +73,8 @@ public class SpreadEnvoyActivity extends BaseActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.share, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_share) {
+    public void onClick(View v) {
+        if (v.getId() == R.id.tvShare) {
             rx.Observable.just(App.getInstance().getCurrentUser().getAccountName() + ".jpg").subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .doOnNext(new Action1<String>() {
@@ -113,9 +105,7 @@ public class SpreadEnvoyActivity extends BaseActivity {
                                     .shareBySystem();
                         }
                     });
-            return true;
         }
-        return super.onOptionsItemSelected(item);
     }
 
     public void savePicture(Bitmap bm, String fileName) {
