@@ -25,6 +25,7 @@ import com.xueli.application.view.user.information.UserInformationActivity;
 import com.xueli.application.view.user.point_rule.PointRuleActivity;
 import com.xueli.application.view.user.spread_envoy.SpreadEnvoyActivity;
 import com.xueli.application.view.user.subject_error.ErrorSubjectActivity;
+import com.xueli.application.view.user.vip.VipActivity;
 
 /**
  * 我的
@@ -78,7 +79,7 @@ public class UserFragment extends MvpFragment implements View.OnClickListener {
                 startActivity(new Intent(getActivity(), PointRuleActivity.class));
                 break;
             case R.id.llVIP:
-                App.getInstance().showToast("敬请期待");
+                startActivity(new Intent(getActivity(), VipActivity.class));
                 break;
             case R.id.llSpreadEnvoy:
                 startActivity(new Intent(getActivity(), SpreadEnvoyActivity.class));
