@@ -8,12 +8,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.xueli.application.R;
 import com.xueli.application.app.App;
 import com.xueli.application.common.ConstantStr;
 import com.xueli.application.util.UserUtils;
 import com.xueli.application.view.MvpFragment;
 import com.xueli.application.view.bank.list.BankListActivity;
+import com.xueli.application.view.user.vip.VipActivity;
 
 /**
  * 题库
@@ -48,21 +51,32 @@ public class BankFragment extends MvpFragment implements View.OnClickListener {
         String tag = (String) v.getTag();
         if (tag.startsWith("1")) {
             if (!UserUtils.isVip1(App.getInstance().getCurrentUser())) {
-                App.getInstance().showToast("你还不是会员");
+                showVipDialog();
                 return;
             }
         } else if (tag.startsWith("2")) {
             if (!UserUtils.isVip2(App.getInstance().getCurrentUser())) {
-                App.getInstance().showToast("你还不是会员");
+                showVipDialog();
                 return;
             }
         } else {
             if (!UserUtils.isVip3(App.getInstance().getCurrentUser())) {
-                App.getInstance().showToast("你还不是会员");
+                showVipDialog();
                 return;
             }
         }
         intent.putExtra(ConstantStr.KEY_BUNDLE_STR, tag);
         startActivity(intent);
+    }
+
+    private void showVipDialog() {
+        if (getActivity() == null) return;
+        new MaterialDialog.Builder(getActivity()).title("提示").content("马上充值成为会员，信息浏览将畅通无阻")
+                .positiveText("马上充值").negativeText("暂不充值").onPositive(new MaterialDialog.SingleButtonCallback() {
+            @Override
+            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                startActivity(new Intent(getActivity(), VipActivity.class));
+            }
+        }).show();
     }
 }

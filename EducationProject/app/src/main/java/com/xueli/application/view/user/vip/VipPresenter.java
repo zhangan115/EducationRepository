@@ -3,6 +3,7 @@ package com.xueli.application.view.user.vip;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.xueli.application.mode.bean.user.User;
 import com.xueli.application.mode.bean.user.VipContent;
 import com.xueli.application.mode.callback.IListCallBack;
 import com.xueli.application.mode.callback.IObjectCallBack;
@@ -67,15 +68,14 @@ class VipPresenter implements VipContract.Presenter {
 
     @Override
     public void payVip(long cardId) {
-        mDataSource.payVip(cardId,new IObjectCallBack<String>() {
+        mDataSource.payVip(cardId, new IObjectCallBack<User>() {
             @Override
             public void onSuccess() {
-                mView.paySuccess();
             }
 
             @Override
-            public void onData(@NonNull String s) {
-
+            public void onData(@NonNull User user) {
+                mView.paySuccess(user);
             }
 
             @Override

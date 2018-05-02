@@ -61,14 +61,23 @@ public class UserFragment extends MvpFragment implements View.OnClickListener {
         tvIntegral.setText(MessageFormat.format("积分 {0}", App.getInstance().getCurrentUser().getIntegral()));
         tvUserName.setText(App.getInstance().getCurrentUser().getAccountName());
         ImageView ivUserPhoto = rootView.findViewById(R.id.ivUserPhoto);
+        GlideUtils.ShowCircleImage(getActivity(), App.getInstance().getCurrentUser().getHeadImage(), ivUserPhoto, R.drawable.img_avatar_default);
+        return rootView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        refreshVipUi(getView());
+    }
+
+    public void refreshVipUi(View rootView) {
         ImageView ivUserVip = rootView.findViewById(R.id.ivUserVip);
         if (UserUtils.isVip(App.getInstance().getCurrentUser())) {
             ivUserVip.setImageDrawable(findDrawById(R.drawable.tag_vip));
         } else {
             ivUserVip.setImageDrawable(findDrawById(R.drawable.tag_vip2));
         }
-        GlideUtils.ShowCircleImage(getActivity(), App.getInstance().getCurrentUser().getHeadImage(), ivUserPhoto, R.drawable.img_avatar_default);
-        return rootView;
     }
 
     @Override

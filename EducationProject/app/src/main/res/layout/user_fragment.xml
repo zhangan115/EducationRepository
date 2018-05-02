@@ -98,7 +98,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
-                            android:text="积分 60"
+                            android:text="积分"
                             android:textColor="@color/colorWhite"
                             android:textSize="12dp" />
 

@@ -14,6 +14,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.library.adapter.RVAdapter;
 import com.library.utils.GlideUtils;
 import com.library.widget.ExpendRecycleView;
@@ -25,6 +27,7 @@ import com.xueli.application.mode.bean.study.StudyMessage;
 import com.xueli.application.mode.study.StudyRepository;
 import com.xueli.application.util.UserUtils;
 import com.xueli.application.view.LazyLoadFragment;
+import com.xueli.application.view.user.vip.VipActivity;
 import com.xueli.application.view.web.MessageDetailActivity;
 
 import java.util.ArrayList;
@@ -114,21 +117,23 @@ public class StudyListFragment extends LazyLoadFragment implements RecycleRefres
         adapter.setOnItemClickListener(new RVAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                if (type == 0) {
+                if (type == 4) {
                     if (!UserUtils.isVip1(App.getInstance().getCurrentUser())) {
-                        App.getInstance().showToast("你还不是会员");
+                        showVipDialog();
                         return;
                     }
-                } else if (type == 1) {
+                } else if (type == 5) {
                     if (!UserUtils.isVip2(App.getInstance().getCurrentUser())) {
-                        App.getInstance().showToast("你还不是会员");
+                        showVipDialog();
+                        return;
+                    }
+                } else if (type == 6) {
+                    if (!UserUtils.isVip3(App.getInstance().getCurrentUser())) {
+                        showVipDialog();
                         return;
                     }
                 } else {
-                    if (!UserUtils.isVip3(App.getInstance().getCurrentUser())) {
-                        App.getInstance().showToast("你还不是会员");
-                        return;
-                    }
+                    return;
                 }
                 Intent messageIntent = new Intent(getActivity(), MessageDetailActivity.class);
                 messageIntent.putExtra(ConstantStr.KEY_BUNDLE_STR, datas.get(position).getTitle());
@@ -204,5 +209,16 @@ public class StudyListFragment extends LazyLoadFragment implements RecycleRefres
     @Override
     public void setPresenter(StudyListContract.Presenter presenter) {
         mPresenter = presenter;
+    }
+
+    private void showVipDialog() {
+        if (getActivity() == null) return;
+        new MaterialDialog.Builder(getActivity()).title("提示").content("马上充值成为会员，信息浏览将畅通无阻")
+                .positiveText("马上充值").negativeText("暂不充值").onPositive(new MaterialDialog.SingleButtonCallback() {
+            @Override
+            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                startActivity(new Intent(getActivity(), VipActivity.class));
+            }
+        }).show();
     }
 }

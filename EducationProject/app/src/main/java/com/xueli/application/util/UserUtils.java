@@ -16,10 +16,10 @@ public class UserUtils {
     }
 
     public static boolean isVip2(User user) {
-        return false;
+        return !TextUtils.isEmpty(user.getMyCardEndTime2()) && System.currentTimeMillis() < DataUtil.date2TimeStamp(user.getMyCardEndTime2(), "yyyy-MM-dd");
     }
 
     public static boolean isVip3(User user) {
-        return false;
+        return !TextUtils.isEmpty(user.getMyCardEndTime3()) && System.currentTimeMillis() < DataUtil.date2TimeStamp(user.getMyCardEndTime3(), "yyyy-MM-dd");
     }
 }

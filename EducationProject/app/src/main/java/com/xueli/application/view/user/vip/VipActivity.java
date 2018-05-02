@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.library.utils.GlideUtils;
 import com.xueli.application.R;
 import com.xueli.application.app.App;
+import com.xueli.application.mode.bean.user.User;
 import com.xueli.application.mode.bean.user.VipContent;
 import com.xueli.application.mode.user.UserRepository;
 import com.xueli.application.util.UserUtils;
@@ -93,6 +94,11 @@ public class VipActivity extends MvpActivity<VipContract.Presenter> implements V
         findViewById(R.id.ll_wx).setOnClickListener(this);
         ivAl = findViewById(R.id.iv_al);
         ivWx = findViewById(R.id.iv_wx);
+        refreshVipUi();
+        mPresenter.getVipCardList();
+    }
+
+    private void refreshVipUi() {
         ImageView ivUserVip = findViewById(R.id.ivUserVip);
         TextView tvIsVip = findViewById(R.id.tvIsVip);
         if (UserUtils.isVip(App.getInstance().getCurrentUser())) {
@@ -102,7 +108,6 @@ public class VipActivity extends MvpActivity<VipContract.Presenter> implements V
             ivUserVip.setImageDrawable(findDrawById(R.drawable.tag_vip2));
             tvIsVip.setVisibility(View.VISIBLE);
         }
-        mPresenter.getVipCardList();
     }
 
     @Override
@@ -160,8 +165,9 @@ public class VipActivity extends MvpActivity<VipContract.Presenter> implements V
     }
 
     @Override
-    public void paySuccess() {
-
+    public void paySuccess(User user) {
+        App.getInstance().setCurrentUser(user);
+        refreshVipUi();
     }
 
     public class MyViewPagerAdapter extends PagerAdapter {

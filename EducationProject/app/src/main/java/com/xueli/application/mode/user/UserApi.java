@@ -82,6 +82,6 @@ public interface UserApi {
 
     @Headers({"Content-Type:application/json;charset=utf-8", "Accept:application/json;"})
     @POST("api/membercard/pay")
-    Observable<Bean<String>> payVip(@Body() String string);
+    Observable<Bean<User>> payVip(@QueryMap() Map<String, String> map, @Body() String string);
 
 }

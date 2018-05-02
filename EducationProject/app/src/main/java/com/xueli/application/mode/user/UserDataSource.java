@@ -109,5 +109,5 @@ public interface UserDataSource {
     Subscription getVipCardList(IListCallBack<VipContent> callBack);
 
     @NonNull
-    Subscription payVip(long cardId, IObjectCallBack<String> callBack);
+    Subscription payVip(long cardId, IObjectCallBack<User> callBack);
 }
