@@ -5,6 +5,8 @@ import android.media.MediaMetadataRetriever;
 import android.media.ThumbnailUtils;
 import android.provider.MediaStore;
 
+import java.util.HashMap;
+
 public class VideoUtils {
     /**
      * 获取视频文件截图
@@ -14,9 +16,10 @@ public class VideoUtils {
      */
     public static Bitmap getVideoThumb(String path) {
         MediaMetadataRetriever media = new MediaMetadataRetriever();
-        media.setDataSource(path);
+        media.setDataSource(path, new HashMap<String, String>());
         return media.getFrameAtTime();
     }
+
     /**
      * 获取视频文件缩略图 API>=8(2.2)
      *
@@ -27,6 +30,7 @@ public class VideoUtils {
     public static Bitmap getVideoThumb2(String path, int kind) {
         return ThumbnailUtils.createVideoThumbnail(path, kind);
     }
+
     public static Bitmap getVideoThumb2(String path) {
         return getVideoThumb2(path, MediaStore.Video.Thumbnails.FULL_SCREEN_KIND);
     }

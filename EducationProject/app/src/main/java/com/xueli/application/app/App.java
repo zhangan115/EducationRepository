@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.widget.Toast;
 
+import com.tencent.bugly.crashreport.CrashReport;
 import com.xueli.application.base.AbsBaseApp;
 import com.xueli.application.common.ConstantStr;
 import com.xueli.application.mode.api.Api;
@@ -32,6 +33,7 @@ public class App extends AbsBaseApp {
     public void onCreate() {
         super.onCreate();
         _instance = this;
+        CrashReport.initCrashReport(getApplicationContext(), "4b0d84c0f4", true);
     }
 
     public static App getInstance() {

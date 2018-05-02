@@ -16,5 +16,6 @@ public class PointRuleActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setLayoutAndToolbar(R.layout.point_rule_activity, "积分规则");
+        setDarkStatusIcon(true);
     }
 }

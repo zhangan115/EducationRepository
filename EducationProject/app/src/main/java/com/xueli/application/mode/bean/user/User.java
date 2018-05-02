@@ -17,6 +17,11 @@ public class User {
     private String idcard;
     private int sex;
     private String token;
+    private String inviteCode;
+    private String myCardEndTime1;
+    private String myCardEndTime2;
+    private String myCardEndTime3;
+    private int integral;
 
     public String getAccountName() {
         return accountName;
@@ -104,5 +109,45 @@ public class User {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public String getInviteCode() {
+        return inviteCode;
+    }
+
+    public void setInviteCode(String inviteCode) {
+        this.inviteCode = inviteCode;
+    }
+
+    public String getMyCardEndTime1() {
+        return myCardEndTime1;
+    }
+
+    public void setMyCardEndTime1(String myCardEndTime1) {
+        this.myCardEndTime1 = myCardEndTime1;
+    }
+
+    public String getMyCardEndTime2() {
+        return myCardEndTime2;
+    }
+
+    public void setMyCardEndTime2(String myCardEndTime2) {
+        this.myCardEndTime2 = myCardEndTime2;
+    }
+
+    public String getMyCardEndTime3() {
+        return myCardEndTime3;
+    }
+
+    public void setMyCardEndTime3(String myCardEndTime3) {
+        this.myCardEndTime3 = myCardEndTime3;
+    }
+
+    public int getIntegral() {
+        return integral;
+    }
+
+    public void setIntegral(int integral) {
+        this.integral = integral;
     }
 }

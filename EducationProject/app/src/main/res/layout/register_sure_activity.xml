@@ -41,6 +41,7 @@
                 android:layout_weight="1"
                 android:background="@null"
                 android:hint="请输入手机号"
+                android:inputType="phone"
                 android:paddingBottom="16dp"
                 android:paddingTop="16dp"
                 android:textColor="@color/text_gray_999"
@@ -96,6 +97,44 @@
 
         </LinearLayout>
 
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/color_division" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorWhite"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="15dp"
+                android:text="邀请码"
+                android:textColor="@color/text_black"
+                android:textSize="16dp" />
+
+            <EditText
+                android:id="@+id/etUserInvitation"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_weight="1"
+                android:background="@null"
+                android:hint="请输入邀请码"
+                android:inputType="text"
+                android:maxLength="6"
+                android:paddingBottom="16dp"
+                android:paddingTop="16dp"
+                android:textColor="@color/text_gray_999"
+                android:textSize="16dp" />
+
+        </LinearLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
@@ -110,6 +149,8 @@
             android:layout_marginTop="15dp"
             android:background="@drawable/btn_blue"
             android:gravity="center"
+            android:paddingBottom="15dp"
+            android:paddingTop="15dp"
             android:text="完成"
             android:textColor="@color/colorWhite"
             android:textSize="16dp" />

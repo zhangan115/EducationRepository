@@ -1,9 +1,7 @@
 package com.xueli.application.view.study.list;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -16,10 +14,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.library.adapter.RVAdapter;
 import com.library.utils.GlideUtils;
-import com.library.utils.VideoUtils;
 import com.library.widget.ExpendRecycleView;
 import com.library.widget.RecycleRefreshLoadLayout;
 import com.xueli.application.R;
@@ -27,6 +23,7 @@ import com.xueli.application.app.App;
 import com.xueli.application.common.ConstantStr;
 import com.xueli.application.mode.bean.study.StudyMessage;
 import com.xueli.application.mode.study.StudyRepository;
+import com.xueli.application.util.UserUtils;
 import com.xueli.application.view.LazyLoadFragment;
 import com.xueli.application.view.web.MessageDetailActivity;
 
@@ -46,7 +43,7 @@ public class StudyListFragment extends LazyLoadFragment implements RecycleRefres
     private RecycleRefreshLoadLayout refreshLoadLayout;
     private ExpendRecycleView expendRecycleView;
     private RelativeLayout noDataLayout;
-    private long position;
+    private long type;
     private StudyListContract.Presenter mPresenter;
     private List<StudyMessage> datas;
     private boolean isRefresh;
@@ -64,7 +61,7 @@ public class StudyListFragment extends LazyLoadFragment implements RecycleRefres
         super.onCreate(savedInstanceState);
         new StudyListPresenter(StudyRepository.getRepository(getActivity()), this);
         if (getArguments() != null) {
-            position = getArguments().getLong(SHOW_LIST_TYPE);
+            type = getArguments().getLong(SHOW_LIST_TYPE);
         }
     }
 
@@ -72,7 +69,7 @@ public class StudyListFragment extends LazyLoadFragment implements RecycleRefres
     public void requestData() {
         this.datas.clear();
         expendRecycleView.getAdapter().notifyDataSetChanged();
-        mPresenter.getStudyMessage(position);
+        mPresenter.getStudyMessage(type);
     }
 
     @Nullable
@@ -99,8 +96,7 @@ public class StudyListFragment extends LazyLoadFragment implements RecycleRefres
                 if (data.getMsgType() == 3) {
                     ivVideo.setVisibility(View.VISIBLE);
                     frameImage.setVisibility(View.VISIBLE);
-                    Bitmap bitmap = VideoUtils.getVideoThumb2(data.getVideoUrl(), MediaStore.Video.Thumbnails.MINI_KIND);
-                    ivImage.setImageBitmap(bitmap);
+                    ivImage.setImageDrawable(findDrawById(R.drawable.img_learn1));
                 } else if (data.getMsgType() == 2) {
                     ivVideo.setVisibility(View.GONE);
                     frameImage.setVisibility(View.VISIBLE);
@@ -118,6 +114,22 @@ public class StudyListFragment extends LazyLoadFragment implements RecycleRefres
         adapter.setOnItemClickListener(new RVAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
+                if (type == 0) {
+                    if (!UserUtils.isVip1(App.getInstance().getCurrentUser())) {
+                        App.getInstance().showToast("你还不是会员");
+                        return;
+                    }
+                } else if (type == 1) {
+                    if (!UserUtils.isVip2(App.getInstance().getCurrentUser())) {
+                        App.getInstance().showToast("你还不是会员");
+                        return;
+                    }
+                } else {
+                    if (!UserUtils.isVip3(App.getInstance().getCurrentUser())) {
+                        App.getInstance().showToast("你还不是会员");
+                        return;
+                    }
+                }
                 Intent messageIntent = new Intent(getActivity(), MessageDetailActivity.class);
                 messageIntent.putExtra(ConstantStr.KEY_BUNDLE_STR, datas.get(position).getTitle());
                 messageIntent.putExtra(ConstantStr.KEY_BUNDLE_STR_1, datas.get(position).getDetail());
@@ -135,7 +147,7 @@ public class StudyListFragment extends LazyLoadFragment implements RecycleRefres
         if (datas == null || datas.size() == 0) {
             return;
         }
-        mPresenter.getStudyMessage(position, datas.get(datas.size() - 1).getId());
+        mPresenter.getStudyMessage(type, datas.get(datas.size() - 1).getId());
     }
 
     @Override

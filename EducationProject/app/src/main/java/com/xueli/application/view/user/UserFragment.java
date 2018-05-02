@@ -17,6 +17,7 @@ import com.library.utils.SPHelper;
 import com.xueli.application.R;
 import com.xueli.application.app.App;
 import com.xueli.application.common.ConstantStr;
+import com.xueli.application.util.UserUtils;
 import com.xueli.application.view.MvpFragment;
 import com.xueli.application.view.login.LoginActivity;
 import com.xueli.application.view.user.about_us.AboutUsActivity;
@@ -26,6 +27,8 @@ import com.xueli.application.view.user.point_rule.PointRuleActivity;
 import com.xueli.application.view.user.spread_envoy.SpreadEnvoyActivity;
 import com.xueli.application.view.user.subject_error.ErrorSubjectActivity;
 import com.xueli.application.view.user.vip.VipActivity;
+
+import java.text.MessageFormat;
 
 /**
  * 我的
@@ -54,8 +57,16 @@ public class UserFragment extends MvpFragment implements View.OnClickListener {
         rootView.findViewById(R.id.llCollection).setOnClickListener(this);
         rootView.findViewById(R.id.llVIP).setOnClickListener(this);
         TextView tvUserName = rootView.findViewById(R.id.tvUserName);
+        TextView tvIntegral = rootView.findViewById(R.id.tvIntegral);
+        tvIntegral.setText(MessageFormat.format("积分 {0}", App.getInstance().getCurrentUser().getIntegral()));
         tvUserName.setText(App.getInstance().getCurrentUser().getAccountName());
         ImageView ivUserPhoto = rootView.findViewById(R.id.ivUserPhoto);
+        ImageView ivUserVip = rootView.findViewById(R.id.ivUserVip);
+        if (UserUtils.isVip(App.getInstance().getCurrentUser())) {
+            ivUserVip.setImageDrawable(findDrawById(R.drawable.tag_vip));
+        } else {
+            ivUserVip.setImageDrawable(findDrawById(R.drawable.tag_vip2));
+        }
         GlideUtils.ShowCircleImage(getActivity(), App.getInstance().getCurrentUser().getHeadImage(), ivUserPhoto, R.drawable.img_avatar_default);
         return rootView;
     }

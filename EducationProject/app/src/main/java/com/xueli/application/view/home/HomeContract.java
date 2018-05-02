@@ -15,7 +15,6 @@ interface HomeContract {
 
         void getHot();
 
-        void checkNewVersion();
 
         void getMessage();
     }
@@ -31,8 +30,6 @@ interface HomeContract {
         void noMessage();
 
         void noHeaderAd();
-
-        void showNewVersion();
 
         void showMessage(String message);
     }

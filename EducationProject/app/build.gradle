@@ -39,7 +39,7 @@ android {
 
     android.applicationVariants.all { variant ->
         variant.outputs.all {
-            outputFileName = "学历无忧_${variant.flavorName}_V${defaultConfig.versionName}_${releaseTime()}_${variant.buildType.name}.apk"
+            outputFileName = "xueli_${variant.flavorName}_V${defaultConfig.versionName}_${releaseTime()}_${variant.buildType.name}.apk"
         }
     }
 
@@ -54,7 +54,7 @@ android {
 repositories { flatDir { dirs 'libs' } }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation project(':Library')
     implementation 'com.android.support:cardview-v7:27.0.2'
     implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
@@ -64,4 +64,7 @@ dependencies {
     implementation 'com.soundcloud.android:android-crop:1.0.1@aar'
     implementation 'com.google.zxing:core:3.3.2'
     implementation 'gdut.bsx:share2:0.9.3'
+    implementation files('libs/alipaySdk-20180403.jar')
+    implementation 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:+'
+    implementation 'com.tencent.bugly:crashreport:latest.release'
 }

@@ -9,7 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.xueli.application.R;
+import com.xueli.application.app.App;
 import com.xueli.application.common.ConstantStr;
+import com.xueli.application.util.UserUtils;
 import com.xueli.application.view.MvpFragment;
 import com.xueli.application.view.bank.list.BankListActivity;
 
@@ -44,6 +46,22 @@ public class BankFragment extends MvpFragment implements View.OnClickListener {
     public void onClick(View v) {
         Intent intent = new Intent(getActivity(), BankListActivity.class);
         String tag = (String) v.getTag();
+        if (tag.startsWith("1")) {
+            if (!UserUtils.isVip1(App.getInstance().getCurrentUser())) {
+                App.getInstance().showToast("你还不是会员");
+                return;
+            }
+        } else if (tag.startsWith("2")) {
+            if (!UserUtils.isVip2(App.getInstance().getCurrentUser())) {
+                App.getInstance().showToast("你还不是会员");
+                return;
+            }
+        } else {
+            if (!UserUtils.isVip3(App.getInstance().getCurrentUser())) {
+                App.getInstance().showToast("你还不是会员");
+                return;
+            }
+        }
         intent.putExtra(ConstantStr.KEY_BUNDLE_STR, tag);
         startActivity(intent);
     }

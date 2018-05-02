@@ -94,7 +94,7 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:taskAffinity="${TASK_AFFINITY_VALUE}"
-            android:theme="@style/AppTheme.NoActionBar"
+            android:theme="@style/WhiteAppTheme"
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
             android:name="com.xueli.application.view.bank.list.BankListActivity"
@@ -121,7 +121,7 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:taskAffinity="${TASK_AFFINITY_VALUE}"
-            android:theme="@style/AppTheme.NoActionBar"
+            android:theme="@style/WhiteAppTheme"
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
             android:name="com.xueli.application.view.user.point_rule.PointRuleActivity"
@@ -130,7 +130,7 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:taskAffinity="${TASK_AFFINITY_VALUE}"
-            android:theme="@style/AppTheme.NoActionBar"
+            android:theme="@style/WhiteAppTheme"
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
             android:name="com.xueli.application.view.user.spread_envoy.SpreadEnvoyActivity"
@@ -139,7 +139,7 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:taskAffinity="${TASK_AFFINITY_VALUE}"
-            android:theme="@style/AppTheme.NoActionBar"
+            android:theme="@style/WhiteAppTheme"
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
             android:name="com.xueli.application.view.user.about_us.AboutUsActivity"
@@ -148,7 +148,7 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:taskAffinity="${TASK_AFFINITY_VALUE}"
-            android:theme="@style/AppTheme.NoActionBar"
+            android:theme="@style/WhiteAppTheme"
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
             android:name="com.xueli.application.view.user.collection.MyCollectionActivity"
@@ -157,7 +157,7 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:taskAffinity="${TASK_AFFINITY_VALUE}"
-            android:theme="@style/AppTheme.NoActionBar"
+            android:theme="@style/WhiteAppTheme"
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
             android:name="com.xueli.application.view.web.MessageDetailActivity"
@@ -212,10 +212,22 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:taskAffinity="${TASK_AFFINITY_VALUE}"
-            android:theme="@style/AppTheme.NoActionBar"
+            android:theme="@style/WhiteAppTheme"
             android:windowSoftInputMode="adjustPan|stateHidden" />
 
         <activity android:name="com.soundcloud.android.crop.CropImageActivity" />
+        <activity
+            android:name="com.alipay.sdk.app.H5PayActivity"
+            android:configChanges="orientation|keyboardHidden|navigation|screenSize"
+            android:exported="false"
+            android:screenOrientation="behind"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name="com.alipay.sdk.app.H5AuthActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
     </application>
 
 </manifest>

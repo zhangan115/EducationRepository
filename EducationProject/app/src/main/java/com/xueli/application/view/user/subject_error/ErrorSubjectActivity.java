@@ -147,6 +147,12 @@ public class ErrorSubjectActivity extends MvpActivity<ErrorSubjectContract.Prese
         for (TextView tv : tvYears) {
             tv.setOnClickListener(this);
         }
+        findViewById(R.id.tvFilter).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawerLayout.openDrawer(Gravity.RIGHT);
+            }
+        });
     }
 
     private void setTextViewState(int position, TextView[] textViews) {
@@ -161,23 +167,6 @@ public class ErrorSubjectActivity extends MvpActivity<ErrorSubjectContract.Prese
         }
     }
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.filter, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.action_filter) {
-            drawerLayout.openDrawer(Gravity.RIGHT);
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
     @Override
     protected void onBindPresenter() {

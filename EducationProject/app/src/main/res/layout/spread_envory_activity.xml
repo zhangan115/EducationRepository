@@ -2,9 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-    <android.support.design.widget.AppBarLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -67,7 +68,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="22dp"
-                android:text="我是 zhangan115"
                 android:textColor="@color/colorWhite"
                 android:textSize="16dp" />
 
@@ -82,8 +82,8 @@
                 android:layout_height="wrap_content">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="180dp"
+                    android:layout_height="180dp"
                     android:src="@drawable/shape_spread" />
 
                 <ImageView
@@ -94,5 +94,15 @@
             </FrameLayout>
 
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvUserShared"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="30dp"
+            android:gravity="center"
+            android:textColor="@color/colorWhite"
+            android:textSize="16dp" />
     </FrameLayout>
 </LinearLayout>

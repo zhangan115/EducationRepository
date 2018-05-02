@@ -1,5 +1,10 @@
 package com.xueli.application.view.main;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
+import com.xueli.application.mode.bean.user.NewVersion;
+import com.xueli.application.mode.callback.IObjectCallBack;
 import com.xueli.application.mode.user.UserDataSource;
 
 import rx.subscriptions.CompositeSubscription;
@@ -28,5 +33,35 @@ class MainPresenter implements MainContract.Presenter {
     @Override
     public void unSubscribe() {
         mSubscriptions.clear();
+    }
+
+    @Override
+    public void getNewVersion() {
+        mSubscriptions.add(mDataSource.getNewVersion(new IObjectCallBack<NewVersion>() {
+            @Override
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onData(@NonNull NewVersion newVersion) {
+                mView.showNewVersion(newVersion);
+            }
+
+            @Override
+            public void onError(@Nullable String message) {
+                mView.showMessage(message);
+            }
+
+            @Override
+            public void noData() {
+
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+        }));
     }
 }

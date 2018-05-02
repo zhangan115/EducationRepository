@@ -39,6 +39,7 @@ public class MyCollectionActivity extends MvpActivity<MyCollectionContract.Prese
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setLayoutAndToolbar(R.layout.my_collection_activity, "我的收藏");
+        setDarkStatusIcon(true);
         mRecyclerView = findViewById(R.id.recycleCollection);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mSwipeLayout = findViewById(R.id.swipeLayout);

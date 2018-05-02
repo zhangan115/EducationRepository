@@ -1,6 +1,5 @@
 package com.xueli.application.view.user.information;
 
-import android.Manifest;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.net.Uri;
@@ -59,6 +58,7 @@ public class UserInformationActivity extends MvpActivity<UserInformationContract
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setLayoutAndToolbar(R.layout.user_information_activity, "个人信息");
+        setDarkStatusIcon(true);
         jsonObject = new JSONObject();
         ivUserPhoto = findViewById(R.id.ivUserPhoto);
         user = App.getInstance().getCurrentUser();

@@ -26,7 +26,7 @@ import java.util.Map;
 public class RegisterSureActivity extends MvpActivity<RegisterContract.Presenter> implements RegisterContract.View {
 
     private TextView tvGetCode;
-    private EditText etUserName, etUserPassWord;
+    private EditText etUserName, etUserPassWord, etUserInvitation;
     private Map<String, String> map;
 
 
@@ -38,6 +38,7 @@ public class RegisterSureActivity extends MvpActivity<RegisterContract.Presenter
         tvGetCode = findViewById(R.id.tvGetCode);
         etUserName = findViewById(R.id.etUserName);
         etUserPassWord = findViewById(R.id.etUserPassWord);
+        etUserInvitation = findViewById(R.id.etUserInvitation);
         tvGetCode.setOnClickListener(this);
 
         map = new HashMap<>();
@@ -68,6 +69,14 @@ public class RegisterSureActivity extends MvpActivity<RegisterContract.Presenter
                     return;
                 }
                 map.put("verificationCode", verificationCode);
+                String invitationStr = etUserInvitation.getText().toString().trim();
+                if (!TextUtils.isEmpty(invitationStr)) {
+                    if (invitationStr.length() == 6) {
+                        map.put("inviteCode", invitationStr);
+                    } else {
+                        App.getInstance().showToast("邀请码不合法");
+                    }
+                }
                 mPresenter.userReg(map);
                 break;
             case R.id.tvGetCode:

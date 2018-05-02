@@ -1,15 +1,21 @@
 package com.xueli.application.view.main;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.xueli.application.R;
+import com.xueli.application.common.ConstantInt;
 import com.xueli.application.mode.Injection;
+import com.xueli.application.mode.bean.user.NewVersion;
+import com.xueli.application.util.DownloadAppUtils;
 import com.xueli.application.view.MvpActivity;
 import com.xueli.application.view.bank.BankFragment;
 import com.xueli.application.view.home.HomeFragment;
@@ -17,17 +23,24 @@ import com.xueli.application.view.study.StudyFragment;
 import com.xueli.application.view.user.UserFragment;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class MainActivity extends MvpActivity<MainContract.Presenter> implements MainContract.View {
+import pub.devrel.easypermissions.AfterPermissionGranted;
+import pub.devrel.easypermissions.AppSettingsDialog;
+import pub.devrel.easypermissions.EasyPermissions;
+
+public class MainActivity extends MvpActivity<MainContract.Presenter> implements MainContract.View, EasyPermissions.PermissionCallbacks {
 
     private int selectPosition = 0;
     private ArrayList<Fragment> mFragments;
+    private NewVersion newVersion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
         initView();
+        checkPermission();
     }
 
     @Override
@@ -108,6 +121,56 @@ public class MainActivity extends MvpActivity<MainContract.Presenter> implements
     @Override
     public void showMessage(@Nullable String message) {
         getApp().showToast(message);
+    }
+
+    @Override
+    public void showNewVersion(final NewVersion newVersion) {
+        this.newVersion = newVersion;
+        if (newVersion.getVersion() > ConstantInt.VERSION_NO) {
+            new MaterialDialog.Builder(this)
+                    .content(newVersion.getNote())
+                    .negativeText("取消")
+                    .positiveText("确定")
+                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                            DownloadAppUtils.DownLoad(getApplicationContext(), newVersion.getUrl(), "xueli");
+                        }
+                    })
+                    .show();
+        }
+    }
+
+    @AfterPermissionGranted(REQUEST_EXTERNAL)
+    public void checkPermission() {
+        if (!EasyPermissions.hasPermissions(this.getApplicationContext(), android.Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            EasyPermissions.requestPermissions(this, getString(R.string.request_permissions),
+                    REQUEST_EXTERNAL, android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        }
+    }
+
+
+    @Override
+    public void onPermissionsGranted(int requestCode, @NonNull List<String> perms) {
+
+    }
+
+    public static final int REQUEST_EXTERNAL = 10;//内存卡权限
+
+    @Override
+    public void onPermissionsDenied(int requestCode, @NonNull List<String> perms) {
+        if (requestCode == REQUEST_EXTERNAL) {
+            if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
+                new AppSettingsDialog.Builder(this)
+                        .setRationale(getString(R.string.need_save_setting))
+                        .setTitle(getString(R.string.request_permissions))
+                        .setPositiveButton(getString(R.string.sure))
+                        .setNegativeButton(getString(R.string.cancel))
+                        .setRequestCode(REQUEST_EXTERNAL)
+                        .build()
+                        .show();
+            }
+        }
     }
 
     @Override

@@ -16,5 +16,6 @@ public class AboutUsActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setLayoutAndToolbar(R.layout.about_us_activity, "关于我们");
+        setDarkStatusIcon(true);
     }
 }

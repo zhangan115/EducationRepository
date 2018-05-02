@@ -90,11 +90,6 @@ class HomePresenter implements HomeContract.Presenter {
     }
 
     @Override
-    public void checkNewVersion() {
-
-    }
-
-    @Override
     public void getMessage() {
         subscription.add(mDataSource.getStudyList(2, new IListCallBack<StudyMessage>() {
 

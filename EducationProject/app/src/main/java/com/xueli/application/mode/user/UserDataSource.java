@@ -3,8 +3,11 @@ package com.xueli.application.mode.user;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.xueli.application.mode.bean.user.NewVersion;
 import com.xueli.application.mode.bean.user.User;
 import com.xueli.application.mode.bean.user.VerificationCode;
+import com.xueli.application.mode.bean.user.VipContent;
+import com.xueli.application.mode.callback.IListCallBack;
 import com.xueli.application.mode.callback.IObjectCallBack;
 
 import org.json.JSONObject;
@@ -98,4 +101,13 @@ public interface UserDataSource {
 
     @NonNull
     Subscription userUpdatePass(Map<String, String> map, @NonNull final IObjectCallBack<String> callBack);
+
+    @NonNull
+    Subscription getNewVersion(IObjectCallBack<NewVersion> callBack);
+
+    @NonNull
+    Subscription getVipCardList(IListCallBack<VipContent> callBack);
+
+    @NonNull
+    Subscription payVip(long cardId, IObjectCallBack<String> callBack);
 }

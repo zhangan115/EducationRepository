@@ -36,6 +36,9 @@ import com.xueli.application.widget.marqueeText;
 import java.util.ArrayList;
 import java.util.List;
 
+import pub.devrel.easypermissions.AppSettingsDialog;
+import pub.devrel.easypermissions.EasyPermissions;
+
 /**
  * 首页
  * Created by pingan on 2018/3/4.
@@ -242,10 +245,6 @@ public class HomeFragment extends MvpFragment implements View.OnClickListener, H
                 .setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.CENTER_HORIZONTAL);
     }
 
-    @Override
-    public void showNewVersion() {
-
-    }
 
     @Override
     public void showMessage(String message) {
@@ -256,6 +255,7 @@ public class HomeFragment extends MvpFragment implements View.OnClickListener, H
     public void setPresenter(HomeContract.Presenter presenter) {
         mPresenter = presenter;
     }
+
 
     public class LocalImageHolderView implements Holder<Integer> {
 

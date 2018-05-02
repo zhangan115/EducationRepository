@@ -6,19 +6,21 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
-import com.google.gson.JsonObject;
 import com.xueli.application.app.App;
 import com.xueli.application.common.ConstantStr;
 import com.xueli.application.mode.FilePartManager;
 import com.xueli.application.mode.api.Api;
 import com.xueli.application.mode.api.ApiCallBackList;
+import com.xueli.application.mode.api.ApiCallBackList1;
 import com.xueli.application.mode.api.ApiCallBackObject1;
 import com.xueli.application.mode.bean.Bean;
+import com.xueli.application.mode.bean.user.NewVersion;
 import com.xueli.application.mode.bean.user.User;
 import com.xueli.application.mode.bean.user.VerificationCode;
+import com.xueli.application.mode.bean.user.VipContent;
+import com.xueli.application.mode.callback.IListCallBack;
 import com.xueli.application.mode.callback.IObjectCallBack;
 import com.xueli.application.mode.enrol.EnrolApi;
-import com.xueli.application.view.forget.ForgetPassWordSureContract;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -229,6 +231,47 @@ public class UserRepository implements UserDataSource {
     @Override
     public Subscription userUpdatePass(Map<String, String> map, @NonNull IObjectCallBack<String> callBack) {
         Observable<Bean<String>> observable = Api.createRetrofit().create(UserApi.class).userUpdatePass(map);
+        return new ApiCallBackObject1<>(observable).execute(callBack);
+    }
+
+    @NonNull
+    @Override
+    public Subscription getNewVersion(final IObjectCallBack<NewVersion> callBack) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("token", sp.getString(ConstantStr.TOKEN, ""));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Observable<Bean<NewVersion>> observable = Api.createRetrofit().create(UserApi.class).newVersion(jsonObject.toString());
+        return new ApiCallBackObject1<>(observable).execute(callBack);
+    }
+
+    @NonNull
+    @Override
+    public Subscription getVipCardList(IListCallBack<VipContent> callBack) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("token", sp.getString(ConstantStr.TOKEN, ""));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Observable<Bean<List<VipContent>>> observable = Api.createRetrofit().create(UserApi.class).vipCardList(jsonObject.toString());
+        return new ApiCallBackList1<>(observable).execute(callBack);
+    }
+
+    @NonNull
+    @Override
+    public Subscription payVip(long cardId, IObjectCallBack<String> callBack) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("token", sp.getString(ConstantStr.TOKEN, ""));
+            jsonObject.put("carId", cardId);
+            jsonObject.put("maccountId", App.getInstance().getCurrentUser().getId());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Observable<Bean<String>> observable = Api.createRetrofit().create(UserApi.class).payVip(jsonObject.toString());
         return new ApiCallBackObject1<>(observable).execute(callBack);
     }
 

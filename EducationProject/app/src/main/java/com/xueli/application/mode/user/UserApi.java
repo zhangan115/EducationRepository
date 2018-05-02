@@ -1,8 +1,10 @@
 package com.xueli.application.mode.user;
 
 import com.xueli.application.mode.bean.Bean;
+import com.xueli.application.mode.bean.user.NewVersion;
 import com.xueli.application.mode.bean.user.User;
 import com.xueli.application.mode.bean.user.VerificationCode;
+import com.xueli.application.mode.bean.user.VipContent;
 
 
 import java.util.List;
@@ -64,5 +66,22 @@ public interface UserApi {
     @POST("maccount/image/upload")
     @Multipart
     Observable<Bean<List<String>>> postFile(@Part List<MultipartBody.Part> partList);
+
+    /**
+     * 检测新版本
+     *
+     * @return 请求对象
+     */
+    @Headers({"Content-Type:application/json;charset=utf-8", "Accept:application/json;"})
+    @POST("version/latestCustomerApp.json")
+    Observable<Bean<NewVersion>> newVersion(@Body() String string);
+
+    @Headers({"Content-Type:application/json;charset=utf-8", "Accept:application/json;"})
+    @POST("api/membercard/list")
+    Observable<Bean<List<VipContent>>> vipCardList(@Body() String string);
+
+    @Headers({"Content-Type:application/json;charset=utf-8", "Accept:application/json;"})
+    @POST("api/membercard/pay")
+    Observable<Bean<String>> payVip(@Body() String string);
 
 }

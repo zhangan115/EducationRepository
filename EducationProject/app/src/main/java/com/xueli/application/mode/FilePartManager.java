@@ -21,7 +21,7 @@ public class FilePartManager {
     public static List<MultipartBody.Part> getPostFileParts(@NonNull File file) {
         MultipartBody.Builder builder = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
-                .addFormDataPart("accountId", String.valueOf(App.getInstance().getCurrentUser().getId()));
+                .addFormDataPart("maccountId", String.valueOf(App.getInstance().getCurrentUser().getId()));
         RequestBody requestFile =
                 RequestBody.create(MediaType.parse("multipart/form-data"), file);
         builder.addFormDataPart("file", file.getName(), requestFile);
