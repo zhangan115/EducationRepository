@@ -84,4 +84,6 @@ public interface UserApi {
     @POST("api/membercard/pay")
     Observable<Bean<User>> payVip(@QueryMap() Map<String, String> map, @Body() String string);
 
+    @POST("api/membercard/getCard")
+    Observable<Bean<String>> getOrderString(@QueryMap() Map<String, String> map, @Body() String string);
 }

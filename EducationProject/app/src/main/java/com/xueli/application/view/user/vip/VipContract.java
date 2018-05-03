@@ -15,6 +15,7 @@ interface VipContract {
 
         void payVip(long cardId);
 
+        void getOrderString(long cardId);
     }
 
     interface View extends BaseView<Presenter> {
@@ -22,5 +23,7 @@ interface VipContract {
         void showVipContent(List<VipContent> list);
 
         void paySuccess(User user);
+
+        void showAlOrderStr(String orderStr);
     }
 }

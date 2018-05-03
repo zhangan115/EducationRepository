@@ -1,9 +1,13 @@
 package com.xueli.application.view.user.vip;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -12,7 +16,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.alipay.sdk.app.EnvUtils;
+import com.alipay.sdk.app.PayTask;
 import com.library.utils.GlideUtils;
+import com.orhanobut.logger.Logger;
 import com.xueli.application.R;
 import com.xueli.application.app.App;
 import com.xueli.application.mode.bean.user.User;
@@ -23,6 +30,7 @@ import com.xueli.application.view.MvpActivity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
 public class VipActivity extends MvpActivity<VipContract.Presenter> implements VipContract.View {
@@ -36,6 +44,7 @@ public class VipActivity extends MvpActivity<VipContract.Presenter> implements V
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        EnvUtils.setEnv(EnvUtils.EnvEnum.SANDBOX);
         super.onCreate(savedInstanceState);
         setLayoutAndToolbar(R.layout.vip_activity, "会员充值");
         setDarkStatusIcon(true);
@@ -124,13 +133,59 @@ public class VipActivity extends MvpActivity<VipContract.Presenter> implements V
             case R.id.btnSure:
                 if (isAL) {
                     //支付宝
-                    mPresenter.payVip(vipContentList.get(mCurrentItem).getId());
+                    mPresenter.getOrderString(vipContentList.get(mCurrentItem).getId());
                 } else {
                     //微信
+                    wxPay();
                     mPresenter.payVip(vipContentList.get(mCurrentItem).getId());
                 }
                 break;
         }
+    }
+
+    private int AL_PAY_FLAG = 100;
+
+    private void alPay(final String orderStr) {
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                PayTask alPay = new PayTask(VipActivity.this);
+                Map<String, String> result = alPay.payV2(orderStr, true);
+                Message msg = new Message();
+                msg.what = AL_PAY_FLAG;
+                msg.obj = result;
+                mHandler.sendMessage(msg);
+            }
+        };
+        Thread thread = new Thread(runnable);
+        thread.start();
+    }
+
+    @SuppressLint("HandlerLeak")
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            if (msg.what == AL_PAY_FLAG) {
+                PayResult payResult = new PayResult((Map<String, String>) msg.obj);
+                String resultInfo = payResult.getResult();// 同步返回需要验证的信息
+                String resultStatus = payResult.getResultStatus();
+                // 判断resultStatus 为9000则代表支付成功
+                if (TextUtils.equals(resultStatus, "9000")) {
+                    // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
+                    Logger.d(resultInfo);
+                    mPresenter.payVip(vipContentList.get(mCurrentItem).getId());
+                } else {
+                    // 该笔订单真实的支付结果，需要依赖服务端的异步通知。
+                    Logger.d(resultInfo);
+                    Logger.d(resultStatus);
+                    App.getInstance().showToast("支付失败");
+                }
+            }
+        }
+    };
+
+    private void wxPay() {
+
     }
 
     private void chooseState() {
@@ -168,6 +223,11 @@ public class VipActivity extends MvpActivity<VipContract.Presenter> implements V
     public void paySuccess(User user) {
         App.getInstance().setCurrentUser(user);
         refreshVipUi();
+    }
+
+    @Override
+    public void showAlOrderStr(String orderStr) {
+        alPay(orderStr);
     }
 
     public class MyViewPagerAdapter extends PagerAdapter {

@@ -149,4 +149,13 @@ public class WebActivity extends BaseActivity {
             }
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        if (webView.canGoBack()) {
+            webView.goBack();
+        } else {
+            finish();
+        }
+    }
 }

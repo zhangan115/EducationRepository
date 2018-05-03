@@ -94,4 +94,34 @@ class VipPresenter implements VipContract.Presenter {
             }
         });
     }
+
+    @Override
+    public void getOrderString(long cardId) {
+        mDataSource.getAlOrderString(cardId, new IObjectCallBack<String>() {
+            @Override
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onData(@NonNull String s) {
+                mView.showAlOrderStr(s);
+            }
+
+            @Override
+            public void onError(@Nullable String message) {
+
+            }
+
+            @Override
+            public void noData() {
+
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+        });
+    }
 }
