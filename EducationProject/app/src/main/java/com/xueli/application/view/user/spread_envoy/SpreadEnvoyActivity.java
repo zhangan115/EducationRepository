@@ -70,7 +70,7 @@ public class SpreadEnvoyActivity extends BaseActivity implements EasyPermissions
                 .flatMap(new Func1<String, Observable<Bitmap>>() {
                     @Override
                     public Observable<Bitmap> call(String s) {
-                        Bitmap bitmap = QRCodeUtil.createQRCodeBitmap("http://39.106.210.43/FxExam/resources/xueli.apk"
+                        Bitmap bitmap = QRCodeUtil.createQRCodeBitmap("http://fir.im/xuel"
                                 , DisplayUtil.dip2px(SpreadEnvoyActivity.this, 138)
                                 , BitmapFactory.decodeResource(getResources(), R.drawable.icon_application)
                                 , 0.3f);
