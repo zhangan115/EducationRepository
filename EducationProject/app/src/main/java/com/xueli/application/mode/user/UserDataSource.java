@@ -112,5 +112,8 @@ public interface UserDataSource {
     Subscription payVip(long cardId, IObjectCallBack<User> callBack);
 
     @NonNull
+    Subscription paySuccess(long cardId, IObjectCallBack<User> callBack);
+
+    @NonNull
     Subscription getAlOrderString(long cardId, IObjectCallBack<String> callBack);
 }

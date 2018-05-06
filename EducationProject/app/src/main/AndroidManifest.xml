@@ -218,6 +218,7 @@
             android:windowSoftInputMode="adjustPan|stateHidden" />
 
         <activity android:name="com.soundcloud.android.crop.CropImageActivity" />
+
         <activity
             android:name="com.alipay.sdk.app.H5PayActivity"
             android:configChanges="orientation|keyboardHidden|navigation|screenSize"

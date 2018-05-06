@@ -15,7 +15,7 @@ interface VipContract {
 
         void payVip(long cardId);
 
-        void getOrderString(long cardId);
+        void getAlOrderString(long cardId);
     }
 
     interface View extends BaseView<Presenter> {

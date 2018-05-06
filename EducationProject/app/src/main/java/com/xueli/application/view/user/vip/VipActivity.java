@@ -16,7 +16,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.alipay.sdk.app.EnvUtils;
 import com.alipay.sdk.app.PayTask;
 import com.library.utils.GlideUtils;
 import com.orhanobut.logger.Logger;
@@ -44,7 +43,6 @@ public class VipActivity extends MvpActivity<VipContract.Presenter> implements V
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        EnvUtils.setEnv(EnvUtils.EnvEnum.SANDBOX);
         super.onCreate(savedInstanceState);
         setLayoutAndToolbar(R.layout.vip_activity, "会员充值");
         setDarkStatusIcon(true);
@@ -79,7 +77,7 @@ public class VipActivity extends MvpActivity<VipContract.Presenter> implements V
                 return mViewPager.dispatchTouchEvent(motionEvent);
             }
         });
-        mViewPager.setPageTransformer(true, new GallyPageTransformer());
+        mViewPager.setPageTransformer(true, new GailyPageTransformer());
         mViewPager.setAdapter(new MyViewPagerAdapter(datas));
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -133,11 +131,10 @@ public class VipActivity extends MvpActivity<VipContract.Presenter> implements V
             case R.id.btnSure:
                 if (isAL) {
                     //支付宝
-                    mPresenter.getOrderString(vipContentList.get(mCurrentItem).getId());
+                    mPresenter.getAlOrderString(vipContentList.get(mCurrentItem).getId());
                 } else {
                     //微信
-                    wxPay();
-                    mPresenter.payVip(vipContentList.get(mCurrentItem).getId());
+
                 }
                 break;
         }
@@ -299,7 +296,7 @@ public class VipActivity extends MvpActivity<VipContract.Presenter> implements V
     }
 
 
-    public class GallyPageTransformer implements ViewPager.PageTransformer {
+    public class GailyPageTransformer implements ViewPager.PageTransformer {
         private static final float min_scale = 0.85f;
 
         @Override

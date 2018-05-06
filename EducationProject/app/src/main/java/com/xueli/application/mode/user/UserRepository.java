@@ -278,6 +278,22 @@ public class UserRepository implements UserDataSource {
 
     @NonNull
     @Override
+    public Subscription paySuccess(long cardId, IObjectCallBack<User> callBack) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("token", sp.getString(ConstantStr.TOKEN, ""));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Map<String, String> map = new HashMap<>();
+        map.put("carId", String.valueOf(cardId));
+        map.put("maccountId", String.valueOf(App.getInstance().getCurrentUser().getId()));
+        Observable<Bean<User>> observable = Api.createRetrofit().create(UserApi.class).paySuccess(map, jsonObject.toString());
+        return new ApiCallBackObject1<>(observable).execute(callBack);
+    }
+
+    @NonNull
+    @Override
     public Subscription getAlOrderString(long cardId, IObjectCallBack<String> callBack) {
         JSONObject jsonObject = new JSONObject();
         try {

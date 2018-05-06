@@ -84,6 +84,10 @@ public interface UserApi {
     @POST("api/membercard/pay")
     Observable<Bean<User>> payVip(@QueryMap() Map<String, String> map, @Body() String string);
 
+    @Headers({"Content-Type:application/json;charset=utf-8", "Accept:application/json;"})
+    @POST("api/membercard/paySuccessful")
+    Observable<Bean<User>> paySuccess(@QueryMap() Map<String, String> map, @Body() String string);
+
     @POST("api/membercard/getCard")
     Observable<Bean<String>> getOrderString(@QueryMap() Map<String, String> map, @Body() String string);
 }

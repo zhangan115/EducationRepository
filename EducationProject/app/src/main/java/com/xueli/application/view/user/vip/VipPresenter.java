@@ -68,7 +68,7 @@ class VipPresenter implements VipContract.Presenter {
 
     @Override
     public void payVip(long cardId) {
-        mDataSource.payVip(cardId, new IObjectCallBack<User>() {
+        mDataSource.paySuccess(cardId, new IObjectCallBack<User>() {
             @Override
             public void onSuccess() {
             }
@@ -96,7 +96,7 @@ class VipPresenter implements VipContract.Presenter {
     }
 
     @Override
-    public void getOrderString(long cardId) {
+    public void getAlOrderString(long cardId) {
         mDataSource.getAlOrderString(cardId, new IObjectCallBack<String>() {
             @Override
             public void onSuccess() {
