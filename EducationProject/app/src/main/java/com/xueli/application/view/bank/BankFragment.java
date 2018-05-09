@@ -49,22 +49,22 @@ public class BankFragment extends MvpFragment implements View.OnClickListener {
     public void onClick(View v) {
         Intent intent = new Intent(getActivity(), BankListActivity.class);
         String tag = (String) v.getTag();
-        if (tag.startsWith("1")) {
-            if (!UserUtils.isVip1(App.getInstance().getCurrentUser())) {
-                showVipDialog();
-                return;
-            }
-        } else if (tag.startsWith("2")) {
-            if (!UserUtils.isVip2(App.getInstance().getCurrentUser())) {
-                showVipDialog();
-                return;
-            }
-        } else {
-            if (!UserUtils.isVip3(App.getInstance().getCurrentUser())) {
-                showVipDialog();
-                return;
-            }
-        }
+//        if (tag.startsWith("1")) {
+//            if (!UserUtils.isVip1(App.getInstance().getCurrentUser())) {
+//                showVipDialog();
+//                return;
+//            }
+//        } else if (tag.startsWith("2")) {
+//            if (!UserUtils.isVip2(App.getInstance().getCurrentUser())) {
+//                showVipDialog();
+//                return;
+//            }
+//        } else {
+//            if (!UserUtils.isVip3(App.getInstance().getCurrentUser())) {
+//                showVipDialog();
+//                return;
+//            }
+//        }
         intent.putExtra(ConstantStr.KEY_BUNDLE_STR, tag);
         startActivity(intent);
     }

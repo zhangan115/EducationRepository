@@ -12,7 +12,6 @@ public class SingleChooseTypeLayout extends LinearLayout implements View.OnClick
 
     private TextView choose, content;
     private Context context;
-    private SectionOption option;
     private int position;
     private IClick iClick;
     private int flag;
@@ -31,7 +30,6 @@ public class SingleChooseTypeLayout extends LinearLayout implements View.OnClick
     }
 
     public void setData(SectionOption option, int position, int flag, IClick click) {
-        this.option = option;
         this.position = position;
         this.iClick = click;
         this.flag = flag;

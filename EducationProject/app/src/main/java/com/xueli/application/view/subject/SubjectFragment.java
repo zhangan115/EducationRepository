@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.text.Html;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,14 +14,13 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.library.widget.HtmlTextView;
-import com.orhanobut.logger.Logger;
 import com.xueli.application.R;
 import com.xueli.application.common.ConstantStr;
 import com.xueli.application.mode.bean.exam.PaperSections;
 import com.xueli.application.mode.bean.exam.SectionOption;
 import com.xueli.application.view.MvpFragment;
-import com.xueli.application.view.bank.examination.ExaminationActivity;
 import com.xueli.application.view.bank.examination.IDataChange;
+import com.xueli.application.widget.InputTypeAnswerLayout;
 import com.xueli.application.widget.InputTypeLayout;
 import com.xueli.application.widget.SingleChooseTypeLayout;
 
@@ -35,10 +33,11 @@ import java.util.List;
  * Created by pingan on 2018/3/19.
  */
 
-public class SubjectFragment extends MvpFragment implements SingleChooseTypeLayout.IClick, InputTypeLayout.IEnter {
+public class SubjectFragment extends MvpFragment implements SingleChooseTypeLayout.IClick, InputTypeLayout.IEnter, InputTypeAnswerLayout.IEnter {
 
     private List<SingleChooseTypeLayout> chooseTypeLayouts;
     private List<InputTypeLayout> inputTypeLayouts;
+    private List<InputTypeAnswerLayout> inputTypeAnsowerLayouts;
     private PaperSections paperSections;
     private List<SectionOption> sectionOptions;
     private boolean showAnswer;
@@ -81,8 +80,9 @@ public class SubjectFragment extends MvpFragment implements SingleChooseTypeLayo
 
         chooseTypeLayouts = new ArrayList<>();
         inputTypeLayouts = new ArrayList<>();
+        inputTypeAnsowerLayouts = new ArrayList<>();
         TextView tvSectionType = rootView.findViewById(R.id.tvSectionType);
-        TextView tvQuestion = rootView.findViewById(R.id.tvQuestion);
+        HtmlTextView tvQuestion = rootView.findViewById(R.id.tvQuestion);
         TextView tvAnswer = rootView.findViewById(R.id.tvAnswer);
         LinearLayout llOptions = rootView.findViewById(R.id.llOptions);
         if (paperSections.getFlag() == 1) {
@@ -93,8 +93,10 @@ public class SubjectFragment extends MvpFragment implements SingleChooseTypeLayo
             tvSectionType.setText("多选题");
         } else if (paperSections.getFlag() == 4) {
             tvSectionType.setText("判断题");
+        } else if (paperSections.getFlag() == 5) {
+            tvSectionType.setText("简答题");
         }
-        tvQuestion.setText(Html.fromHtml(paperSections.getQuestion()));
+        tvQuestion.setHtmlFromString(paperSections.getQuestion(), false);
         Type type = new TypeToken<List<SectionOption>>() {
         }.getType();
         if (paperSections.getSectionOptions() == null) {
@@ -147,6 +149,13 @@ public class SubjectFragment extends MvpFragment implements SingleChooseTypeLayo
                 SingleChooseTypeLayout typeLayout = new SingleChooseTypeLayout(getActivity());
                 typeLayout.setData(sectionOptions.get(i), i, paperSections.getFlag(), showAnswer ? null : this);
                 chooseTypeLayouts.add(typeLayout);
+                llOptions.addView(typeLayout);
+            }
+        } else if (paperSections.getFlag() == 5) {//简答题
+            for (int i = 0; i < sectionOptions.size(); i++) {
+                InputTypeAnswerLayout typeLayout = new InputTypeAnswerLayout(getActivity());
+                typeLayout.setData(sectionOptions.get(i), i, showAnswer ? null : this);
+                inputTypeAnsowerLayouts.add(typeLayout);
                 llOptions.addView(typeLayout);
             }
         }

@@ -37,7 +37,7 @@
                         android:textColor="@color/text_blue"
                         android:textSize="12dp" />
 
-                    <TextView
+                    <com.library.widget.HtmlTextView
                         android:id="@+id/tvQuestion"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
