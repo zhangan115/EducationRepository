@@ -278,6 +278,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
+            android:id="@+id/llChooseMajor2"
             android:layout_height="wrap_content"
             android:background="@color/colorWhite"
             android:orientation="horizontal">
@@ -291,21 +292,21 @@
                 android:textColor="@color/text_black"
                 android:textSize="14dp" />
 
-            <EditText
-                android:id="@+id/etChooseMajor2"
+            <TextView
+                android:id="@+id/tvChooseMajor2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_weight="1"
                 android:background="@null"
                 android:gravity="right"
-                android:hint="选填"
-                android:inputType="text"
                 android:paddingBottom="16dp"
                 android:paddingRight="15dp"
                 android:paddingTop="16dp"
+                android:text="选填"
                 android:textColor="@color/text_gray_999"
                 android:textSize="14dp" />
+
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -313,8 +314,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
-                android:src="@drawable/icon_btn_arrow_r_g"
-                android:visibility="invisible" />
+                android:src="@drawable/icon_btn_arrow_r_g" />
         </LinearLayout>
 
         <View

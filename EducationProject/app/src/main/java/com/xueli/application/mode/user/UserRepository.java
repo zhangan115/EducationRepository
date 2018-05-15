@@ -122,10 +122,10 @@ public class UserRepository implements UserDataSource {
     @NonNull
     @Override
     public Subscription startCountDown(final CountDownCallBack callBack) {
-        final long count = 30;
+        final long count = 60;
         return Observable.interval(1, TimeUnit.SECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
-                .take(30)
+                .take(60)
                 .map(new Func1<Long, Long>() {
                     @Override
                     public Long call(Long aLong) {

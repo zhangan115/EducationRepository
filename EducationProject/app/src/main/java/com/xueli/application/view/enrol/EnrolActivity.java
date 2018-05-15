@@ -31,7 +31,7 @@ public class EnrolActivity extends MvpActivity<EnrolContract.Presenter> implemen
 
     //view
     private EditText etUserName;
-    private EditText etChooseMajor2;
+    private TextView tvChooseMajor2;
     private EditText etPhoneNum;
     private ImageView ivMan, ivWoman;
     private TextView tvChooseSchool, tvChooseMajor, tvChooseType;
@@ -46,7 +46,7 @@ public class EnrolActivity extends MvpActivity<EnrolContract.Presenter> implemen
         super.onCreate(savedInstanceState);
         setLayoutAndToolbar(R.layout.enrol_activity, "我要报名");
         etUserName = findViewById(R.id.etUserName);
-        etChooseMajor2 = findViewById(R.id.etChooseMajor2);
+        tvChooseMajor2 = findViewById(R.id.tvChooseMajor2);
         etPhoneNum = findViewById(R.id.etPhoneNum);
         ivMan = findViewById(R.id.ivMan);
         ivWoman = findViewById(R.id.ivWoman);
@@ -60,6 +60,7 @@ public class EnrolActivity extends MvpActivity<EnrolContract.Presenter> implemen
 
         findViewById(R.id.llChooseSchool).setOnClickListener(this);
         findViewById(R.id.llChooseMajor).setOnClickListener(this);
+        findViewById(R.id.llChooseMajor2).setOnClickListener(this);
         findViewById(R.id.llChooseType).setOnClickListener(this);
 
         findViewById(R.id.btnNextStep).setOnClickListener(this);
@@ -131,6 +132,35 @@ public class EnrolActivity extends MvpActivity<EnrolContract.Presenter> implemen
                                         e.printStackTrace();
                                     }
                                     tvChooseMajor.setText(majorBeans.get(position).getTitle());
+                                }
+                            }).show();
+                } else {
+                    App.getInstance().showToast("该校暂时没有专业");
+                }
+                break;
+            case R.id.llChooseMajor2:
+                if (majorBeans != null && majorBeans.size() > 0) {
+                    ArrayList<String> list1 = new ArrayList<>();
+                    for (int i = 0; i < majorBeans.size(); i++) {
+                        if (!TextUtils.isEmpty(majorBeans.get(i).getTitle())) {
+                            list1.add(majorBeans.get(i).getTitle());
+                        }
+                    }
+                    if (list1.size() == 0) {
+                        App.getInstance().showToast("该校暂时没有专业");
+                        return;
+                    }
+                    new MaterialDialog.Builder(this)
+                            .items(list1)
+                            .itemsCallback(new MaterialDialog.ListCallback() {
+                                @Override
+                                public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
+                                    try {
+                                        jsonObject.put("specialtyCatalogId2", majorBeans.get(position).getId());
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                    tvChooseMajor2.setText(majorBeans.get(position).getTitle());
                                 }
                             }).show();
                 } else {
