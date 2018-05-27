@@ -89,6 +89,7 @@
                 <ImageView
                     android:id="@+id/ivSpreadImage"
                     android:layout_width="138dp"
+                    android:src="@drawable/erweima"
                     android:layout_height="138dp"
                     android:layout_gravity="center" />
             </FrameLayout>

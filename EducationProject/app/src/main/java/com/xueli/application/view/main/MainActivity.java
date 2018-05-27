@@ -146,6 +146,8 @@ public class MainActivity extends MvpActivity<MainContract.Presenter> implements
         if (!EasyPermissions.hasPermissions(this.getApplicationContext(), android.Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             EasyPermissions.requestPermissions(this, getString(R.string.request_permissions),
                     REQUEST_EXTERNAL, android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        } else {
+            mPresenter.getNewVersion();
         }
     }
 

@@ -128,6 +128,18 @@ public class HomeFragment extends MvpFragment implements View.OnClickListener, H
         rootView.findViewById(R.id.llComputerTrain).setTag(R.id.tag_title, "计算机培训");
         rootView.findViewById(R.id.llComputerTrain).setOnClickListener(studyClick);
 
+        rootView.findViewById(R.id.llYuWen).setTag(R.id.tag_id, 10L);
+        rootView.findViewById(R.id.llYuWen).setTag(R.id.tag_title, "语文");
+        rootView.findViewById(R.id.llYuWen).setOnClickListener(studyClick);
+
+        rootView.findViewById(R.id.llShuXue).setTag(R.id.tag_id, 11L);
+        rootView.findViewById(R.id.llShuXue).setTag(R.id.tag_title, "数学");
+        rootView.findViewById(R.id.llShuXue).setOnClickListener(studyClick);
+
+        rootView.findViewById(R.id.llWaiYu).setTag(R.id.tag_id, 12L);
+        rootView.findViewById(R.id.llWaiYu).setTag(R.id.tag_title, "外语");
+        rootView.findViewById(R.id.llWaiYu).setOnClickListener(studyClick);
+
         llHot = rootView.findViewById(R.id.llHot);
         noHeaderAd();
         mPresenter.getHeaderAd();

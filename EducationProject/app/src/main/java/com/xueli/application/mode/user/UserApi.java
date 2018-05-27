@@ -73,7 +73,7 @@ public interface UserApi {
      * @return 请求对象
      */
     @Headers({"Content-Type:application/json;charset=utf-8", "Accept:application/json;"})
-    @POST("version/latestCustomerApp.json")
+    @POST("api/getNewVersionForapp")
     Observable<Bean<NewVersion>> newVersion(@Body() String string);
 
     @Headers({"Content-Type:application/json;charset=utf-8", "Accept:application/json;"})

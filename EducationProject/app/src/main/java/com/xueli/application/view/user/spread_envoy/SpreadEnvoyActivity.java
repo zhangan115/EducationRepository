@@ -66,33 +66,6 @@ public class SpreadEnvoyActivity extends BaseActivity implements EasyPermissions
         String inviteStr = "邀请码:" + App.getInstance().getCurrentUser().getInviteCode();
         tvUserShared.setText(inviteStr);
         findViewById(R.id.tvShare).setOnClickListener(this);
-        Observable.just(App.getInstance().getCurrentUser().getAccountName() + ".jpg").subscribeOn(Schedulers.io())
-                .flatMap(new Func1<String, Observable<Bitmap>>() {
-                    @Override
-                    public Observable<Bitmap> call(String s) {
-                        Bitmap bitmap = QRCodeUtil.createQRCodeBitmap("http://fir.im/xuel"
-                                , DisplayUtil.dip2px(SpreadEnvoyActivity.this, 138)
-                                , BitmapFactory.decodeResource(getResources(), R.drawable.icon_application)
-                                , 0.3f);
-                        return Observable.just(bitmap);
-                    }
-                }).observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Bitmap>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        e.printStackTrace();
-                    }
-
-                    @Override
-                    public void onNext(Bitmap bitmap) {
-                        ivSpreadImage.setImageBitmap(bitmap);
-                    }
-                });
     }
 
     @Override
