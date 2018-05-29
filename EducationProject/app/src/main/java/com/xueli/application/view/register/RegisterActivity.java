@@ -7,31 +7,50 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 
-import com.orhanobut.logger.Logger;
 import com.xueli.application.R;
 import com.xueli.application.app.App;
 import com.xueli.application.common.ConstantStr;
-import com.xueli.application.view.BaseActivity;
+import com.xueli.application.mode.user.UserRepository;
+import com.xueli.application.view.MvpActivity;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 注册界面
  * Created by pingan on 2018/3/9.
  */
 
-public class RegisterActivity extends BaseActivity {
+public class RegisterActivity extends MvpActivity<RegisterContract.Presenter> implements RegisterContract.View {
 
-    private EditText userName;
     private EditText etUserPassWord;
     private EditText etUserPassAgain;
+    private Map<String, String> map;
+    private String phone;
+    private String userPassWordStr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setLayoutAndToolbar(R.layout.register_activity, "注册");
         findViewById(R.id.btnNextStep).setOnClickListener(this);
-        userName = findViewById(R.id.etUserName);
         etUserPassWord = findViewById(R.id.etUserPassWord);
         etUserPassAgain = findViewById(R.id.etUserPassAgain);
+
+        map = new HashMap<>();
+        phone = getIntent().getStringExtra(ConstantStr.KEY_BUNDLE_STR);
+        String verificationCode = getIntent().getStringExtra(ConstantStr.KEY_BUNDLE_STR_1);
+        String invitationStr = getIntent().getStringExtra(ConstantStr.KEY_BUNDLE_STR_2);
+        map.put("phone", phone);
+        map.put("verificationCode", verificationCode);
+        if (!TextUtils.isEmpty(invitationStr)) {
+            map.put("inviteCode", invitationStr);
+        }
+    }
+
+    @Override
+    protected void onBindPresenter() {
+        new RegisterPresenter(UserRepository.getRepository(this), this);
     }
 
 
@@ -40,27 +59,15 @@ public class RegisterActivity extends BaseActivity {
         switch (v.getId()) {
             case R.id.btnNextStep:
                 if (checkEnterStr()) {
-                    Intent intent = new Intent(this, RegisterSureActivity.class);
-                    intent.putExtra(ConstantStr.KEY_BUNDLE_STR, userName.getText().toString());
-                    intent.putExtra(ConstantStr.KEY_BUNDLE_STR_1, etUserPassWord.getText().toString());
-                    startActivityForResult(intent, 100);
+                    mPresenter.userReg(map);
                 }
                 break;
         }
     }
 
     private boolean checkEnterStr() {
-        String userNameStr = userName.getText().toString();
-        String userPassWordStr = etUserPassWord.getText().toString();
+        userPassWordStr = etUserPassWord.getText().toString();
         String userPassWordAgainStr = etUserPassAgain.getText().toString();
-        if (TextUtils.isEmpty(userNameStr)) {
-            App.getInstance().showToast("请输入账号");
-            return false;
-        }
-        if (userNameStr.length() < 3 || !isNumber(userNameStr)) {
-            App.getInstance().showToast("用户名由3-12位字母和数字组成,首位必须字母");
-            return false;
-        }
         if (TextUtils.isEmpty(userPassWordStr)) {
             App.getInstance().showToast("请输入密码");
             return false;
@@ -77,31 +84,43 @@ public class RegisterActivity extends BaseActivity {
             App.getInstance().showToast("两次密码不一致");
             return false;
         }
+        map.put("pssword", userPassWordStr);
         return true;
     }
 
-    private boolean isNumber(String str) {
-        if (TextUtils.isEmpty(str)) {
-            return false;
-        }
-        if (str.length() >= 1) {
-            String s = str.substring(0, 1);
-            try {
-                Logger.d(String.valueOf(Integer.valueOf(s)));
-            } catch (NumberFormatException e) {
-                return true;
-            }
-            return false;
-        } else {
-            return false;
-        }
+
+    @Override
+    public void showMessage(String message) {
+        App.getInstance().showToast(message);
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 100 && resultCode == Activity.RESULT_OK) {
-            finish();
-        }
+    public void registerSuccess() {
+        App.getInstance().showToast("注册成功");
+        Intent intent = new Intent();
+        intent.putExtra(ConstantStr.KEY_BUNDLE_STR_1, phone);
+        intent.putExtra(ConstantStr.KEY_BUNDLE_STR_2, userPassWordStr);
+        setResult(Activity.RESULT_OK);
+        finish();
+    }
+
+    @Override
+    public void sendCodeSuccess() {
+
+    }
+
+    @Override
+    public void startCountDown(String time) {
+
+    }
+
+    @Override
+    public void contDownFinish() {
+
+    }
+
+    @Override
+    public void setPresenter(RegisterContract.Presenter presenter) {
+        mPresenter = presenter;
     }
 }

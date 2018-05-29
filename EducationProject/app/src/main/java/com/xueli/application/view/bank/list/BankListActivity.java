@@ -3,6 +3,7 @@ package com.xueli.application.view.bank.list;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -26,6 +27,7 @@ import com.library.widget.ExpendRecycleView;
 import com.library.widget.RecycleRefreshLoadLayout;
 import com.xueli.application.R;
 import com.xueli.application.app.App;
+import com.xueli.application.common.ConstantInt;
 import com.xueli.application.common.ConstantStr;
 import com.xueli.application.mode.bean.exam.ExamList;
 import com.xueli.application.mode.bean.exam.QuestionType;
@@ -51,6 +53,7 @@ public class BankListActivity extends MvpActivity<BankListContact.Presenter> imp
     //view
     private RecycleRefreshLoadLayout refreshLoadLayout;
     private ExpendRecycleView expendRecycleView;
+    @Nullable
     private DrawerLayout drawerLayout;
     private RelativeLayout noDataLayout;
     private LinearLayout llQuestionTypes;
@@ -65,43 +68,51 @@ public class BankListActivity extends MvpActivity<BankListContact.Presenter> imp
     private Map<String, String> map;
     private int currentYear;
     private List<QuestionType> questionTypes;
+    private boolean isChenRenGaoKao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTheme(R.style.bankFilterStyle);
-        transparentStatusBar();
         String tag = getIntent().getStringExtra(ConstantStr.KEY_BUNDLE_STR);
         String[] types = tag.split(",");
         if (types.length == 2) {
             type = String.valueOf(types[0]);
             isYear = String.valueOf(types[1]);
         }
-        setLayoutAndToolbar(R.layout.bank_list_activity, isYear.equals("0") ? "模拟试题" : "历年真题");
+        isChenRenGaoKao = TextUtils.equals(type, "1");
+        if (isChenRenGaoKao) {
+            setLayoutAndToolbar(R.layout.bank_list_activity_1, isYear.equals("0") ? "模拟试题" : "历年真题");
+        } else {
+            setTheme(R.style.bankFilterStyle);
+            transparentStatusBar();
+            setLayoutAndToolbar(R.layout.bank_list_activity, isYear.equals("0") ? "模拟试题" : "历年真题");
+        }
         initView();
         refreshLoadLayout.setColorSchemeColors(findColorById(R.color.colorPrimary));
         expendRecycleView.setLayoutManager(new GridLayoutManager(this, 1));
-        drawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
-            @Override
-            public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
+        if (drawerLayout != null) {
+            drawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
+                @Override
+                public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
 
-            }
+                }
 
-            @Override
-            public void onDrawerOpened(@NonNull View drawerView) {
+                @Override
+                public void onDrawerOpened(@NonNull View drawerView) {
 
-            }
+                }
 
-            @Override
-            public void onDrawerClosed(@NonNull View drawerView) {
-                App.getInstance().hideSoftKeyBoard(BankListActivity.this);
-            }
+                @Override
+                public void onDrawerClosed(@NonNull View drawerView) {
+                    App.getInstance().hideSoftKeyBoard(BankListActivity.this);
+                }
 
-            @Override
-            public void onDrawerStateChanged(int newState) {
+                @Override
+                public void onDrawerStateChanged(int newState) {
 
-            }
-        });
+                }
+            });
+        }
         map = new HashMap<>();
         datas = new ArrayList<>();
         setTypeAndYear();
@@ -122,15 +133,26 @@ public class BankListActivity extends MvpActivity<BankListContact.Presenter> imp
             }
         });
         refreshLoadLayout.setOnRefreshListener(this);
+        String type = getIntent().getStringExtra(ConstantStr.KEY_BUNDLE_STR_1);
+        if (!TextUtils.isEmpty(type)) {
+            String[] pagerTypes = type.split(",");
+            map.put("questionCatalogId", pagerTypes[0]);
+            map.put("pagerType", pagerTypes[1]);
+        }
         mPresenter.getBankList(map);
-        mPresenter.getQuestionType();
+        if (!isChenRenGaoKao) {
+            mPresenter.getQuestionType();
+        }
     }
 
     private void initView() {
-        NavigationView navigationView = findViewById(R.id.nav_view);
         refreshLoadLayout = findViewById(R.id.rcrLayout);
         expendRecycleView = findViewById(R.id.expendRv);
         noDataLayout = findViewById(R.id.rlNoData);
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        if (navigationView == null) {
+            return;
+        }
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView.getHeaderView(0).findViewById(R.id.btnReset).setOnClickListener(this);
         navigationView.getHeaderView(0).findViewById(R.id.btnSure).setOnClickListener(this);
@@ -148,7 +170,6 @@ public class BankListActivity extends MvpActivity<BankListContact.Presenter> imp
         tvYears[1].setText(String.valueOf(currentYear - 1));
         tvYears[2].setText(String.valueOf(currentYear - 2));
 
-
         for (TextView tv : tvTypes) {
             tv.setOnClickListener(this);
         }
@@ -159,6 +180,9 @@ public class BankListActivity extends MvpActivity<BankListContact.Presenter> imp
 
     private void setTextViewState(int position, TextView[] textViews) {
         for (int i = 0; i < textViews.length; i++) {
+            if (textViews[i] == null) {
+                continue;
+            }
             if (i == position) {
                 textViews[i].setTextColor(findColorById(R.color.text_blue));
                 textViews[i].setBackground(findDrawById(R.drawable.shape_edit_bg_blue));
@@ -182,13 +206,13 @@ public class BankListActivity extends MvpActivity<BankListContact.Presenter> imp
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.filter, menu);
-        return true;
+        return !isChenRenGaoKao;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_filter) {
+        if (id == R.id.action_filter && drawerLayout != null) {
             drawerLayout.openDrawer(Gravity.RIGHT);
             return true;
         }
@@ -206,7 +230,9 @@ public class BankListActivity extends MvpActivity<BankListContact.Presenter> imp
                 setTextViewState(-1, tvSubjects);
                 etBankName.setText("");
                 onRefresh();
-                drawerLayout.closeDrawer(Gravity.RIGHT);
+                if (drawerLayout != null) {
+                    drawerLayout.closeDrawer(Gravity.RIGHT);
+                }
                 break;
             case R.id.btnSure:
                 String str = etBankName.getText().toString();
@@ -216,7 +242,9 @@ public class BankListActivity extends MvpActivity<BankListContact.Presenter> imp
                     map.remove("title");
                 }
                 onRefresh();
-                drawerLayout.closeDrawer(Gravity.RIGHT);
+                if (drawerLayout != null) {
+                    drawerLayout.closeDrawer(Gravity.RIGHT);
+                }
                 break;
             case R.id.tvType1:
             case R.id.tvType2:

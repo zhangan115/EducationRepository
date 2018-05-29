@@ -1,6 +1,7 @@
 package com.xueli.application.view.register;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -27,7 +28,6 @@ public class RegisterSureActivity extends MvpActivity<RegisterContract.Presenter
 
     private TextView tvGetCode;
     private EditText etUserName, etUserPassWord, etUserInvitation;
-    private Map<String, String> map;
 
 
     @Override
@@ -40,12 +40,6 @@ public class RegisterSureActivity extends MvpActivity<RegisterContract.Presenter
         etUserPassWord = findViewById(R.id.etUserPassWord);
         etUserInvitation = findViewById(R.id.etUserInvitation);
         tvGetCode.setOnClickListener(this);
-
-        map = new HashMap<>();
-        String name = getIntent().getStringExtra(ConstantStr.KEY_BUNDLE_STR);
-        String pass = getIntent().getStringExtra(ConstantStr.KEY_BUNDLE_STR_1);
-        map.put("accountName", name);
-        map.put("pssword", pass);
     }
 
     @Override
@@ -57,27 +51,28 @@ public class RegisterSureActivity extends MvpActivity<RegisterContract.Presenter
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnNextStep:
+                Intent intent = new Intent(this, RegisterActivity.class);
                 String phoneNumber1 = etUserName.getText().toString().trim();
                 if (TextUtils.isEmpty(phoneNumber1)) {
                     App.getInstance().showToast("请输入手机号码");
                     return;
                 }
-                map.put("phone", phoneNumber1);
                 String verificationCode = etUserPassWord.getText().toString().trim();
                 if (TextUtils.isEmpty(verificationCode)) {
                     App.getInstance().showToast("请输入验证码");
                     return;
                 }
-                map.put("verificationCode", verificationCode);
                 String invitationStr = etUserInvitation.getText().toString().trim();
                 if (!TextUtils.isEmpty(invitationStr)) {
                     if (invitationStr.length() == 6) {
-                        map.put("inviteCode", invitationStr);
+                        intent.putExtra(ConstantStr.KEY_BUNDLE_STR_2, invitationStr);
                     } else {
                         App.getInstance().showToast("邀请码不合法");
                     }
                 }
-                mPresenter.userReg(map);
+                intent.putExtra(ConstantStr.KEY_BUNDLE_STR, phoneNumber1);
+                intent.putExtra(ConstantStr.KEY_BUNDLE_STR_1, verificationCode);
+                startActivityForResult(intent, 100);
                 break;
             case R.id.tvGetCode:
                 if (mPresenter.isCountDown()) {
@@ -98,15 +93,22 @@ public class RegisterSureActivity extends MvpActivity<RegisterContract.Presenter
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 100 && resultCode == Activity.RESULT_OK) {
+            setResult(Activity.RESULT_OK);
+            finish();
+        }
+    }
+
+    @Override
     public void showMessage(String message) {
         App.getInstance().showToast(message);
     }
 
     @Override
     public void registerSuccess() {
-        App.getInstance().showToast("注册成功");
-        setResult(Activity.RESULT_OK);
-        finish();
+
     }
 
     @Override

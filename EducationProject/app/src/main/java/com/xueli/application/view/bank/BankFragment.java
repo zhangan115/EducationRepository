@@ -15,6 +15,7 @@ import com.xueli.application.app.App;
 import com.xueli.application.common.ConstantStr;
 import com.xueli.application.util.UserUtils;
 import com.xueli.application.view.MvpFragment;
+import com.xueli.application.view.bank.filter.BankFilterActivity;
 import com.xueli.application.view.bank.list.BankListActivity;
 import com.xueli.application.view.user.vip.VipActivity;
 
@@ -47,8 +48,13 @@ public class BankFragment extends MvpFragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        Intent intent = new Intent(getActivity(), BankListActivity.class);
         String tag = (String) v.getTag();
+        Intent intent;
+        if (tag.startsWith("1")) {
+            intent = new Intent(getActivity(), BankFilterActivity.class);
+        } else {
+            intent = new Intent(getActivity(), BankListActivity.class);
+        }
 //        if (tag.startsWith("1")) {
 //            if (!UserUtils.isVip1(App.getInstance().getCurrentUser())) {
 //                showVipDialog();

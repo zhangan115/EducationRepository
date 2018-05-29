@@ -80,8 +80,8 @@ public class ForgetPassWordSureActivity extends MvpActivity<ForgetPassWordSureCo
     @Override
     public void changeSuccess() {
         Intent intent = new Intent();
-        intent.putExtra(ConstantStr.KEY_BUNDLE_STR, userName);
         intent.putExtra(ConstantStr.KEY_BUNDLE_STR_1, userPhone);
+        intent.putExtra(ConstantStr.KEY_BUNDLE_STR_2, map.get("pssword"));
         setResult(Activity.RESULT_OK, intent);
         finish();
     }

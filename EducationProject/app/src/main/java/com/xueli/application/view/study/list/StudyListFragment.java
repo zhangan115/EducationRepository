@@ -132,8 +132,6 @@ public class StudyListFragment extends LazyLoadFragment implements RecycleRefres
                         showVipDialog();
                         return;
                     }
-                } else {
-                    return;
                 }
                 Intent messageIntent = new Intent(getActivity(), MessageDetailActivity.class);
                 messageIntent.putExtra(ConstantStr.KEY_BUNDLE_STR, datas.get(position).getTitle());

@@ -16,12 +16,14 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
+            android:visibility="gone"
             android:background="@color/color_division" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorWhite"
+            android:visibility="gone"
             android:orientation="horizontal">
 
             <TextView

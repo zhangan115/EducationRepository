@@ -17,7 +17,7 @@ import com.xueli.application.mode.Injection;
 import com.xueli.application.view.MvpActivity;
 import com.xueli.application.view.forget.ForgetPassWordActivity;
 import com.xueli.application.view.main.MainActivity;
-import com.xueli.application.view.register.RegisterActivity;
+import com.xueli.application.view.register.RegisterSureActivity;
 
 /**
  * 登陆界面
@@ -100,10 +100,10 @@ public class LoginActivity extends MvpActivity<LoginContract.Presenter> implemen
                 break;
             case R.id.tvForgetPass:
                 Intent forgetPassInt = new Intent(this, ForgetPassWordActivity.class);
-                startActivityForResult(forgetPassInt, START_REGISTER);
+                startActivityForResult(forgetPassInt, START_FORGET);
                 break;
             case R.id.tvRegister:
-                Intent intent = new Intent(this, RegisterActivity.class);
+                Intent intent = new Intent(this, RegisterSureActivity.class);
                 startActivityForResult(intent, START_REGISTER);
                 break;
         }
@@ -115,10 +115,10 @@ public class LoginActivity extends MvpActivity<LoginContract.Presenter> implemen
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == START_REGISTER && resultCode == Activity.RESULT_OK) {
+        if (requestCode == START_FORGET && resultCode == Activity.RESULT_OK) {
             if (data != null) {
-                String name = data.getStringExtra(ConstantStr.KEY_BUNDLE_STR);
-                String pass = data.getStringExtra(ConstantStr.KEY_BUNDLE_STR_1);
+                String name = data.getStringExtra(ConstantStr.KEY_BUNDLE_STR_1);
+                String pass = data.getStringExtra(ConstantStr.KEY_BUNDLE_STR_2);
                 if (!TextUtils.isEmpty(name)) {
                     userNameEt.setText(name);
                 }
@@ -126,7 +126,17 @@ public class LoginActivity extends MvpActivity<LoginContract.Presenter> implemen
                     userPassWordEt.setText(pass);
                 }
             }
-        } else if (requestCode == START_FORGET && resultCode == Activity.RESULT_OK) {
+        } else if (requestCode == START_REGISTER && resultCode == Activity.RESULT_OK) {
+            if (data != null) {
+                String phone = data.getStringExtra(ConstantStr.KEY_BUNDLE_STR_1);
+                String pass = data.getStringExtra(ConstantStr.KEY_BUNDLE_STR_2);
+                if (!TextUtils.isEmpty(phone)) {
+                    userNameEt.setText(phone);
+                }
+                if (!TextUtils.isEmpty(pass)) {
+                    userPassWordEt.setText(pass);
+                }
+            }
 
         }
     }

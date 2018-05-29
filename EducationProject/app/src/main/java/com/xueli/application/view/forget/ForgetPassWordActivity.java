@@ -53,10 +53,6 @@ public class ForgetPassWordActivity extends MvpActivity<ForgetPassWordContract.P
         switch (v.getId()) {
             case R.id.btnNextStep:
                 String code = etUserPassAgain.getText().toString().trim();
-                if (!userName.equals(etUserName.getText().toString().trim())) {
-                    showMessage("请重新获取验证码");
-                    return;
-                }
                 if (!phoneNumber.equals(etUserPassWord.getText().toString().trim())) {
                     showMessage("请重新获取验证码");
                     return;
@@ -66,20 +62,15 @@ public class ForgetPassWordActivity extends MvpActivity<ForgetPassWordContract.P
                     return;
                 }
                 Intent intent = new Intent(this, ForgetPassWordSureActivity.class);
-                intent.putExtra(ConstantStr.KEY_BUNDLE_STR, userName);
+                intent.putExtra(ConstantStr.KEY_BUNDLE_STR, phoneNumber);
                 intent.putExtra(ConstantStr.KEY_BUNDLE_STR_1, phoneNumber);
                 intent.putExtra(ConstantStr.KEY_BUNDLE_STR_2, code);
                 startActivityForResult(intent, REQUEST_FORGET_PASS);
-                finish();
                 break;
             case R.id.tvGetCode:
                 userName = etUserName.getText().toString().trim();
                 phoneNumber = etUserPassWord.getText().toString().trim();
                 if (mPresenter.isCountDown()) {
-                    break;
-                }
-                if (TextUtils.isEmpty(userName)) {
-                    showMessage("请输入账号");
                     break;
                 }
                 if (TextUtils.isEmpty(phoneNumber)) {
@@ -90,7 +81,7 @@ public class ForgetPassWordActivity extends MvpActivity<ForgetPassWordContract.P
                     App.getInstance().showToast("请输入合法手机号码");
                     break;
                 }
-                mPresenter.sendPhoneCode(userName, phoneNumber);
+                mPresenter.sendPhoneCode(phoneNumber, phoneNumber);
                 break;
         }
     }

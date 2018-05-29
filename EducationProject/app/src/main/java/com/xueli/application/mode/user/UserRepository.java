@@ -223,7 +223,7 @@ public class UserRepository implements UserDataSource {
     @NonNull
     @Override
     public Subscription userForgetPass(String name, String phone, @NonNull IObjectCallBack<VerificationCode> callBack) {
-        Observable<Bean<VerificationCode>> observable = Api.createRetrofit().create(UserApi.class).userForgetPass(name, phone);
+        Observable<Bean<VerificationCode>> observable = Api.createRetrofit().create(UserApi.class).userForgetPass(phone);
         return new ApiCallBackObject1<>(observable).execute(callBack);
     }
 

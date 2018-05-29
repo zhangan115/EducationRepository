@@ -151,21 +151,10 @@
             android:gravity="center"
             android:paddingBottom="15dp"
             android:paddingTop="15dp"
-            android:text="完成"
+            android:text="下一步"
             android:textColor="@color/colorWhite"
             android:textSize="16dp" />
 
-
-        <TextView
-            android:id="@+id/tvComply"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:paddingBottom="12dp"
-            android:paddingTop="12dp"
-            android:text="点击完成，即同意遵守考试系统"
-            android:textColor="@color/text_gray_666"
-            android:textSize="12dp" />
 
     </LinearLayout>
 </LinearLayout>

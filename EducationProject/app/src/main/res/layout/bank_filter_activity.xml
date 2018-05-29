@@ -2,23 +2,263 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/transparent"
-    android:fitsSystemWindows="false"
-    android:orientation="horizontal">
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar_include" />
 
     <LinearLayout
-        android:id="@+id/llEmpty"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:background="@color/transparent"
-        android:orientation="vertical" />
-
-    <LinearLayout
-        android:layout_width="300dp"
-        android:layout_height="match_parent"
-        android:background="@color/colorWhite"
+        android:background="#ececec"
         android:orientation="vertical">
 
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/colorWhite"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/blue_item"
+                        android:drawablePadding="12dp"
+                        android:paddingBottom="15dp"
+                        android:paddingLeft="15dp"
+                        android:paddingTop="15dp"
+                        android:text="高起专"
+                        android:textColor="@color/text_gray_333"
+                        android:textSize="14dp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
+                        android:orientation="horizontal"
+                        android:weightSum="4">
+
+                        <TextView
+                            style="@style/FilterTextXStyle"
+                            android:onClick="onClick"
+                            android:tag="1,2"
+                            android:text="语文"
+                            android:layout_marginRight="10dp"
+                            android:textColor="@color/text_gray_333"
+                            android:textSize="12dp" />
+
+                        <TextView
+                            style="@style/FilterTextXStyle"
+                            android:layout_marginRight="10dp"
+                            android:background="@drawable/shape_edit_bg"
+                            android:onClick="onClick"
+                            android:tag="2,2"
+                            android:text="数学"
+                            android:textColor="@color/text_gray_333"
+                            android:textSize="12dp" />
+
+                        <TextView
+                            style="@style/FilterTextXStyle"
+                            android:layout_marginRight="10dp"
+                            android:background="@drawable/shape_edit_bg"
+                            android:onClick="onClick"
+                            android:tag="3,2"
+                            android:text="英语"
+                            android:textColor="@color/text_gray_333"
+                            android:textSize="12dp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/colorWhite"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/blue_item"
+                        android:drawablePadding="12dp"
+                        android:paddingBottom="15dp"
+                        android:paddingLeft="15dp"
+                        android:paddingTop="15dp"
+                        android:text="专升本"
+                        android:textColor="@color/text_gray_333"
+                        android:textSize="14dp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
+                        android:orientation="horizontal"
+                        android:weightSum="4">
+
+                        <TextView
+                            style="@style/FilterTextXStyle"
+                            android:layout_marginRight="10dp"
+                            android:onClick="onClick"
+                            android:tag="3,3"
+                            android:text="英语"
+                            android:textColor="@color/text_gray_333"
+                            android:textSize="12dp" />
+
+                        <TextView
+                            style="@style/FilterTextXStyle"
+                            android:layout_marginRight="10dp"
+                            android:onClick="onClick"
+                            android:tag="4,3"
+                            android:text="政治"
+                            android:textColor="@color/text_gray_333"
+                            android:textSize="12dp" />
+
+                        <TextView
+                            style="@style/FilterTextXStyle"
+                            android:layout_marginRight="10dp"
+                            android:onClick="onClick"
+                            android:tag="6,3"
+                            android:text="医学综合"
+                            android:textColor="@color/text_gray_333"
+                            android:textSize="12dp" />
+
+                        <TextView
+                            style="@style/FilterTextXStyle"
+                            android:onClick="onClick"
+                            android:tag="7,3"
+                            android:text="生态学基础"
+                            android:textColor="@color/text_gray_333"
+                            android:textSize="12dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
+                        android:orientation="horizontal"
+                        android:weightSum="4">
+
+                        <TextView
+                            style="@style/FilterTextXStyle"
+                            android:layout_marginRight="10dp"
+                            android:onClick="onClick"
+                            android:tag="8,3"
+                            android:text="教育学基础"
+                            android:textColor="@color/text_gray_333"
+                            android:textSize="12dp" />
+
+                        <TextView
+                            style="@style/FilterTextXStyle"
+                            android:layout_marginRight="10dp"
+                            android:onClick="onClick"
+                            android:tag="9,3"
+                            android:text="法学基础"
+                            android:textColor="@color/text_gray_333"
+                            android:textSize="12dp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/colorWhite"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/blue_item"
+                        android:drawablePadding="12dp"
+                        android:paddingBottom="15dp"
+                        android:paddingLeft="15dp"
+                        android:paddingTop="15dp"
+                        android:text="高升本"
+                        android:textColor="@color/text_gray_333"
+                        android:textSize="14dp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
+                        android:orientation="horizontal"
+                        android:weightSum="4">
+
+                        <TextView
+                            style="@style/FilterTextXStyle"
+                            android:layout_marginRight="10dp"
+                            android:onClick="onClick"
+                            android:tag="2,2"
+                            android:text="数学"
+                            android:textColor="@color/text_gray_333"
+                            android:textSize="12dp" />
+
+                        <TextView
+                            style="@style/FilterTextXStyle"
+                            android:layout_marginRight="10dp"
+                            android:onClick="onClick"
+                            android:tag="1,2"
+                            android:text="语文"
+                            android:textColor="@color/text_gray_333"
+                            android:textSize="12dp" />
+
+                        <TextView
+                            style="@style/FilterTextXStyle"
+                            android:layout_marginRight="10dp"
+                            android:onClick="onClick"
+                            android:tag="10,2"
+                            android:text="外语"
+                            android:textColor="@color/text_gray_333"
+                            android:textSize="12dp" />
+
+                        <TextView
+                            style="@style/FilterTextXStyle"
+                            android:onClick="onClick"
+                            android:tag="11,2"
+                            android:text="物化(理科)"
+                            android:textColor="@color/text_gray_333"
+                            android:textSize="12dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
+                        android:orientation="horizontal"
+                        android:weightSum="4">
+
+                        <TextView
+                            style="@style/FilterTextXStyle"
+                            android:layout_marginRight="20dp"
+                            android:onClick="onClick"
+                            android:tag="12,2"
+                            android:text="文史(文科)"
+                            android:textColor="@color/text_gray_333"
+                            android:textSize="12dp" />
+
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
     </LinearLayout>
 </LinearLayout>

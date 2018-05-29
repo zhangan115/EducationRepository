@@ -51,7 +51,7 @@ public interface UserApi {
 
     @Headers({"Content-Type:application/json;charset=utf-8", "Accept:application/json;"})
     @POST("account/forgetpassword")
-    Observable<Bean<VerificationCode>> userForgetPass(@Query("accountName") String accountName, @Query("phone") String phone);
+    Observable<Bean<VerificationCode>> userForgetPass( @Query("phone") String phone);
 
     @Headers({"Content-Type:application/json;charset=utf-8", "Accept:application/json;"})
     @POST("account/updatepassword")
