@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.xueli.application.BuildConfig;
 import com.xueli.application.R;
 import com.xueli.application.app.App;
 import com.xueli.application.common.ConstantStr;
@@ -55,22 +56,24 @@ public class BankFragment extends MvpFragment implements View.OnClickListener {
         } else {
             intent = new Intent(getActivity(), BankListActivity.class);
         }
-//        if (tag.startsWith("1")) {
-//            if (!UserUtils.isVip1(App.getInstance().getCurrentUser())) {
-//                showVipDialog();
-//                return;
-//            }
-//        } else if (tag.startsWith("2")) {
-//            if (!UserUtils.isVip2(App.getInstance().getCurrentUser())) {
-//                showVipDialog();
-//                return;
-//            }
-//        } else {
-//            if (!UserUtils.isVip3(App.getInstance().getCurrentUser())) {
-//                showVipDialog();
-//                return;
-//            }
-//        }
+        if (!BuildConfig.DEBUG) {
+            if (tag.startsWith("1")) {
+                if (!UserUtils.isVip1(App.getInstance().getCurrentUser())) {
+                    showVipDialog();
+                    return;
+                }
+            } else if (tag.startsWith("2")) {
+                if (!UserUtils.isVip2(App.getInstance().getCurrentUser())) {
+                    showVipDialog();
+                    return;
+                }
+            } else {
+                if (!UserUtils.isVip3(App.getInstance().getCurrentUser())) {
+                    showVipDialog();
+                    return;
+                }
+            }
+        }
         intent.putExtra(ConstantStr.KEY_BUNDLE_STR, tag);
         startActivity(intent);
     }

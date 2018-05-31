@@ -20,6 +20,7 @@ import com.library.adapter.RVAdapter;
 import com.library.utils.GlideUtils;
 import com.library.widget.ExpendRecycleView;
 import com.library.widget.RecycleRefreshLoadLayout;
+import com.xueli.application.BuildConfig;
 import com.xueli.application.R;
 import com.xueli.application.app.App;
 import com.xueli.application.common.ConstantStr;
@@ -117,20 +118,22 @@ public class StudyListFragment extends LazyLoadFragment implements RecycleRefres
         adapter.setOnItemClickListener(new RVAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                if (type == 4) {
-                    if (!UserUtils.isVip1(App.getInstance().getCurrentUser())) {
-                        showVipDialog();
-                        return;
-                    }
-                } else if (type == 5) {
-                    if (!UserUtils.isVip2(App.getInstance().getCurrentUser())) {
-                        showVipDialog();
-                        return;
-                    }
-                } else if (type == 6) {
-                    if (!UserUtils.isVip3(App.getInstance().getCurrentUser())) {
-                        showVipDialog();
-                        return;
+                if (!BuildConfig.DEBUG) {
+                    if (type == 4) {
+                        if (!UserUtils.isVip1(App.getInstance().getCurrentUser())) {
+                            showVipDialog();
+                            return;
+                        }
+                    } else if (type == 5) {
+                        if (!UserUtils.isVip2(App.getInstance().getCurrentUser())) {
+                            showVipDialog();
+                            return;
+                        }
+                    } else if (type == 6) {
+                        if (!UserUtils.isVip3(App.getInstance().getCurrentUser())) {
+                            showVipDialog();
+                            return;
+                        }
                     }
                 }
                 Intent messageIntent = new Intent(getActivity(), MessageDetailActivity.class);

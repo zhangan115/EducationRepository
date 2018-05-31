@@ -105,7 +105,8 @@ public class EnrolActivity extends MvpActivity<EnrolContract.Presenter> implemen
                                     e.printStackTrace();
                                 }
                                 tvChooseSchool.setText(schoolBeans.get(position).getSchoolName());
-                                mPresenter.getMajorList(schoolBeans.get(position).getSchoolId());
+                                EnrolActivity.this.majorBeans = schoolBeans.get(position).getSpecialtyCatalogs();
+//                                mPresenter.getMajorList(schoolBeans.get(position).getSchoolId());
                             }
                         }).show();
                 break;
