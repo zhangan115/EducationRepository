@@ -6,7 +6,7 @@ public class NewVersion {
     private String url;
     private int type;
     private String note;
-
+    private int flag;
     public int getVersion() {
         return version;
     }
@@ -37,5 +37,13 @@ public class NewVersion {
 
     public void setNote(String note) {
         this.note = note;
+    }
+
+    public int getFlag() {
+        return flag;
+    }
+
+    public void setFlag(int flag) {
+        this.flag = flag;
     }
 }

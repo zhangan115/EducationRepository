@@ -12,10 +12,12 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.xueli.application.R;
+import com.xueli.application.app.App;
 import com.xueli.application.common.ConstantInt;
 import com.xueli.application.mode.Injection;
 import com.xueli.application.mode.bean.user.NewVersion;
 import com.xueli.application.util.DownloadAppUtils;
+import com.xueli.application.util.UpdateManager;
 import com.xueli.application.view.MvpActivity;
 import com.xueli.application.view.bank.BankFragment;
 import com.xueli.application.view.home.HomeFragment;
@@ -29,7 +31,7 @@ import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
 
-public class MainActivity extends MvpActivity<MainContract.Presenter> implements MainContract.View, EasyPermissions.PermissionCallbacks {
+public class MainActivity extends MvpActivity<MainContract.Presenter> implements MainContract.View, EasyPermissions.PermissionCallbacks, UpdateManager.OnCancelListener {
 
     private int selectPosition = 0;
     private ArrayList<Fragment> mFragments;
@@ -134,7 +136,31 @@ public class MainActivity extends MvpActivity<MainContract.Presenter> implements
                     .onPositive(new MaterialDialog.SingleButtonCallback() {
                         @Override
                         public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                            DownloadAppUtils.DownLoad(getApplicationContext(), newVersion.getUrl(), "xueli");
+                            new UpdateManager(MainActivity.this, newVersion.getUrl()).updateApp(MainActivity.this);
+                        }
+                    })
+                    .onNegative(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                            if (newVersion.getFlag() == 1) {
+                                new MaterialDialog.Builder(MainActivity.this)
+                                        .content("改版本必须升级否则无法使用")
+                                        .positiveText(R.string.sure)
+                                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                            @Override
+                                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                                new UpdateManager(MainActivity.this, newVersion.getUrl()).updateApp(MainActivity.this);
+                                            }
+                                        })
+                                        .negativeText(R.string.cancel)
+                                        .cancelable(false)
+                                        .onNegative(new MaterialDialog.SingleButtonCallback() {
+                                            @Override
+                                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                                finish();
+                                            }
+                                        }).show();
+                            }
                         }
                     })
                     .show();
@@ -195,5 +221,12 @@ public class MainActivity extends MvpActivity<MainContract.Presenter> implements
             }
         }
 
+    }
+
+    @Override
+    public void onCancel() {
+        if (this.newVersion != null && this.newVersion.getFlag() == 1) {
+            finish();
+        }
     }
 }
