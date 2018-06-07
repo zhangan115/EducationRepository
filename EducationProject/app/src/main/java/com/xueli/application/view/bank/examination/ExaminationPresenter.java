@@ -60,6 +60,7 @@ class ExaminationPresenter implements ExaminationContract.Presenter {
                 Iterator<String> iterator = map.keySet().iterator();
                 List<PaperSectionList> paperSectionLists = new ArrayList<>();
                 int count = 0;
+                int subCount = 1;
                 while (iterator.hasNext()) {
                     count++;
                     String key = iterator.next();
@@ -73,7 +74,8 @@ class ExaminationPresenter implements ExaminationContract.Presenter {
                     paperSectionLists.add(new PaperSectionList(0, name, count, Integer.valueOf(key)));
                     List<PaperSections> paperSections = map.get(key);
                     for (int i = 0; i < paperSections.size(); i++) {
-                        paperSectionLists.add(new PaperSectionList(1, String.valueOf(i + 1), paperSections.get(i).getId(), Integer.valueOf(key)));
+                        paperSectionLists.add(new PaperSectionList(1, String.valueOf(subCount), paperSections.get(i).getId(), Integer.valueOf(key)));
+                        subCount++;
                     }
                 }
                 mView.showPaperSectionListData(paperSectionLists);

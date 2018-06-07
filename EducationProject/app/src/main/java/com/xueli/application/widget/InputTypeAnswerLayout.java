@@ -35,7 +35,7 @@ public class InputTypeAnswerLayout extends LinearLayout {
         this.position = position;
         this.iEnter = enter;
         choose.setText(String.valueOf(position + 1));
-        content.setHint(option.getOptVal());
+//        content.setHint(option.getOptVal());
         if (!TextUtils.isEmpty(option.getValue())) {
             content.setText(option.getValue());
         }
