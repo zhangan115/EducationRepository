@@ -1,7 +1,6 @@
 package com.xueli.application.view.user.spread_envoy;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
@@ -10,10 +9,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.library.utils.DisplayUtil;
 import com.xueli.application.R;
 import com.xueli.application.app.App;
-import com.xueli.application.util.QRCodeUtil;
 import com.xueli.application.view.BaseActivity;
 
 import java.io.BufferedOutputStream;
@@ -28,11 +25,9 @@ import gdut.bsx.share2.ShareContentType;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
-import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
-import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**

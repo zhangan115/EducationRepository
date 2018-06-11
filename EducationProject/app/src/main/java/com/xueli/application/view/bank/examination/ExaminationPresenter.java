@@ -13,6 +13,7 @@ import com.xueli.application.mode.exam.ExamDataSource;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -47,14 +48,14 @@ class ExaminationPresenter implements ExaminationContract.Presenter {
             @Override
             public void onData(@NonNull List<PaperSections> list) {
                 mView.showData(list);
-                Map<String, List<PaperSections>> map = new HashMap<>();
+                LinkedHashMap<String, List<PaperSections>> map = new LinkedHashMap<>();
                 for (int i = 0; i < list.size(); i++) {
-                    if (map.containsKey(String.valueOf(list.get(i).getFlag()))) {
-                        map.get(String.valueOf(list.get(i).getFlag())).add(list.get(i));
+                    if (map.containsKey(String.valueOf(list.get(i).getPaperSectionId()))) {
+                        map.get(String.valueOf(list.get(i).getPaperSectionId())).add(list.get(i));
                     } else {
                         ArrayList<PaperSections> paperSections = new ArrayList<>();
                         paperSections.add(list.get(i));
-                        map.put(String.valueOf(list.get(i).getFlag()), paperSections);
+                        map.put(String.valueOf(list.get(i).getPaperSectionId()), paperSections);
                     }
                 }
                 Iterator<String> iterator = map.keySet().iterator();
@@ -66,7 +67,7 @@ class ExaminationPresenter implements ExaminationContract.Presenter {
                     String key = iterator.next();
                     String name = "";
                     for (int i = 0; i < list.size(); i++) {
-                        if (Integer.valueOf(key) == list.get(i).getFlag()) {
+                        if (Integer.valueOf(key) == list.get(i).getPaperSectionId()) {
                             name = list.get(i).getPaperSectionTitle();
                             break;
                         }
