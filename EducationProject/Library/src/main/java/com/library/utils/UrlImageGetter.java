@@ -25,7 +25,7 @@ public class UrlImageGetter implements Html.ImageGetter {
     public UrlImageGetter(Context c, TextView container) {
         this.c = c;
         this.container = container;
-        width = c.getResources().getDisplayMetrics().widthPixels;
+        width = c.getResources().getDisplayMetrics().widthPixels - DisplayUtil.dip2px(c, 20);
     }
 
     @Override

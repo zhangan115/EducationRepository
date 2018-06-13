@@ -2,9 +2,11 @@ package com.xueli.application.view.web;
 
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.View;
 import android.webkit.WebView;
 import android.widget.TextView;
 
+import com.library.widget.HtmlTextView;
 import com.xueli.application.R;
 import com.xueli.application.common.ConstantStr;
 import com.xueli.application.mode.study.StudyRepository;
@@ -13,6 +15,7 @@ import com.xueli.application.view.WebActivity;
 public class MessageDetailActivity extends WebActivity implements MessageDetailContract.View {
 
     private WebView webView;
+
     private MessageDetailContract.Presenter mPresenter;
 
     @Override
@@ -27,6 +30,7 @@ public class MessageDetailActivity extends WebActivity implements MessageDetailC
         }
         setLayoutAndToolbar(R.layout.message_detail_activity, title);
         webView = findViewById(R.id.web_view);
+        webView.setVisibility(View.VISIBLE);
         boolean requestUrl = getIntent().getBooleanExtra(ConstantStr.KEY_BUNDLE_BOOLEAN, false);
         if (requestUrl) {
             loadUrl(webView, content);

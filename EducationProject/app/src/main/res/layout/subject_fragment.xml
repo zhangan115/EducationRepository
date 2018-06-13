@@ -23,36 +23,25 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <LinearLayout
+                <TextView
+                    android:id="@+id/tvSectionType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/shape_blue_type"
+                    android:gravity="center"
+                    android:textColor="@color/text_blue"
+                    android:textSize="12dp" />
+
+                <com.library.widget.HtmlTextView
+                    android:id="@+id/tvQuestion"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    android:paddingLeft="15dp"
-                    android:paddingRight="15dp"
-                    android:paddingTop="15dp">
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:textColor="@color/text_gray_999"
+                    android:textSize="15dp" />
 
-                    <TextView
-                        android:id="@+id/tvSectionType"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/shape_blue_type"
-                        android:gravity="center"
-                        android:textColor="@color/text_blue"
-                        android:textSize="12dp" />
-
-                    <!--<com.library.widget.HtmlTextView-->
-                    <!--android:id="@+id/tvQuestion"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_marginLeft="5dp"-->
-                    <!--android:textColor="@color/text_gray_999"-->
-                    <!--android:textSize="16dp" />-->
-
-                    <WebView
-                        android:id="@+id/web_view"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/llOptions"

@@ -1,6 +1,7 @@
 package com.xueli.application.view;
 
 import android.os.Build;
+import android.util.DisplayMetrics;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.webkit.JsPromptResult;
@@ -20,66 +21,93 @@ public class WebActivity extends BaseActivity {
 
     protected void showWeb(WebView webView, String htmlStr) {
         this.webView = webView;
-        WebSettings ws = webView.getSettings();
-        ws.setJavaScriptEnabled(true); // 设置支持javascript脚本
-        ws.setAllowFileAccess(true); // 允许访问文件
-        ws.setBuiltInZoomControls(true); // 设置显示缩放按钮
-        ws.setSupportZoom(true); // 支持缩放 <span style="color:#337fe5;"> /**
-        // * 用WebView显示图片，可使用这个参数
-        // * 设置网页布局类型：
-        // * 1、LayoutAlgorithm.NARROW_COLUMNS ： 适应内容大小
-        // * 2、LayoutAlgorithm.SINGLE_COLUMN:适应屏幕，内容将自动缩放
-        // */
-        ws.setUseWideViewPort(true);
-        ws.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
-        ws.setLoadWithOverviewMode(true);
-        ws.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
-        ws.setDefaultTextEncodingName("utf-8"); // 设置文本编码
-        ws.setAppCacheEnabled(true);
-        ws.setCacheMode(WebSettings.LOAD_DEFAULT);// 设置缓存模式</span>
-        //添加Javascript调用java对象
-        webView.setWebViewClient(new WebViewClientDemo());
-        webView.setWebChromeClient(new WebViewChromeClientDemo());
-        // 设置打开的网页
-        // webView.loadUrl("http://orgcent.com");
-        // 使用WebView来显示图片
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            ws.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+        WebSettings webSettings = webView.getSettings();
+        webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
+        webSettings.setUseWideViewPort(true);//设置webview推荐使用的窗口
+        webSettings.setLoadWithOverviewMode(true);//设置webview加载的页面的模式
+        webSettings.setDisplayZoomControls(false);//隐藏webview缩放按钮
+        webSettings.setJavaScriptEnabled(true); // 设置支持javascript脚本
+        webSettings.setAllowFileAccess(true); // 允许访问文件
+        webSettings.setBuiltInZoomControls(true); // 设置显示缩放按钮
+        webSettings.setSupportZoom(true); // 支持缩放
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        int mDensity = metrics.densityDpi;
+        if (mDensity == 240) {
+            webSettings.setDefaultZoom(WebSettings.ZoomDensity.FAR);
+        } else if (mDensity == 160) {
+            webSettings.setDefaultZoom(WebSettings.ZoomDensity.MEDIUM);
+        } else if (mDensity == 120) {
+            webSettings.setDefaultZoom(WebSettings.ZoomDensity.CLOSE);
+        } else if (mDensity == DisplayMetrics.DENSITY_XHIGH) {
+            webSettings.setDefaultZoom(WebSettings.ZoomDensity.FAR);
+        } else if (mDensity == DisplayMetrics.DENSITY_TV) {
+            webSettings.setDefaultZoom(WebSettings.ZoomDensity.FAR);
+        } else {
+            webSettings.setDefaultZoom(WebSettings.ZoomDensity.MEDIUM);
         }
-        webView.getSettings().setUseWideViewPort(true);
+        /**
+         * 用WebView显示图片，可使用这个参数 设置网页布局类型：
+         * 1、LayoutAlgorithm.NARROW_COLUMNS ：适应内容大小
+         * 2、LayoutAlgorithm.SINGLE_COLUMN:适应屏幕，内容将自动缩放
+         */
+        webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+
+        webView.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                //返回值是true的时候控制去WebView打开，为false调用系统浏览器或第三方浏览器
+                view.loadUrl(url);
+                return true;
+            }
+        });
+
         webView.loadDataWithBaseURL(null, htmlStr, "text/html", "utf-8", null);
     }
 
 
     protected void loadUrl(WebView webView, String url) {
         this.webView = webView;
-        WebSettings ws = webView.getSettings();
-        ws.setJavaScriptEnabled(true); // 设置支持javascript脚本
-        ws.setAllowFileAccess(true); // 允许访问文件
-        ws.setBuiltInZoomControls(true); // 设置显示缩放按钮
-        ws.setSupportZoom(true); // 支持缩放 <span style="color:#337fe5;"> /**
-        // * 用WebView显示图片，可使用这个参数
-        // * 设置网页布局类型：
-        // * 1、LayoutAlgorithm.NARROW_COLUMNS ： 适应内容大小
-        // * 2、LayoutAlgorithm.SINGLE_COLUMN:适应屏幕，内容将自动缩放
-        // */
-        ws.setUseWideViewPort(true);
-        ws.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
-        ws.setLoadWithOverviewMode(true);
-        ws.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
-        ws.setDefaultTextEncodingName("utf-8"); // 设置文本编码
-        ws.setAppCacheEnabled(true);
-        ws.setCacheMode(WebSettings.LOAD_DEFAULT);// 设置缓存模式</span>
-        //添加Javascript调用java对象
-        webView.setWebViewClient(new WebViewClientDemo());
-        webView.setWebChromeClient(new WebViewChromeClientDemo());
-        // 设置打开的网页
-        // webView.loadUrl("http://orgcent.com");
-        // 使用WebView来显示图片
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            ws.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+        WebSettings webSettings = webView.getSettings();
+        webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
+        webSettings.setUseWideViewPort(true);//设置webview推荐使用的窗口
+        webSettings.setLoadWithOverviewMode(true);//设置webview加载的页面的模式
+        webSettings.setDisplayZoomControls(false);//隐藏webview缩放按钮
+        webSettings.setJavaScriptEnabled(true); // 设置支持javascript脚本
+        webSettings.setAllowFileAccess(true); // 允许访问文件
+        webSettings.setBuiltInZoomControls(true); // 设置显示缩放按钮
+        webSettings.setSupportZoom(true); // 支持缩放
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        int mDensity = metrics.densityDpi;
+        if (mDensity == 240) {
+            webSettings.setDefaultZoom(WebSettings.ZoomDensity.FAR);
+        } else if (mDensity == 160) {
+            webSettings.setDefaultZoom(WebSettings.ZoomDensity.MEDIUM);
+        } else if (mDensity == 120) {
+            webSettings.setDefaultZoom(WebSettings.ZoomDensity.CLOSE);
+        } else if (mDensity == DisplayMetrics.DENSITY_XHIGH) {
+            webSettings.setDefaultZoom(WebSettings.ZoomDensity.FAR);
+        } else if (mDensity == DisplayMetrics.DENSITY_TV) {
+            webSettings.setDefaultZoom(WebSettings.ZoomDensity.FAR);
+        } else {
+            webSettings.setDefaultZoom(WebSettings.ZoomDensity.MEDIUM);
         }
-        webView.getSettings().setUseWideViewPort(true);
+        /**
+         * 用WebView显示图片，可使用这个参数 设置网页布局类型：
+         * 1、LayoutAlgorithm.NARROW_COLUMNS ：适应内容大小
+         * 2、LayoutAlgorithm.SINGLE_COLUMN:适应屏幕，内容将自动缩放
+         */
+        webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+
+        webView.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                //返回值是true的时候控制去WebView打开，为false调用系统浏览器或第三方浏览器
+                view.loadUrl(url);
+                return true;
+            }
+        });
         webView.loadUrl(url);
     }
 
@@ -152,8 +180,12 @@ public class WebActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        if (webView.canGoBack()) {
-            webView.goBack();
+        if (webView != null) {
+            if (webView.canGoBack()) {
+                webView.goBack();
+            } else {
+                finish();
+            }
         } else {
             finish();
         }

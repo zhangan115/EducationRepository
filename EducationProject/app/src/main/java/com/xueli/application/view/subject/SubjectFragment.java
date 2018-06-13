@@ -42,7 +42,6 @@ import java.util.List;
 public class SubjectFragment extends MvpFragment implements SingleChooseTypeLayout.IClick, InputTypeLayout.IEnter, InputTypeAnswerLayout.IEnter {
 
     private List<SingleChooseTypeLayout> chooseTypeLayouts;
-    private WebView webView;
     private List<InputTypeLayout> inputTypeLayouts;
     private List<InputTypeAnswerLayout> inputTypeAnsowerLayouts;
     private PaperSections paperSections;
@@ -50,6 +49,7 @@ public class SubjectFragment extends MvpFragment implements SingleChooseTypeLayo
     private boolean showAnswer;
     private IDataChange dataChange;
     private int position;
+    private HtmlTextView htmlTextView;
 
     public static SubjectFragment newInstance(PaperSections content, int position, boolean showAnswer) {
         Bundle args = new Bundle();
@@ -83,7 +83,7 @@ public class SubjectFragment extends MvpFragment implements SingleChooseTypeLayo
         chooseTypeLayouts = new ArrayList<>();
         inputTypeLayouts = new ArrayList<>();
         inputTypeAnsowerLayouts = new ArrayList<>();
-        webView = rootView.findViewById(R.id.web_view);
+        htmlTextView = rootView.findViewById(R.id.tvQuestion);
         TextView tvSectionType = rootView.findViewById(R.id.tvSectionType);
         TextView tvAnswer = rootView.findViewById(R.id.tvAnswer);
         LinearLayout llOptions = rootView.findViewById(R.id.llOptions);
@@ -98,7 +98,7 @@ public class SubjectFragment extends MvpFragment implements SingleChooseTypeLayo
         } else if (paperSections.getFlag() == 5) {
             tvSectionType.setText("简答题");
         }
-        showWeb(webView, paperSections.getQuestion());
+        htmlTextView.setHtmlFromString(paperSections.getQuestion(), false);
         Type type = new TypeToken<List<SectionOption>>() {
         }.getType();
         if (paperSections.getSectionOptions() == null) {
@@ -228,49 +228,6 @@ public class SubjectFragment extends MvpFragment implements SingleChooseTypeLayo
         paperSections.setbResult(rightCount == sectionOptions.size());
         dataChange.onDataChange(paperSections, this.position
                 , finishCount == sectionOptions.size());
-    }
-
-    protected void showWeb(WebView webView, String htmlStr) {
-        this.webView = webView;
-        WebSettings ws = webView.getSettings();
-        ws.setJavaScriptEnabled(true); // 设置支持javascript脚本
-        ws.setAllowFileAccess(true); // 允许访问文件
-        ws.setBuiltInZoomControls(false); // 设置显示缩放按钮
-        ws.setSupportZoom(false); // 支持缩放 <span style="color:#337fe5;"> /**
-        // * 用WebView显示图片，可使用这个参数
-        // * 设置网页布局类型：
-        // * 1、LayoutAlgorithm.NARROW_COLUMNS ： 适应内容大小
-        // * 2、LayoutAlgorithm.SINGLE_COLUMN:适应屏幕，内容将自动缩放
-        // */
-        ws.setUseWideViewPort(true);
-        ws.setLoadWithOverviewMode(true);
-        ws.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
-        ws.setDefaultTextEncodingName("utf-8"); // 设置文本编码
-        ws.setAppCacheEnabled(true);
-        ws.setCacheMode(WebSettings.LOAD_DEFAULT);// 设置缓存模式</span>
-        //添加Javascript调用java对象
-        // 设置打开的网页
-        // webView.loadUrl("http://orgcent.com");
-        // 使用WebView来显示图片
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            ws.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
-        }
-        webView.getSettings().setUseWideViewPort(true);
-        webView.loadDataWithBaseURL(null, htmlStr, "text/html", "utf-8", null);
-        webView.setWebViewClient(new WebViewClient() {
-            @Override
-            public void onPageFinished(WebView view, String url) {
-                super.onPageFinished(view, url);
-
-                //这个是一定要加上那个的,配合scrollView和WebView的height=wrap_content属性使用
-                int w = View.MeasureSpec.makeMeasureSpec(0,
-                        View.MeasureSpec.UNSPECIFIED);
-                int h = View.MeasureSpec.makeMeasureSpec(0,
-                        View.MeasureSpec.UNSPECIFIED);
-                //重新测量
-                SubjectFragment.this.webView.measure(w, h);
-            }
-        });
     }
 
 }
