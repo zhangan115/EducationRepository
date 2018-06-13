@@ -46,12 +46,7 @@ public class WebActivity extends BaseActivity {
         } else {
             webSettings.setDefaultZoom(WebSettings.ZoomDensity.MEDIUM);
         }
-        /**
-         * 用WebView显示图片，可使用这个参数 设置网页布局类型：
-         * 1、LayoutAlgorithm.NARROW_COLUMNS ：适应内容大小
-         * 2、LayoutAlgorithm.SINGLE_COLUMN:适应屏幕，内容将自动缩放
-         */
-        webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+        webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.TEXT_AUTOSIZING);
 
         webView.setWebViewClient(new WebViewClient() {
             @Override
@@ -61,7 +56,6 @@ public class WebActivity extends BaseActivity {
                 return true;
             }
         });
-
         webView.loadDataWithBaseURL(null, htmlStr, "text/html", "utf-8", null);
     }
 
@@ -93,12 +87,7 @@ public class WebActivity extends BaseActivity {
         } else {
             webSettings.setDefaultZoom(WebSettings.ZoomDensity.MEDIUM);
         }
-        /**
-         * 用WebView显示图片，可使用这个参数 设置网页布局类型：
-         * 1、LayoutAlgorithm.NARROW_COLUMNS ：适应内容大小
-         * 2、LayoutAlgorithm.SINGLE_COLUMN:适应屏幕，内容将自动缩放
-         */
-        webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+        webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.TEXT_AUTOSIZING);
 
         webView.setWebViewClient(new WebViewClient() {
             @Override

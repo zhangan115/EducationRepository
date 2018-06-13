@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -50,7 +51,7 @@ public class SubjectFragment extends MvpFragment implements SingleChooseTypeLayo
     private IDataChange dataChange;
     private int position;
     private HtmlTextView htmlTextView;
-
+    private WebView webView;
     public static SubjectFragment newInstance(PaperSections content, int position, boolean showAnswer) {
         Bundle args = new Bundle();
         args.putParcelable(ConstantStr.KEY_BUNDLE_OBJECT, content);
@@ -99,6 +100,8 @@ public class SubjectFragment extends MvpFragment implements SingleChooseTypeLayo
             tvSectionType.setText("简答题");
         }
         htmlTextView.setHtmlFromString(paperSections.getQuestion(), false);
+//        webView = rootView.findViewById(R.id.web_view);
+//        showWeb(paperSections.getQuestion());
         Type type = new TypeToken<List<SectionOption>>() {
         }.getType();
         if (paperSections.getSectionOptions() == null) {
@@ -228,6 +231,64 @@ public class SubjectFragment extends MvpFragment implements SingleChooseTypeLayo
         paperSections.setbResult(rightCount == sectionOptions.size());
         dataChange.onDataChange(paperSections, this.position
                 , finishCount == sectionOptions.size());
+    }
+
+    protected void showWeb(String htmlStr) {
+        WebSettings webSettings = webView.getSettings();
+        webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
+        webSettings.setUseWideViewPort(true);//设置webview推荐使用的窗口
+        webSettings.setLoadWithOverviewMode(true);//设置webview加载的页面的模式
+        webSettings.setDisplayZoomControls(false);//隐藏webview缩放按钮
+        webSettings.setJavaScriptEnabled(true); // 设置支持javascript脚本
+        webSettings.setAllowFileAccess(true); // 允许访问文件
+        webSettings.setBuiltInZoomControls(true); // 设置显示缩放按钮
+        webSettings.setSupportZoom(true); // 支持缩放
+        DisplayMetrics metrics = new DisplayMetrics();
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        int mDensity = metrics.densityDpi;
+        if (mDensity == 240) {
+            webSettings.setDefaultZoom(WebSettings.ZoomDensity.FAR);
+        } else if (mDensity == 160) {
+            webSettings.setDefaultZoom(WebSettings.ZoomDensity.MEDIUM);
+        } else if (mDensity == 120) {
+            webSettings.setDefaultZoom(WebSettings.ZoomDensity.CLOSE);
+        } else if (mDensity == DisplayMetrics.DENSITY_XHIGH) {
+            webSettings.setDefaultZoom(WebSettings.ZoomDensity.FAR);
+        } else if (mDensity == DisplayMetrics.DENSITY_TV) {
+            webSettings.setDefaultZoom(WebSettings.ZoomDensity.FAR);
+        } else {
+            webSettings.setDefaultZoom(WebSettings.ZoomDensity.MEDIUM);
+        }
+        /**
+         * 用WebView显示图片，可使用这个参数 设置网页布局类型：
+         * 1、LayoutAlgorithm.NARROW_COLUMNS ：适应内容大小
+         * 2、LayoutAlgorithm.SINGLE_COLUMN:适应屏幕，内容将自动缩放
+         */
+        webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.TEXT_AUTOSIZING);
+
+        webView.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                //返回值是true的时候控制去WebView打开，为false调用系统浏览器或第三方浏览器
+                view.loadUrl(url);
+                return true;
+            }
+        });
+        webView.loadDataWithBaseURL(null, htmlStr, "text/html", "utf-8", null);
+        webView.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+
+                //这个是一定要加上那个的,配合scrollView和WebView的height=wrap_content属性使用
+                int w = View.MeasureSpec.makeMeasureSpec(0,
+                        View.MeasureSpec.UNSPECIFIED);
+                int h = View.MeasureSpec.makeMeasureSpec(0,
+                        View.MeasureSpec.UNSPECIFIED);
+                //重新测量
+                SubjectFragment.this.webView.measure(w, h);
+            }
+        });
     }
 
 }
