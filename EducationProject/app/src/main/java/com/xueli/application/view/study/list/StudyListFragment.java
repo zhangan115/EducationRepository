@@ -18,6 +18,7 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.library.adapter.RVAdapter;
 import com.library.utils.GlideUtils;
+import com.library.utils.SPHelper;
 import com.library.widget.ExpendRecycleView;
 import com.library.widget.RecycleRefreshLoadLayout;
 import com.xueli.application.BuildConfig;
@@ -33,6 +34,7 @@ import com.xueli.application.view.web.MessageDetailActivity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 展示学习列表
@@ -138,7 +140,9 @@ public class StudyListFragment extends LazyLoadFragment implements RecycleRefres
                 }
                 Intent messageIntent = new Intent(getActivity(), MessageDetailActivity.class);
                 messageIntent.putExtra(ConstantStr.KEY_BUNDLE_STR, datas.get(position).getTitle());
-                messageIntent.putExtra(ConstantStr.KEY_BUNDLE_STR_1, datas.get(position).getDetail());
+                if (getActivity() != null) {
+                    SPHelper.write(getActivity(), ConstantStr.SP_CACHE, ConstantStr.SP_MESSAGE_DETAIL, datas.get(position).getDetail());
+                }
                 startActivity(messageIntent);
             }
         });

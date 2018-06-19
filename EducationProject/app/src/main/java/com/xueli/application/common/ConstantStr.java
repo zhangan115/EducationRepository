@@ -103,4 +103,6 @@ public interface ConstantStr {
     String NEWS_TYPE_ALARM = "news_type_alarm";
     String NEWS_TYPE_WORK = "news_type_work";
 
+    String SP_MESSAGE_DETAIL = "sp_message_detail";
+    String SP_CACHE = "sp_cache";
 }

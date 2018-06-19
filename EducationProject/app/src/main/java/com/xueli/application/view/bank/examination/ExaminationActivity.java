@@ -55,7 +55,7 @@ public class ExaminationActivity extends MvpActivity<ExaminationContract.Present
     private boolean showAnswer, isFaultExam;
     private int currentPosition = -1;
     private String NOTE = "note";
-    private int totalScore;
+    private float totalScore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

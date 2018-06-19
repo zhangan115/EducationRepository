@@ -173,11 +173,11 @@ public class HomeFragment extends MvpFragment implements View.OnClickListener, H
         convenientBanner.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                long id = list.get(position).getId();
+                String content = list.get(position).getDetail();
                 String title = list.get(position).getTitle();
-                Intent intent = new Intent(getActivity(), StudyListActivity.class);
-                intent.putExtra(ConstantStr.KEY_BUNDLE_LONG, id);
+                Intent intent = new Intent(getActivity(), MessageDetailActivity.class);
                 intent.putExtra(ConstantStr.KEY_BUNDLE_STR, title);
+                intent.putExtra(ConstantStr.KEY_BUNDLE_STR_1, content);
                 startActivity(intent);
             }
         });

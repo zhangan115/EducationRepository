@@ -19,7 +19,7 @@ public class PaperSections implements Parcelable {
     private int flag;
     private String questionCode;
     private long pagerId;
-    private int score;
+    private float score;
     private String answer;
     private String question;
     private String paperSectionTitle;
@@ -93,11 +93,11 @@ public class PaperSections implements Parcelable {
         this.pagerId = pagerId;
     }
 
-    public int getScore() {
+    public float getScore() {
         return score;
     }
 
-    public void setScore(int score) {
+    public void setScore(float score) {
         this.score = score;
     }
 
@@ -188,7 +188,7 @@ public class PaperSections implements Parcelable {
         dest.writeInt(this.flag);
         dest.writeString(this.questionCode);
         dest.writeLong(this.pagerId);
-        dest.writeInt(this.score);
+        dest.writeFloat(this.score);
         dest.writeString(this.answer);
         dest.writeString(this.question);
         dest.writeString(this.paperSectionTitle);
@@ -206,7 +206,7 @@ public class PaperSections implements Parcelable {
         this.flag = in.readInt();
         this.questionCode = in.readString();
         this.pagerId = in.readLong();
-        this.score = in.readInt();
+        this.score = in.readFloat();
         this.answer = in.readString();
         this.question = in.readString();
         this.paperSectionTitle = in.readString();

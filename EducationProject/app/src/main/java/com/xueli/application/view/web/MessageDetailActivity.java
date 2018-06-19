@@ -6,6 +6,7 @@ import android.view.View;
 import android.webkit.WebView;
 import android.widget.TextView;
 
+import com.library.utils.SPHelper;
 import com.library.widget.HtmlTextView;
 import com.xueli.application.R;
 import com.xueli.application.common.ConstantStr;
@@ -23,6 +24,9 @@ public class MessageDetailActivity extends WebActivity implements MessageDetailC
         super.onCreate(savedInstanceState);
         String title = getIntent().getStringExtra(ConstantStr.KEY_BUNDLE_STR);
         String content = getIntent().getStringExtra(ConstantStr.KEY_BUNDLE_STR_1);
+        if (TextUtils.isEmpty(content)) {
+            content = SPHelper.readString(this, ConstantStr.SP_CACHE, ConstantStr.SP_MESSAGE_DETAIL);
+        }
         long id = getIntent().getLongExtra(ConstantStr.KEY_BUNDLE_LONG, -1);
         if (id == -1 && TextUtils.isEmpty(title) && TextUtils.isEmpty(content)) {
             finish();

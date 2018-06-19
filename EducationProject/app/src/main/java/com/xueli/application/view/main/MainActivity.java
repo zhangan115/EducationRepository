@@ -105,11 +105,11 @@ public class MainActivity extends MvpActivity<MainContract.Presenter> implements
         if (bankFragment == null) {
             bankFragment = BankFragment.newInstance();
         }
-        StudyFragment studyFragment = (StudyFragment) getSupportFragmentManager().findFragmentByTag("tag_3");
+        StudyFragment studyFragment = (StudyFragment) getSupportFragmentManager().findFragmentByTag("tag_2");
         if (studyFragment == null) {
             studyFragment = StudyFragment.newInstance();
         }
-        UserFragment userFragment = (UserFragment) getSupportFragmentManager().findFragmentByTag("tag_4");
+        UserFragment userFragment = (UserFragment) getSupportFragmentManager().findFragmentByTag("tag_3");
         if (userFragment == null) {
             userFragment = UserFragment.newInstance();
         }
