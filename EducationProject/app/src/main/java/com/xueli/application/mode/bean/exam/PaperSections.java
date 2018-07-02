@@ -21,6 +21,7 @@ public class PaperSections implements Parcelable {
     private long pagerId;
     private float score;
     private String answer;
+    private String jieshi;
     private String question;
     private String paperSectionTitle;
     private String options;
@@ -39,6 +40,7 @@ public class PaperSections implements Parcelable {
         paperSections.setPagerId(pagerId);
         paperSections.setScore(score);
         paperSections.setStdAnswer(answer);
+        paperSections.setJieshi(jieshi);
         paperSections.setQuestion(question);
         paperSections.setPaperSectionTitle(paperSectionTitle);
         paperSections.setOptions(options);
@@ -173,6 +175,14 @@ public class PaperSections implements Parcelable {
         this.stdAnswer = stdAnswer;
     }
 
+    public String getJieshi() {
+        return jieshi;
+    }
+
+    public void setJieshi(String jieshi) {
+        this.jieshi = jieshi;
+    }
+
     public PaperSections() {
     }
 
@@ -190,6 +200,7 @@ public class PaperSections implements Parcelable {
         dest.writeLong(this.pagerId);
         dest.writeFloat(this.score);
         dest.writeString(this.answer);
+        dest.writeString(this.jieshi);
         dest.writeString(this.question);
         dest.writeString(this.paperSectionTitle);
         dest.writeString(this.options);
@@ -208,6 +219,7 @@ public class PaperSections implements Parcelable {
         this.pagerId = in.readLong();
         this.score = in.readFloat();
         this.answer = in.readString();
+        this.jieshi = in.readString();
         this.question = in.readString();
         this.paperSectionTitle = in.readString();
         this.options = in.readString();

@@ -53,6 +53,10 @@ public class SectionOption implements Parcelable {
         this.value = value;
     }
 
+    public boolean isOptSta() {
+        return optSta;
+    }
+
     public SectionOption() {
     }
 

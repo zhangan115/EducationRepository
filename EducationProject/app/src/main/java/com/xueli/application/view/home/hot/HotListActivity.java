@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.library.adapter.RVAdapter;
+import com.library.utils.SPHelper;
 import com.xueli.application.R;
 import com.xueli.application.common.ConstantStr;
 import com.xueli.application.mode.bean.study.StudyMessage;
@@ -43,7 +44,7 @@ public class HotListActivity extends BaseActivity {
             public void onItemClick(View view, int position) {
                 Intent messageIntent = new Intent(HotListActivity.this, MessageDetailActivity.class);
                 messageIntent.putExtra(ConstantStr.KEY_BUNDLE_STR, studyMessages.get(position).getTitle());
-                messageIntent.putExtra(ConstantStr.KEY_BUNDLE_STR_1, studyMessages.get(position).getDetail());
+                SPHelper.write(HotListActivity.this, ConstantStr.SP_CACHE, ConstantStr.SP_MESSAGE_DETAIL, studyMessages.get(position).getDetail());
                 startActivity(messageIntent);
             }
         });

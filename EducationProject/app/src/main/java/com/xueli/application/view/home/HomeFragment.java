@@ -20,6 +20,7 @@ import com.bigkoo.convenientbanner.holder.Holder;
 import com.bigkoo.convenientbanner.listener.OnItemClickListener;
 import com.library.utils.DisplayUtil;
 import com.library.utils.GlideUtils;
+import com.library.utils.SPHelper;
 import com.xueli.application.R;
 import com.xueli.application.app.App;
 import com.xueli.application.common.ConstantStr;
@@ -160,7 +161,9 @@ public class HomeFragment extends MvpFragment implements View.OnClickListener, H
                 }
                 Intent messageIntent = new Intent(getActivity(), MessageDetailActivity.class);
                 messageIntent.putExtra(ConstantStr.KEY_BUNDLE_STR, "通知");
-                messageIntent.putExtra(ConstantStr.KEY_BUNDLE_STR_1, studyMessages.get(0).getDetail());
+                if (getActivity() != null) {
+                    SPHelper.write(getActivity(), ConstantStr.SP_CACHE, ConstantStr.SP_MESSAGE_DETAIL, studyMessages.get(0).getDetail());
+                }
                 startActivity(messageIntent);
                 break;
         }
@@ -177,7 +180,9 @@ public class HomeFragment extends MvpFragment implements View.OnClickListener, H
                 String title = list.get(position).getTitle();
                 Intent intent = new Intent(getActivity(), MessageDetailActivity.class);
                 intent.putExtra(ConstantStr.KEY_BUNDLE_STR, title);
-                intent.putExtra(ConstantStr.KEY_BUNDLE_STR_1, content);
+                if (getActivity() != null) {
+                    SPHelper.write(getActivity(), ConstantStr.SP_CACHE, ConstantStr.SP_MESSAGE_DETAIL, content);
+                }
                 startActivity(intent);
             }
         });
@@ -207,7 +212,8 @@ public class HomeFragment extends MvpFragment implements View.OnClickListener, H
             TextView textView = new TextView(getActivity());
             textView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             textView.setGravity(Gravity.CENTER);
-            textView.setPadding(0, DisplayUtil.dip2px(getActivity(), 10), 0, DisplayUtil.dip2px(getActivity(), 10));
+            if (getActivity() != null)
+                textView.setPadding(0, DisplayUtil.dip2px(getActivity(), 10), 0, DisplayUtil.dip2px(getActivity(), 10));
             textView.setText("更多资讯");
             textView.setTextColor(findColorById(R.color.text_blue));
             textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15f);
@@ -347,7 +353,9 @@ public class HomeFragment extends MvpFragment implements View.OnClickListener, H
             String title = (String) v.getTag(R.id.tag_title);
             String content = (String) v.getTag(R.id.tag_id);
             messageIntent.putExtra(ConstantStr.KEY_BUNDLE_STR, title);
-            messageIntent.putExtra(ConstantStr.KEY_BUNDLE_STR_1, content);
+            if (getActivity() != null) {
+                SPHelper.write(getActivity(), ConstantStr.SP_CACHE, ConstantStr.SP_MESSAGE_DETAIL, content);
+            }
             startActivity(messageIntent);
         }
     };
