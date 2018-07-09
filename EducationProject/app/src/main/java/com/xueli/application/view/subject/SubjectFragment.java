@@ -121,7 +121,7 @@ public class SubjectFragment extends MvpFragment implements SingleChooseTypeLayo
             tvAnswer.setText("正确答案：" + sb.toString());
             if (!TextUtils.isEmpty(paperSections.getJieshi())) {
                 tvJieShi.setVisibility(View.VISIBLE);
-                tvJieShi.setText(paperSections.getJieshi());
+                tvJieShi.setText("答案解析：" +paperSections.getJieshi());
             } else {
                 tvJieShi.setVisibility(View.GONE);
             }
