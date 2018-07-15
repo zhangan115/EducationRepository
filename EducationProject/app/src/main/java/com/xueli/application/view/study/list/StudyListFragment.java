@@ -74,6 +74,7 @@ public class StudyListFragment extends LazyLoadFragment implements RecycleRefres
     @Override
     public void requestData() {
         this.datas.clear();
+        refreshLoadLayout.setNoMoreData(false);
         expendRecycleView.getAdapter().notifyDataSetChanged();
         mPresenter.getStudyMessage(type);
     }

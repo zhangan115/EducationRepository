@@ -64,7 +64,7 @@ class StudyListPresenter implements StudyListContract.Presenter {
 
             @Override
             public void onData(@NonNull List<StudyMessage> list) {
-
+                mView.showMoreData(list);
             }
 
             @Override
@@ -74,12 +74,12 @@ class StudyListPresenter implements StudyListContract.Presenter {
 
             @Override
             public void onFinish() {
-
+                mView.hideLoadingMore();
             }
 
             @Override
             public void noData() {
-
+                mView.noMoreData();
             }
         });
     }
