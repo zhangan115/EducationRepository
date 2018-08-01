@@ -29,4 +29,9 @@ public interface StudyApi {
     @POST("api/sysmsg/details")
     Observable<String> getWebUrl(@Query("id") long id, @Body() String string);
 
+
+    @Headers({"Content-Type:application/json;charset=utf-8", "Accept:application/json;"})
+    @POST("api/msg/details")
+    Observable<Bean<StudyMessage>> getMessageDetails(@Query("id") long id, @Body() String string);
+
 }

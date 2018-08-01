@@ -3,11 +3,13 @@ package com.xueli.application.mode.study;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 
 import com.xueli.application.app.App;
 import com.xueli.application.common.ConstantStr;
 import com.xueli.application.mode.api.Api;
 import com.xueli.application.mode.api.ApiCallBackList1;
+import com.xueli.application.mode.bean.Bean;
 import com.xueli.application.mode.bean.study.StudyMessage;
 import com.xueli.application.mode.callback.IListCallBack;
 
@@ -90,6 +92,42 @@ public class StudyRepository implements StudyDataSource {
                     @Override
                     public void onNext(String s) {
                         callBack.onSuccess(s);
+                    }
+                });
+    }
+
+    @NonNull
+    @Override
+    public Subscription getStudyDetail(long id, final IMessageCallBack callBack) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("token", sp.getString(ConstantStr.TOKEN, ""));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return Api.createRetrofit().create(StudyApi.class)
+                .getMessageDetails(id, jsonObject.toString())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Bean<StudyMessage>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callBack.onError();
+                    }
+
+                    @Override
+                    public void onNext(Bean<StudyMessage> s) {
+                        if (s != null && s.getErrorCode() == 0 && s.getData() != null
+                                && !TextUtils.isEmpty(s.getData().getDetail())) {
+                            callBack.onSuccess(s.getData().getDetail());
+                        } else {
+                            callBack.onError();
+                        }
                     }
                 });
     }

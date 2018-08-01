@@ -29,6 +29,7 @@ import com.xueli.application.mode.bean.study.StudyMessage;
 import com.xueli.application.mode.study.StudyRepository;
 import com.xueli.application.util.UserUtils;
 import com.xueli.application.view.LazyLoadFragment;
+import com.xueli.application.view.study.list.detail.StudyDetailActivity;
 import com.xueli.application.view.user.vip.VipActivity;
 import com.xueli.application.view.web.MessageDetailActivity;
 
@@ -139,11 +140,12 @@ public class StudyListFragment extends LazyLoadFragment implements RecycleRefres
                         }
                     }
                 }
-                Intent messageIntent = new Intent(getActivity(), MessageDetailActivity.class);
+                Intent messageIntent = new Intent(getActivity(), StudyDetailActivity.class);
                 messageIntent.putExtra(ConstantStr.KEY_BUNDLE_STR, datas.get(position).getTitle());
                 if (getActivity() != null) {
                     SPHelper.write(getActivity(), ConstantStr.SP_CACHE, ConstantStr.SP_MESSAGE_DETAIL, datas.get(position).getDetail());
                 }
+                messageIntent.putExtra(ConstantStr.KEY_BUNDLE_LONG, datas.get(position).getId());
                 startActivity(messageIntent);
             }
         });

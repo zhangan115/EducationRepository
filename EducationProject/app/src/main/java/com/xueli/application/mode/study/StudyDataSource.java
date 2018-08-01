@@ -25,4 +25,8 @@ public interface StudyDataSource {
     @NonNull
     Subscription getMessageDetail(long id, IMessageCallBack callBack);
 
+
+    @NonNull
+    Subscription getStudyDetail(long id, IMessageCallBack callBack);
+
 }
