@@ -68,6 +68,7 @@ public class EnrolRepository implements EnrolDataSource {
     @NonNull
     @Override
     public Subscription uploadData(JSONObject jsonObject, IObjectCallBack<User> callBack) {
+        if (App.getInstance().getCurrentUser() == null) return rx.Observable.just("").subscribe();
         try {
             jsonObject.put("token", sp.getString(ConstantStr.TOKEN, ""));
             jsonObject.put("accountId", App.getInstance().getCurrentUser().getId());

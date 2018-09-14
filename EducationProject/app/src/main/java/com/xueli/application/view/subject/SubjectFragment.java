@@ -80,93 +80,94 @@ public class SubjectFragment extends MvpFragment implements SingleChooseTypeLayo
             showAnswer = bundle.getBoolean(ConstantStr.KEY_BUNDLE_BOOLEAN);
             position = bundle.getInt(ConstantStr.KEY_BUNDLE_INT);
         }
-
-        chooseTypeLayouts = new ArrayList<>();
-        inputTypeLayouts = new ArrayList<>();
-        inputTypeAnsowerLayouts = new ArrayList<>();
-        htmlTextView = rootView.findViewById(R.id.tvQuestion);
-        TextView tvSectionType = rootView.findViewById(R.id.tvSectionType);
-        TextView tvAnswer = rootView.findViewById(R.id.tvAnswer);
-        TextView tvJieShi = rootView.findViewById(R.id.tvJieShi);
-        LinearLayout llOptions = rootView.findViewById(R.id.llOptions);
-        if (paperSections.getFlag() == 1) {
-            tvSectionType.setText("填空题");
-        } else if (paperSections.getFlag() == 2) {
-            tvSectionType.setText("选择题");
-        } else if (paperSections.getFlag() == 3) {
-            tvSectionType.setText("多选题");
-        } else if (paperSections.getFlag() == 4) {
-            tvSectionType.setText("判断题");
-        } else if (paperSections.getFlag() == 5) {
-            tvSectionType.setText("简答题");
-        }
-        htmlTextView.setHtmlFromString(paperSections.getQuestion(), false);
-        Type type = new TypeToken<List<SectionOption>>() {
-        }.getType();
-        if (paperSections.getSectionOptions() == null) {
-            sectionOptions = new Gson().fromJson(paperSections.getOptions(), type);
-            paperSections.setSectionOptions(sectionOptions);
-        } else {
-            sectionOptions = paperSections.getSectionOptions();
-        }
-        if (showAnswer) {
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < sectionOptions.size(); i++) {
-                if (sectionOptions.get(i).getOptSta()) {
-                    sb.append(sectionOptions.get(i).getOptVal());
-                    sb.append("\n");
+        if (paperSections != null) {
+            chooseTypeLayouts = new ArrayList<>();
+            inputTypeLayouts = new ArrayList<>();
+            inputTypeAnsowerLayouts = new ArrayList<>();
+            htmlTextView = rootView.findViewById(R.id.tvQuestion);
+            TextView tvSectionType = rootView.findViewById(R.id.tvSectionType);
+            TextView tvAnswer = rootView.findViewById(R.id.tvAnswer);
+            TextView tvJieShi = rootView.findViewById(R.id.tvJieShi);
+            LinearLayout llOptions = rootView.findViewById(R.id.llOptions);
+            if (paperSections.getFlag() == 1) {
+                tvSectionType.setText("填空题");
+            } else if (paperSections.getFlag() == 2) {
+                tvSectionType.setText("选择题");
+            } else if (paperSections.getFlag() == 3) {
+                tvSectionType.setText("多选题");
+            } else if (paperSections.getFlag() == 4) {
+                tvSectionType.setText("判断题");
+            } else if (paperSections.getFlag() == 5) {
+                tvSectionType.setText("简答题");
+            }
+            htmlTextView.setHtmlFromString(paperSections.getQuestion(), false);
+            Type type = new TypeToken<List<SectionOption>>() {
+            }.getType();
+            if (paperSections.getSectionOptions() == null) {
+                sectionOptions = new Gson().fromJson(paperSections.getOptions(), type);
+                paperSections.setSectionOptions(sectionOptions);
+            } else {
+                sectionOptions = paperSections.getSectionOptions();
+            }
+            if (showAnswer) {
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < sectionOptions.size(); i++) {
+                    if (sectionOptions.get(i).getOptSta()) {
+                        sb.append(sectionOptions.get(i).getOptVal());
+                        sb.append("\n");
+                    }
+                }
+                tvAnswer.setVisibility(View.VISIBLE);
+                tvAnswer.setText("正确答案：" + sb.toString());
+                if (!TextUtils.isEmpty(paperSections.getJieshi())) {
+                    tvJieShi.setVisibility(View.VISIBLE);
+                    tvJieShi.setText("答案解析：" + paperSections.getJieshi());
+                } else {
+                    tvJieShi.setVisibility(View.GONE);
                 }
             }
-            tvAnswer.setVisibility(View.VISIBLE);
-            tvAnswer.setText("正确答案：" + sb.toString());
-            if (!TextUtils.isEmpty(paperSections.getJieshi())) {
-                tvJieShi.setVisibility(View.VISIBLE);
-                tvJieShi.setText("答案解析：" +paperSections.getJieshi());
+            LinearLayout llAnswer = rootView.findViewById(R.id.llAnswer);
+            if (showAnswer) {
+                llAnswer.setVisibility(View.VISIBLE);
             } else {
-                tvJieShi.setVisibility(View.GONE);
+                llAnswer.setVisibility(View.GONE);
             }
-        }
-        LinearLayout llAnswer = rootView.findViewById(R.id.llAnswer);
-        if (showAnswer) {
-            llAnswer.setVisibility(View.VISIBLE);
-        } else {
-            llAnswer.setVisibility(View.GONE);
-        }
-        llOptions.removeAllViews();
-        if (paperSections.getFlag() == 1) {//填空题
-            for (int i = 0; i < sectionOptions.size(); i++) {
-                InputTypeLayout typeLayout = new InputTypeLayout(getActivity());
-                typeLayout.setData(sectionOptions.get(i), i, showAnswer ? null : this);
-                inputTypeLayouts.add(typeLayout);
-                llOptions.addView(typeLayout);
-            }
-        } else if (paperSections.getFlag() == 2) {//单项选择题
-            for (int i = 0; i < sectionOptions.size(); i++) {
-                SingleChooseTypeLayout typeLayout = new SingleChooseTypeLayout(getActivity());
-                typeLayout.setData(sectionOptions.get(i), i, paperSections.getFlag(), showAnswer ? null : this);
-                chooseTypeLayouts.add(typeLayout);
-                llOptions.addView(typeLayout);
-            }
-        } else if (paperSections.getFlag() == 3) {//多项选择题
-            for (int i = 0; i < sectionOptions.size(); i++) {
-                SingleChooseTypeLayout typeLayout = new SingleChooseTypeLayout(getActivity());
-                typeLayout.setData(sectionOptions.get(i), i, paperSections.getFlag(), showAnswer ? null : this);
-                chooseTypeLayouts.add(typeLayout);
-                llOptions.addView(typeLayout);
-            }
-        } else if (paperSections.getFlag() == 4) {// 判断题
-            for (int i = 0; i < sectionOptions.size(); i++) {
-                SingleChooseTypeLayout typeLayout = new SingleChooseTypeLayout(getActivity());
-                typeLayout.setData(sectionOptions.get(i), i, paperSections.getFlag(), showAnswer ? null : this);
-                chooseTypeLayouts.add(typeLayout);
-                llOptions.addView(typeLayout);
-            }
-        } else if (paperSections.getFlag() == 5) {//简答题
-            for (int i = 0; i < sectionOptions.size(); i++) {
-                InputTypeAnswerLayout typeLayout = new InputTypeAnswerLayout(getActivity());
-                typeLayout.setData(sectionOptions.get(i), i, showAnswer ? null : this);
-                inputTypeAnsowerLayouts.add(typeLayout);
-                llOptions.addView(typeLayout);
+            llOptions.removeAllViews();
+            if (paperSections.getFlag() == 1) {//填空题
+                for (int i = 0; i < sectionOptions.size(); i++) {
+                    InputTypeLayout typeLayout = new InputTypeLayout(getActivity());
+                    typeLayout.setData(sectionOptions.get(i), i, showAnswer ? null : this);
+                    inputTypeLayouts.add(typeLayout);
+                    llOptions.addView(typeLayout);
+                }
+            } else if (paperSections.getFlag() == 2) {//单项选择题
+                for (int i = 0; i < sectionOptions.size(); i++) {
+                    SingleChooseTypeLayout typeLayout = new SingleChooseTypeLayout(getActivity());
+                    typeLayout.setData(sectionOptions.get(i), i, paperSections.getFlag(), showAnswer ? null : this);
+                    chooseTypeLayouts.add(typeLayout);
+                    llOptions.addView(typeLayout);
+                }
+            } else if (paperSections.getFlag() == 3) {//多项选择题
+                for (int i = 0; i < sectionOptions.size(); i++) {
+                    SingleChooseTypeLayout typeLayout = new SingleChooseTypeLayout(getActivity());
+                    typeLayout.setData(sectionOptions.get(i), i, paperSections.getFlag(), showAnswer ? null : this);
+                    chooseTypeLayouts.add(typeLayout);
+                    llOptions.addView(typeLayout);
+                }
+            } else if (paperSections.getFlag() == 4) {// 判断题
+                for (int i = 0; i < sectionOptions.size(); i++) {
+                    SingleChooseTypeLayout typeLayout = new SingleChooseTypeLayout(getActivity());
+                    typeLayout.setData(sectionOptions.get(i), i, paperSections.getFlag(), showAnswer ? null : this);
+                    chooseTypeLayouts.add(typeLayout);
+                    llOptions.addView(typeLayout);
+                }
+            } else if (paperSections.getFlag() == 5) {//简答题
+                for (int i = 0; i < sectionOptions.size(); i++) {
+                    InputTypeAnswerLayout typeLayout = new InputTypeAnswerLayout(getActivity());
+                    typeLayout.setData(sectionOptions.get(i), i, showAnswer ? null : this);
+                    inputTypeAnsowerLayouts.add(typeLayout);
+                    llOptions.addView(typeLayout);
+                }
             }
         }
         return rootView;

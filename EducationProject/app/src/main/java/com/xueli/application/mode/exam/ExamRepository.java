@@ -24,6 +24,7 @@ import org.json.JSONObject;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Observable;
 
 import rx.Subscription;
 
@@ -110,6 +111,7 @@ public class ExamRepository implements ExamDataSource {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        if (App.getInstance().getCurrentUser() == null) return rx.Observable.just("").subscribe();
         return new ApiCallBackList1<>(Api.createRetrofit().create(ExamApi.class)
                 .getMyCollection(App.getInstance().getCurrentUser().getId()
                         , jsonObject.toString()))
@@ -125,6 +127,7 @@ public class ExamRepository implements ExamDataSource {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        if (App.getInstance().getCurrentUser() == null) return rx.Observable.just("").subscribe();
         return new ApiCallBackList1<>(Api.createRetrofit().create(ExamApi.class)
                 .getMyFaultExam(App.getInstance().getCurrentUser().getId()
                         , jsonObject.toString()))
@@ -153,6 +156,7 @@ public class ExamRepository implements ExamDataSource {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        if (App.getInstance().getCurrentUser() == null) return rx.Observable.just("").subscribe();
         return new ApiCallBackList1<>(Api.createRetrofit().create(ExamApi.class)
                 .getMyCollection(App.getInstance().getCurrentUser().getId()
                         , lastId
@@ -177,6 +181,7 @@ public class ExamRepository implements ExamDataSource {
     @NonNull
     @Override
     public Subscription uploadData(List<PaperSections> data, IObjectCallBack<String> callBack) {
+        if (App.getInstance().getCurrentUser() == null) return rx.Observable.just("").subscribe();
         UploadData uploadData = new UploadData(sp.getString(ConstantStr.TOKEN, "")
                 , String.valueOf(App.getInstance().getCurrentUser().getId())
                 , data);

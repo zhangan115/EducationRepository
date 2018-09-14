@@ -231,9 +231,9 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/llVIP"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/llVIP"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 
@@ -341,6 +341,7 @@
                                 android:textSize="14dp" />
 
                             <TextView
+                                android:id="@+id/tvVersion"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:drawablePadding="8dp"

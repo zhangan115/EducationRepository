@@ -28,8 +28,8 @@ public class ForgetPassWordActivity extends MvpActivity<ForgetPassWordContract.P
     private EditText etUserName, etUserPassWord, etUserPassAgain;
     private TextView tvGetCode;
     private int REQUEST_FORGET_PASS = 100;
-    private String userName;
-    private String phoneNumber;
+    private String userName = "";
+    private String phoneNumber = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

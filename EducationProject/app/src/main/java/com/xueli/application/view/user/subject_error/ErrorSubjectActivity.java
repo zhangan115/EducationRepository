@@ -257,7 +257,8 @@ public class ErrorSubjectActivity extends MvpActivity<ErrorSubjectContract.Prese
                 map.clear();
                 setTextViewState(-1, tvTypes);
                 setTextViewState(-1, tvYears);
-                setTextViewState(-1, tvSubjects);
+                if (tvSubjects != null && tvSubjects.length > 0)
+                    setTextViewState(-1, tvSubjects);
                 etBankName.setText("");
                 onRefresh();
                 drawerLayout.closeDrawer(Gravity.RIGHT);
@@ -316,6 +317,7 @@ public class ErrorSubjectActivity extends MvpActivity<ErrorSubjectContract.Prese
     private View.OnClickListener clickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            if (tvSubjects == null || tvSubjects.length == 0) return;
             int position = (int) v.getTag();
             map.put("questionCatalogId", String.valueOf(questionTypes.get(position).getId()));
             setTextViewState(position, tvSubjects);

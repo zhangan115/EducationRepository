@@ -179,6 +179,7 @@ public class BankListActivity extends MvpActivity<BankListContact.Presenter> imp
     }
 
     private void setTextViewState(int position, TextView[] textViews) {
+        if (textViews == null || textViews.length == 0) return;
         for (int i = 0; i < textViews.length; i++) {
             if (textViews[i] == null) {
                 continue;

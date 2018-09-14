@@ -41,7 +41,7 @@ public class MainActivity extends MvpActivity<MainContract.Presenter> implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
-        initView();
+        initView(savedInstanceState);
         checkPermission();
     }
 
@@ -50,7 +50,7 @@ public class MainActivity extends MvpActivity<MainContract.Presenter> implements
         new MainPresenter(Injection.getInjection().provideUserRepository(getApp()), this);
     }
 
-    private void initView() {
+    private void initView(Bundle savedInstanceState) {
         mFragments = getFragments();
         AHBottomNavigation bottomNavigation = findViewById(R.id.bottom_navigation);
         AHBottomNavigationItem item1 = new AHBottomNavigationItem(R.string.str_first_nav_1, R.drawable.icon_toolbar_home2, R.color.colorPrimary);
@@ -90,7 +90,16 @@ public class MainActivity extends MvpActivity<MainContract.Presenter> implements
         });
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
-        transaction.replace(R.id.frame_container, mFragments.get(selectPosition), "tag_" + selectPosition);
+        if (savedInstanceState != null) {
+            selectPosition = savedInstanceState.getInt("selectPosition");
+            if (mFragments.get(selectPosition).isAdded()) {
+                transaction.show(mFragments.get(selectPosition));
+            } else {
+                transaction.add(R.id.frame_container, mFragments.get(selectPosition), "tag_" + selectPosition);
+            }
+        } else {
+            transaction.add(R.id.frame_container, mFragments.get(selectPosition), "tag_" + selectPosition);
+        }
         bottomNavigation.setCurrentItem(selectPosition);
         transaction.commit();
     }
@@ -118,6 +127,14 @@ public class MainActivity extends MvpActivity<MainContract.Presenter> implements
         fragments.add(studyFragment);
         fragments.add(userFragment);
         return fragments;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (outState != null) {
+            outState.putInt("selectPosition", selectPosition);
+        }
     }
 
     @Override
@@ -224,7 +241,7 @@ public class MainActivity extends MvpActivity<MainContract.Presenter> implements
     }
 
     @Override
-    public void onCancel() {
+    public void onCancelUpload() {
         if (this.newVersion != null && this.newVersion.getFlag() == 1) {
             finish();
         }

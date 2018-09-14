@@ -61,16 +61,6 @@ public class UserInformationActivity extends MvpActivity<UserInformationContract
         setDarkStatusIcon(true);
         jsonObject = new JSONObject();
         ivUserPhoto = findViewById(R.id.ivUserPhoto);
-        user = App.getInstance().getCurrentUser();
-        GlideUtils.ShowCircleImage(this, user.getHeadImage(), ivUserPhoto, R.drawable.img_avatar_default);
-        etUserNickName = findViewById(R.id.etUserNickName);
-        if (!TextUtils.isEmpty(user.getUserName())) {
-            etUserNickName.setText(user.getUserName());
-        }
-        etUserName = findViewById(R.id.etUserName);
-        if (!TextUtils.isEmpty(user.getRealName())) {
-            etUserName.setText(user.getRealName());
-        }
         findViewById(R.id.ivUserPhoto).setOnClickListener(this);
         findViewById(R.id.btnSure).setOnClickListener(this);
         etUserNum = findViewById(R.id.etUserNum);
@@ -89,11 +79,11 @@ public class UserInformationActivity extends MvpActivity<UserInformationContract
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (IdcardUtils.validateCard(s.toString())) {
+                if (!TextUtils.isEmpty(s.toString()) && IdcardUtils.validateCard(s.toString())) {
                     Short yyyy = IdcardUtils.getYearByIdCard(s.toString());
                     Short mm = IdcardUtils.getMonthByIdCard(s.toString());
                     Short dd = IdcardUtils.getDateByIdCard(s.toString());
-                    StringBuffer sb = new StringBuffer();
+                    StringBuilder sb = new StringBuilder();
                     if (yyyy != null) {
                         sb.append(String.valueOf(yyyy));
                         sb.append("-");
@@ -114,8 +104,20 @@ public class UserInformationActivity extends MvpActivity<UserInformationContract
                 }
             }
         });
-        if (!TextUtils.isEmpty(user.getIdcard())) {
-            etUserNum.setText(user.getIdcard());
+        user = App.getInstance().getCurrentUser();
+        if (user != null) {
+            GlideUtils.ShowCircleImage(this, user.getHeadImage(), ivUserPhoto, R.drawable.img_avatar_default);
+            etUserNickName = findViewById(R.id.etUserNickName);
+            if (!TextUtils.isEmpty(user.getUserName())) {
+                etUserNickName.setText(user.getUserName());
+            }
+            etUserName = findViewById(R.id.etUserName);
+            if (!TextUtils.isEmpty(user.getRealName())) {
+                etUserName.setText(user.getRealName());
+            }
+            if (!TextUtils.isEmpty(user.getIdcard())) {
+                etUserNum.setText(user.getIdcard());
+            }
         }
     }
 

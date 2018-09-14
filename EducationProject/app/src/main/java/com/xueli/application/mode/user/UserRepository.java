@@ -209,6 +209,7 @@ public class UserRepository implements UserDataSource {
     @NonNull
     @Override
     public Subscription uploadUserInfo(@NonNull JSONObject jsonObject, @NonNull IObjectCallBack<User> callBack) {
+        if (App.getInstance().getCurrentUser() == null) return rx.Observable.just("").subscribe();
         try {
             jsonObject.put("token", sp.getString(ConstantStr.TOKEN, ""));
             jsonObject.put("accountId", App.getInstance().getCurrentUser().getId());
@@ -263,6 +264,7 @@ public class UserRepository implements UserDataSource {
     @NonNull
     @Override
     public Subscription payVip(long cardId, IObjectCallBack<User> callBack) {
+        if (App.getInstance().getCurrentUser() == null) return rx.Observable.just("").subscribe();
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("token", sp.getString(ConstantStr.TOKEN, ""));
@@ -279,6 +281,7 @@ public class UserRepository implements UserDataSource {
     @NonNull
     @Override
     public Subscription paySuccess(long cardId, IObjectCallBack<User> callBack) {
+        if (App.getInstance().getCurrentUser() == null) return rx.Observable.just("").subscribe();
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("token", sp.getString(ConstantStr.TOKEN, ""));
@@ -295,6 +298,7 @@ public class UserRepository implements UserDataSource {
     @NonNull
     @Override
     public Subscription getAlOrderString(long cardId, IObjectCallBack<String> callBack) {
+        if (App.getInstance().getCurrentUser() == null) return rx.Observable.just("").subscribe();
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("token", sp.getString(ConstantStr.TOKEN, ""));

@@ -174,7 +174,7 @@ public class ExaminationActivity extends MvpActivity<ExaminationContract.Present
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.llCollection:
-                if (!datas.get(currentPosition).isCollect() && datas.get(currentPosition).getId() != 0) {
+                if (datas.size() > currentPosition && !datas.get(currentPosition).isCollect() && datas.get(currentPosition).getId() != 0) {
                     mPresenter.collectPaper(datas.get(currentPosition).getId()
                             , App.getInstance().getCurrentUser().getId());
                 }

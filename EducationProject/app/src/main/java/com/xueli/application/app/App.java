@@ -18,6 +18,8 @@ import com.xueli.application.view.login.LoginActivity;
 
 import java.io.UnsupportedEncodingException;
 
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
+
 /**
  * application
  * Created by pingan on 2017/11/30.
@@ -124,6 +126,8 @@ public class App extends AbsBaseApp {
     public void exitApp() {
         super.exitApp();
         SPHelper.remove(this, ConstantStr.USER_INFO, ConstantStr.TOKEN);
-        startActivity(new Intent(this, LoginActivity.class));
+        Intent intent = new Intent(this, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 }

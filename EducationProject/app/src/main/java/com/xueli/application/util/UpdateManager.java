@@ -123,7 +123,7 @@ public class UpdateManager {
                             dialog.dismiss();
                             interceptFlag = true;
                             if (cancelListener != null) {
-                                cancelListener.onCancel();
+                                cancelListener.onCancelUpload();
                             }
                         }
                     });
@@ -241,6 +241,6 @@ public class UpdateManager {
     }
 
     public interface OnCancelListener {
-        void onCancel();
+        void onCancelUpload();
     }
 }

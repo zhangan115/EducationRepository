@@ -52,14 +52,16 @@ public class SpreadEnvoyActivity extends BaseActivity implements EasyPermissions
         TextView tvUserName = findViewById(R.id.tvUserName);
         TextView tvUserShared = findViewById(R.id.tvUserShared);
         String meStr;
-        if (!TextUtils.isEmpty(App.getInstance().getCurrentUser().getUserName())) {
-            meStr = "我是  " + App.getInstance().getCurrentUser().getUserName();
-        } else {
-            meStr = "我是  " + App.getInstance().getCurrentUser().getAccountName();
+        if (App.getInstance().getCurrentUser() != null) {
+            if (!TextUtils.isEmpty(App.getInstance().getCurrentUser().getUserName())) {
+                meStr = "我是  " + App.getInstance().getCurrentUser().getUserName();
+            } else {
+                meStr = "我是  " + App.getInstance().getCurrentUser().getAccountName();
+            }
+            tvUserName.setText(meStr);
+            String inviteStr = "邀请码:" + App.getInstance().getCurrentUser().getInviteCode();
+            tvUserShared.setText(inviteStr);
         }
-        tvUserName.setText(meStr);
-        String inviteStr = "邀请码:" + App.getInstance().getCurrentUser().getInviteCode();
-        tvUserShared.setText(inviteStr);
         findViewById(R.id.tvShare).setOnClickListener(this);
     }
 
@@ -94,6 +96,7 @@ public class SpreadEnvoyActivity extends BaseActivity implements EasyPermissions
             EasyPermissions.requestPermissions(this, getString(R.string.request_permissions),
                     REQUEST_EXTERNAL, android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
         } else {
+            if (App.getInstance().getCurrentUser()==null)return;
             rx.Observable.just(App.getInstance().getCurrentUser().getAccountName() + ".jpg").subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .doOnNext(new Action1<String>() {

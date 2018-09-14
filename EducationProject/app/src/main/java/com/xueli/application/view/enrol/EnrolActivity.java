@@ -89,26 +89,28 @@ public class EnrolActivity extends MvpActivity<EnrolContract.Presenter> implemen
                 break;
             case R.id.llChooseSchool:
                 ArrayList<String> list = new ArrayList<>();
-                for (int i = 0; i < schoolBeans.size(); i++) {
-                    list.add(schoolBeans.get(i).getSchoolName());
-                }
-                new MaterialDialog.Builder(this)
-                        .items(list)
-                        .itemsCallback(new MaterialDialog.ListCallback() {
-                            @Override
-                            public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
-                                try {
-                                    jsonObject.put("schoolId", schoolBeans.get(position).getSchoolId());
-                                    jsonObject.remove("specialtyCatalogId");
-                                    tvChooseMajor.setText("");
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                                tvChooseSchool.setText(schoolBeans.get(position).getSchoolName());
-                                EnrolActivity.this.majorBeans = schoolBeans.get(position).getSpecialtyCatalogs();
+                if (schoolBeans != null && schoolBeans.size() > 0) {
+                    for (int i = 0; i < schoolBeans.size(); i++) {
+                        list.add(schoolBeans.get(i).getSchoolName());
+                    }
+                    new MaterialDialog.Builder(this)
+                            .items(list)
+                            .itemsCallback(new MaterialDialog.ListCallback() {
+                                @Override
+                                public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
+                                    try {
+                                        jsonObject.put("schoolId", schoolBeans.get(position).getSchoolId());
+                                        jsonObject.remove("specialtyCatalogId");
+                                        tvChooseMajor.setText("");
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                    tvChooseSchool.setText(schoolBeans.get(position).getSchoolName());
+                                    EnrolActivity.this.majorBeans = schoolBeans.get(position).getSpecialtyCatalogs();
 //                                mPresenter.getMajorList(schoolBeans.get(position).getSchoolId());
-                            }
-                        }).show();
+                                }
+                            }).show();
+                }
                 break;
             case R.id.llChooseMajor:
                 if (majorBeans != null && majorBeans.size() > 0) {

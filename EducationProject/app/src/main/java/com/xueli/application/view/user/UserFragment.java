@@ -17,6 +17,7 @@ import com.library.utils.SPHelper;
 import com.xueli.application.R;
 import com.xueli.application.app.App;
 import com.xueli.application.common.ConstantStr;
+import com.xueli.application.util.APKVersionCodeUtils;
 import com.xueli.application.util.UserUtils;
 import com.xueli.application.view.MvpFragment;
 import com.xueli.application.view.login.LoginActivity;
@@ -61,6 +62,9 @@ public class UserFragment extends MvpFragment implements View.OnClickListener {
         tvIntegral.setText(MessageFormat.format("积分 {0}", App.getInstance().getCurrentUser().getIntegral()));
         tvUserName.setText(App.getInstance().getCurrentUser().getAccountName());
         ImageView ivUserPhoto = rootView.findViewById(R.id.ivUserPhoto);
+        if (getActivity() != null) {
+            ((TextView) rootView.findViewById(R.id.tvVersion)).setText("当前版本V" + APKVersionCodeUtils.getVerName(getActivity()));
+        }
         GlideUtils.ShowCircleImage(getActivity(), App.getInstance().getCurrentUser().getHeadImage(), ivUserPhoto, R.drawable.img_avatar_default);
         return rootView;
     }
