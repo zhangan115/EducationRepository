@@ -156,6 +156,7 @@ public class ErrorSubjectActivity extends MvpActivity<ErrorSubjectContract.Prese
     }
 
     private void setTextViewState(int position, TextView[] textViews) {
+        if (textViews == null) return;
         for (int i = 0; i < textViews.length; i++) {
             if (i == position) {
                 textViews[i].setTextColor(findColorById(R.color.text_blue));

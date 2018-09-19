@@ -330,6 +330,9 @@ public class HomeFragment extends MvpFragment implements View.OnClickListener, H
             Intent intent = new Intent(getActivity(), MessageDetailActivity.class);
             intent.putExtra(ConstantStr.KEY_BUNDLE_LONG, id);
             intent.putExtra(ConstantStr.KEY_BUNDLE_STR, title);
+            if (getActivity() != null) {
+                SPHelper.write(getActivity(), ConstantStr.SP_CACHE, ConstantStr.SP_MESSAGE_DETAIL, "");
+            }
             startActivity(intent);
         }
     };
