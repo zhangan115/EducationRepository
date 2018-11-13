@@ -158,6 +158,7 @@ public class ErrorSubjectActivity extends MvpActivity<ErrorSubjectContract.Prese
     private void setTextViewState(int position, TextView[] textViews) {
         if (textViews == null) return;
         for (int i = 0; i < textViews.length; i++) {
+            if (textViews[i] == null) continue;
             if (i == position) {
                 textViews[i].setTextColor(findColorById(R.color.text_blue));
                 textViews[i].setBackground(findDrawById(R.drawable.shape_edit_bg_blue));
@@ -258,8 +259,9 @@ public class ErrorSubjectActivity extends MvpActivity<ErrorSubjectContract.Prese
                 map.clear();
                 setTextViewState(-1, tvTypes);
                 setTextViewState(-1, tvYears);
-                if (tvSubjects != null && tvSubjects.length > 0)
+                if (tvSubjects != null && tvSubjects.length > 0) {
                     setTextViewState(-1, tvSubjects);
+                }
                 etBankName.setText("");
                 onRefresh();
                 drawerLayout.closeDrawer(Gravity.RIGHT);

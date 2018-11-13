@@ -21,6 +21,7 @@ import com.xueli.application.util.UpdateManager;
 import com.xueli.application.view.MvpActivity;
 import com.xueli.application.view.bank.BankFragment;
 import com.xueli.application.view.home.HomeFragment;
+import com.xueli.application.view.home.HomeFragmentV2;
 import com.xueli.application.view.study.StudyFragment;
 import com.xueli.application.view.user.UserFragment;
 
@@ -106,9 +107,9 @@ public class MainActivity extends MvpActivity<MainContract.Presenter> implements
 
     public ArrayList<Fragment> getFragments() {
         ArrayList<Fragment> fragments = new ArrayList<>();
-        HomeFragment homeFragment = (HomeFragment) getSupportFragmentManager().findFragmentByTag("tag_0");
+        HomeFragmentV2 homeFragment = (HomeFragmentV2) getSupportFragmentManager().findFragmentByTag("tag_0");
         if (homeFragment == null) {
-            homeFragment = HomeFragment.newInstance();
+            homeFragment = HomeFragmentV2.newInstance();
         }
         BankFragment bankFragment = (BankFragment) getSupportFragmentManager().findFragmentByTag("tag_1");
         if (bankFragment == null) {

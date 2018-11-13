@@ -1,0 +1,588 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <com.bigkoo.convenientbanner.ConvenientBanner
+                    android:id="@+id/convenientBanner"
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    app:canLoop="true" />
+
+                <LinearLayout
+                    android:id="@+id/llMessage"
+                    android:layout_width="match_parent"
+                    android:layout_height="36dp"
+                    android:background="@color/colorWhite"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
+                        android:src="@drawable/icon_notice" />
+
+                    <com.xueli.application.widget.marqueeText
+                        android:id="@+id/tvNotify"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="15dp"
+                        android:ellipsize="marquee"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:marqueeRepeatLimit="marquee_forever"
+                        android:singleLine="true"
+                        android:textColor="@color/text_gray_666"
+                        android:textSize="12dp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:background="@color/colorBackgroundGray" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:paddingLeft="15dp"
+                        android:paddingTop="15dp"
+                        android:paddingBottom="20dp"
+                        android:text="成人高考"
+                        android:textColor="@color/text_gray_333"
+                        android:textSize="16dp" />
+
+                    <TextView
+                        android:id="@+id/tvSignUp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="15dp"
+                        android:background="@drawable/shape_sign_up"
+                        android:gravity="center"
+                        android:paddingTop="6dp"
+                        android:paddingBottom="6dp"
+                        android:text="我要缴费"
+                        android:textColor="#fd7c54"
+                        android:textSize="12dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:orientation="horizontal"
+                    android:weightSum="4">
+
+                    <LinearLayout
+                        android:id="@+id/llSignUpTime"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:tag="1">
+
+                        <ImageView
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:layout_gravity="center_horizontal"
+                            android:src="@drawable/icon_btn_time" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="15dp"
+                            android:layout_weight="1"
+                            android:text="报名时间"
+                            android:textColor="@color/text_gray_333"
+                            android:textSize="12dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/llSignUpCondition"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:tag="2">
+
+                        <ImageView
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:layout_gravity="center_horizontal"
+                            android:src="@drawable/icon_btn_condition" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="15dp"
+                            android:layout_weight="1"
+                            android:text="报名条件"
+                            android:textColor="@color/text_gray_333"
+                            android:textSize="12dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/llSchoolMajor"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:tag="3">
+
+                        <ImageView
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:layout_gravity="center_horizontal"
+                            android:src="@drawable/icon_btn_college" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="15dp"
+                            android:layout_weight="1"
+                            android:text="院校专业"
+                            android:textColor="@color/text_gray_333"
+                            android:textSize="12dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/llExamTime"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:tag="4">
+
+                        <ImageView
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:layout_gravity="center_horizontal"
+                            android:src="@drawable/icon_btn_examination" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="15dp"
+                            android:layout_weight="1"
+                            android:text="考试时间"
+                            android:textColor="@color/text_gray_333"
+                            android:textSize="12dp" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="15dp"
+                    android:orientation="horizontal"
+                    android:tag="5"
+                    android:weightSum="4">
+
+                    <LinearLayout
+                        android:id="@+id/llEducation"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:layout_gravity="center_horizontal"
+                            android:src="@drawable/icon_btn_educational" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="15dp"
+                            android:layout_weight="1"
+                            android:text="学历介绍"
+                            android:textColor="@color/text_gray_333"
+                            android:textSize="12dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/llCourse"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:tag="6">
+
+                        <ImageView
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:layout_gravity="center_horizontal"
+                            android:src="@drawable/icon_btn_course" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="15dp"
+                            android:layout_weight="1"
+                            android:text="开设课程"
+                            android:textColor="@color/text_gray_333"
+                            android:textSize="12dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/llConsultation"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:tag="7">
+
+                        <ImageView
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:layout_gravity="center_horizontal"
+                            android:src="@drawable/icon_btn_consult" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="15dp"
+                            android:layout_weight="1"
+                            android:text="招生咨询"
+                            android:textColor="@color/text_gray_333"
+                            android:textSize="12dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/llEducationQuery"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:tag="8">
+
+                        <ImageView
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:layout_gravity="center_horizontal"
+                            android:src="@drawable/icon_btn_query" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="15dp"
+                            android:layout_weight="1"
+                            android:text="学历查询"
+                            android:textColor="@color/text_gray_333"
+                            android:textSize="12dp" />
+                    </LinearLayout>
+
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:background="@color/colorBackgroundGray"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="15dp"
+                    android:text="学位考试"
+                    android:textColor="@color/text_gray_333"
+                    android:textSize="16dp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/color_division" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <LinearLayout
+                        android:id="@+id/llDegreeEnglish"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+
+                        <ImageView
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginBottom="15dp"
+                            android:src="@drawable/icon_btn_english" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="right"
+                            android:paddingRight="15dp"
+                            android:text="学位英语"
+                            android:textColor="@color/text_gray_666"
+                            android:textSize="14dp" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="1px"
+                        android:layout_height="match_parent"
+                        android:background="@color/color_division" />
+
+                    <LinearLayout
+                        android:id="@+id/llComputerTrain"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+
+                        <ImageView
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginBottom="15dp"
+                            android:src="@drawable/icon_btn_conputerl" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="right"
+                            android:paddingRight="15dp"
+                            android:text="计算机培训"
+                            android:textColor="@color/text_gray_666"
+                            android:textSize="14dp" />
+
+                    </LinearLayout>
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:background="@color/colorBackgroundGray"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="15dp"
+                    android:text="统招专升本"
+                    android:textColor="@color/text_gray_333"
+                    android:textSize="16dp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/color_division" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="3">
+
+                    <LinearLayout
+                        android:id="@+id/llYuWen"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+
+                        <ImageView
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginBottom="15dp"
+                            android:src="@drawable/icon_btn_chinese" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="right"
+                            android:paddingRight="15dp"
+                            android:text="语文"
+                            android:textColor="@color/text_gray_666"
+                            android:textSize="14dp" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="1px"
+                        android:layout_height="match_parent"
+                        android:background="@color/color_division" />
+
+                    <LinearLayout
+                        android:id="@+id/llShuXue"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+
+                        <ImageView
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginBottom="15dp"
+                            android:src="@drawable/icon_btn_maths" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="right"
+                            android:paddingRight="15dp"
+                            android:text="数学"
+                            android:textColor="@color/text_gray_666"
+                            android:textSize="14dp" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="1px"
+                        android:layout_height="match_parent"
+                        android:background="@color/color_division" />
+
+                    <LinearLayout
+                        android:id="@+id/llWaiYu"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+
+                        <ImageView
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginBottom="15dp"
+                            android:src="@drawable/icon_btn_foreign" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="right"
+                            android:paddingRight="15dp"
+                            android:text="外语"
+                            android:textColor="@color/text_gray_666"
+                            android:textSize="14dp" />
+
+                    </LinearLayout>
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:background="@color/colorBackgroundGray" />
+
+            <ImageView
+                android:id="@+id/image1"
+                android:layout_width="match_parent"
+                android:layout_height="68dp"
+                android:scaleType="centerCrop" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:background="@color/colorBackgroundGray" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="15dp"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="20dp"
+                    android:text="院校招生"
+                    android:textColor="@color/text_gray_333"
+                    android:textSize="16dp" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="15dp"
+                    android:text="更多院校"
+                    android:textColor="#308aff"
+                    android:textSize="14dp" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
