@@ -1,11 +1,13 @@
 package com.xueli.application.view.user.about_us;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import com.xueli.application.R;
 import com.xueli.application.util.APKVersionCodeUtils;
 import com.xueli.application.view.BaseActivity;
+import com.xueli.application.view.WebActivity;
 
 import org.w3c.dom.Text;
 
@@ -23,5 +25,11 @@ public class AboutUsActivity extends BaseActivity {
         setDarkStatusIcon(true);
         TextView versionText = findViewById(R.id.tvVersion);
         versionText.setText("当前版本V" + APKVersionCodeUtils.getVerName(this));
+        findViewById(R.id.showInfoTv).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
     }
 }

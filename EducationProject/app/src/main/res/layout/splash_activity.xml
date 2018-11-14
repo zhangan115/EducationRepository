@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorWhite"
@@ -7,8 +7,10 @@
     android:orientation="vertical">
 
     <ImageView
+        android:id="@+id/icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
         android:layout_gravity="center"
         android:layout_marginTop="250dp"
         android:src="@drawable/icon_application" />
@@ -16,10 +18,23 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/icon"
+        android:layout_centerHorizontal="true"
         android:layout_gravity="center"
         android:layout_marginTop="16dp"
-        android:text="学历无忧"
+        android:text="@string/app_name"
         android:textColor="@color/text_gray_333"
         android:textSize="16dp" />
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"
+        android:gravity="center"
+        android:text="Copyright©2018\n贵州阳明教育咨询有限公司"
+        android:textColor="@color/text_gray_666"
+        android:textSize="13dp" />
+
+</RelativeLayout>

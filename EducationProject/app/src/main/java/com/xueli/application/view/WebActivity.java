@@ -17,6 +17,7 @@ import android.webkit.WebViewClient;
  */
 
 public class WebActivity extends BaseActivity {
+
     protected WebView webView;
 
     protected void showWeb(WebView webView, String htmlStr) {
