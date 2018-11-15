@@ -85,18 +85,6 @@
                         android:textColor="@color/text_gray_333"
                         android:textSize="16dp" />
 
-                    <TextView
-                        android:id="@+id/tvSignUp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="15dp"
-                        android:background="@drawable/shape_sign_up"
-                        android:gravity="center"
-                        android:paddingTop="6dp"
-                        android:paddingBottom="6dp"
-                        android:text="我要缴费"
-                        android:textColor="#fd7c54"
-                        android:textSize="12dp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -152,7 +140,7 @@
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="15dp"
                             android:layout_weight="1"
-                            android:text="报名条件"
+                            android:text="学费缴纳"
                             android:textColor="@color/text_gray_333"
                             android:textSize="12dp" />
                     </LinearLayout>
@@ -257,11 +245,11 @@
 
                         <TextView
                             android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
+                            android:layout_height="0dp"
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="15dp"
                             android:layout_weight="1"
-                            android:text="开设课程"
+                            android:text="考试技巧"
                             android:textColor="@color/text_gray_333"
                             android:textSize="12dp" />
                     </LinearLayout>
@@ -282,11 +270,11 @@
 
                         <TextView
                             android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
+                            android:layout_height="0dp"
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="15dp"
                             android:layout_weight="1"
-                            android:text="招生咨询"
+                            android:text="视频课堂"
                             android:textColor="@color/text_gray_333"
                             android:textSize="12dp" />
                     </LinearLayout>
@@ -323,224 +311,6 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="10dp"
-                android:background="@color/colorBackgroundGray"
-                android:visibility="gone" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:visibility="gone">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="15dp"
-                    android:text="学位考试"
-                    android:textColor="@color/text_gray_333"
-                    android:textSize="16dp" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1px"
-                    android:background="@color/color_division" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:weightSum="2">
-
-                    <LinearLayout
-                        android:id="@+id/llDegreeEnglish"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1">
-
-                        <ImageView
-                            android:layout_width="60dp"
-                            android:layout_height="60dp"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginLeft="15dp"
-                            android:layout_marginTop="15dp"
-                            android:layout_marginBottom="15dp"
-                            android:src="@drawable/icon_btn_english" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:gravity="right"
-                            android:paddingRight="15dp"
-                            android:text="学位英语"
-                            android:textColor="@color/text_gray_666"
-                            android:textSize="14dp" />
-                    </LinearLayout>
-
-                    <View
-                        android:layout_width="1px"
-                        android:layout_height="match_parent"
-                        android:background="@color/color_division" />
-
-                    <LinearLayout
-                        android:id="@+id/llComputerTrain"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1">
-
-                        <ImageView
-                            android:layout_width="60dp"
-                            android:layout_height="60dp"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginLeft="15dp"
-                            android:layout_marginTop="15dp"
-                            android:layout_marginBottom="15dp"
-                            android:src="@drawable/icon_btn_conputerl" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:gravity="right"
-                            android:paddingRight="15dp"
-                            android:text="计算机培训"
-                            android:textColor="@color/text_gray_666"
-                            android:textSize="14dp" />
-
-                    </LinearLayout>
-                </LinearLayout>
-
-
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="10dp"
-                android:background="@color/colorBackgroundGray"
-                android:visibility="gone" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:visibility="gone">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="15dp"
-                    android:text="统招专升本"
-                    android:textColor="@color/text_gray_333"
-                    android:textSize="16dp" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1px"
-                    android:background="@color/color_division" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:weightSum="3">
-
-                    <LinearLayout
-                        android:id="@+id/llYuWen"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1">
-
-                        <ImageView
-                            android:layout_width="60dp"
-                            android:layout_height="60dp"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginLeft="15dp"
-                            android:layout_marginTop="15dp"
-                            android:layout_marginBottom="15dp"
-                            android:src="@drawable/icon_btn_chinese" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:gravity="right"
-                            android:paddingRight="15dp"
-                            android:text="语文"
-                            android:textColor="@color/text_gray_666"
-                            android:textSize="14dp" />
-                    </LinearLayout>
-
-                    <View
-                        android:layout_width="1px"
-                        android:layout_height="match_parent"
-                        android:background="@color/color_division" />
-
-                    <LinearLayout
-                        android:id="@+id/llShuXue"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1">
-
-                        <ImageView
-                            android:layout_width="60dp"
-                            android:layout_height="60dp"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginLeft="15dp"
-                            android:layout_marginTop="15dp"
-                            android:layout_marginBottom="15dp"
-                            android:src="@drawable/icon_btn_maths" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:gravity="right"
-                            android:paddingRight="15dp"
-                            android:text="数学"
-                            android:textColor="@color/text_gray_666"
-                            android:textSize="14dp" />
-
-                    </LinearLayout>
-
-                    <View
-                        android:layout_width="1px"
-                        android:layout_height="match_parent"
-                        android:background="@color/color_division" />
-
-                    <LinearLayout
-                        android:id="@+id/llWaiYu"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1">
-
-                        <ImageView
-                            android:layout_width="60dp"
-                            android:layout_height="60dp"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginLeft="15dp"
-                            android:layout_marginTop="15dp"
-                            android:layout_marginBottom="15dp"
-                            android:src="@drawable/icon_btn_foreign" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:gravity="right"
-                            android:paddingRight="15dp"
-                            android:text="外语"
-                            android:textColor="@color/text_gray_666"
-                            android:textSize="14dp" />
-
-                    </LinearLayout>
-                </LinearLayout>
-
-
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="10dp"
                 android:background="@color/colorBackgroundGray" />
 
             <ImageView
@@ -571,6 +341,7 @@
 
 
                 <TextView
+                    android:id="@+id/moreSchool"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"

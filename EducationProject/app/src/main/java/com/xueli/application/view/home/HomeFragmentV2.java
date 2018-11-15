@@ -75,16 +75,15 @@ public class HomeFragmentV2 extends MvpFragment implements View.OnClickListener,
         localImages = new ArrayList<>();
         messageList = new ArrayList<>();
 
-        rootView.findViewById(R.id.tvSignUp).setOnClickListener(this);
+        rootView.findViewById(R.id.moreSchool).setOnClickListener(this);
+        rootView.findViewById(R.id.llSignUpCondition).setOnClickListener(this);
+
         llMessage = rootView.findViewById(R.id.llMessage);
         llMessage.setOnClickListener(this);
+
         rootView.findViewById(R.id.llSignUpTime).setTag(R.id.tag_id, 1L);
         rootView.findViewById(R.id.llSignUpTime).setTag(R.id.tag_title, "报名时间");
         rootView.findViewById(R.id.llSignUpTime).setOnClickListener(clickListener);
-
-        rootView.findViewById(R.id.llSignUpCondition).setTag(R.id.tag_id, 2L);
-        rootView.findViewById(R.id.llSignUpCondition).setTag(R.id.tag_title, "报名条件");
-        rootView.findViewById(R.id.llSignUpCondition).setOnClickListener(clickListener);
 
         rootView.findViewById(R.id.llSchoolMajor).setTag(R.id.tag_id, 3L);
         rootView.findViewById(R.id.llSchoolMajor).setTag(R.id.tag_title, "院校专业");
@@ -99,11 +98,11 @@ public class HomeFragmentV2 extends MvpFragment implements View.OnClickListener,
         rootView.findViewById(R.id.llEducation).setOnClickListener(clickListener);
 
         rootView.findViewById(R.id.llCourse).setTag(R.id.tag_id, 6L);
-        rootView.findViewById(R.id.llCourse).setTag(R.id.tag_title, "开设课程");
+        rootView.findViewById(R.id.llCourse).setTag(R.id.tag_title, "考试技巧");
         rootView.findViewById(R.id.llCourse).setOnClickListener(clickListener);
 
         rootView.findViewById(R.id.llConsultation).setTag(R.id.tag_id, 7L);
-        rootView.findViewById(R.id.llConsultation).setTag(R.id.tag_title, "招生咨询");
+        rootView.findViewById(R.id.llConsultation).setTag(R.id.tag_title, "视频课堂");
         rootView.findViewById(R.id.llConsultation).setOnClickListener(clickListener);
 
         rootView.findViewById(R.id.llEducationQuery).setOnClickListener(new View.OnClickListener() {
@@ -117,17 +116,6 @@ public class HomeFragmentV2 extends MvpFragment implements View.OnClickListener,
             }
         });
 
-        rootView.findViewById(R.id.llYuWen).setTag(R.id.tag_id, 10L);
-        rootView.findViewById(R.id.llYuWen).setTag(R.id.tag_title, "语文");
-        rootView.findViewById(R.id.llYuWen).setOnClickListener(studyClick);
-
-        rootView.findViewById(R.id.llShuXue).setTag(R.id.tag_id, 11L);
-        rootView.findViewById(R.id.llShuXue).setTag(R.id.tag_title, "数学");
-        rootView.findViewById(R.id.llShuXue).setOnClickListener(studyClick);
-
-        rootView.findViewById(R.id.llWaiYu).setTag(R.id.tag_id, 12L);
-        rootView.findViewById(R.id.llWaiYu).setTag(R.id.tag_title, "外语");
-        rootView.findViewById(R.id.llWaiYu).setOnClickListener(studyClick);
 
         noHeaderAd();
         mPresenter.getHeaderAd();
@@ -138,9 +126,6 @@ public class HomeFragmentV2 extends MvpFragment implements View.OnClickListener,
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.tvSignUp:
-                startActivity(new Intent(getActivity(), EnrolActivity.class));
-                break;
             case R.id.llMessage:
                 if (studyMessages == null) {
                     return;
@@ -151,6 +136,14 @@ public class HomeFragmentV2 extends MvpFragment implements View.OnClickListener,
                     SPHelper.write(getActivity(), ConstantStr.SP_CACHE, ConstantStr.SP_MESSAGE_DETAIL, studyMessages.get(0).getDetail());
                 }
                 startActivity(messageIntent);
+                break;
+            case R.id.moreSchool:
+                //to show more school
+
+                break;
+            case R.id.llSignUpCondition:
+                //to pay
+
                 break;
         }
     }
@@ -301,20 +294,6 @@ public class HomeFragmentV2 extends MvpFragment implements View.OnClickListener,
             intent.putExtra(ConstantStr.KEY_BUNDLE_LONG, id);
             intent.putExtra(ConstantStr.KEY_BUNDLE_STR, title);
             startActivity(intent);
-        }
-    };
-
-    View.OnClickListener hotClick = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            Intent messageIntent = new Intent(getActivity(), MessageDetailActivity.class);
-            String title = (String) v.getTag(R.id.tag_title);
-            String content = (String) v.getTag(R.id.tag_id);
-            messageIntent.putExtra(ConstantStr.KEY_BUNDLE_STR, title);
-            if (getActivity() != null) {
-                SPHelper.write(getActivity(), ConstantStr.SP_CACHE, ConstantStr.SP_MESSAGE_DETAIL, content);
-            }
-            startActivity(messageIntent);
         }
     };
 }
