@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bigkoo.convenientbanner.ConvenientBanner;
@@ -29,6 +30,8 @@ import com.xueli.application.mode.study.StudyRepository;
 import com.xueli.application.view.MvpFragment;
 import com.xueli.application.view.enrol.EnrolActivity;
 import com.xueli.application.view.home.hot.HotListActivity;
+import com.xueli.application.view.home.pay.PayActivity;
+import com.xueli.application.view.home.school.SchoolListActivity;
 import com.xueli.application.view.study.StudyListActivity;
 import com.xueli.application.view.web.MessageDetailActivity;
 import com.xueli.application.widget.HotItemLayout;
@@ -115,8 +118,24 @@ public class HomeFragmentV2 extends MvpFragment implements View.OnClickListener,
                 startActivity(intent);
             }
         });
-
-
+        ImageView icon1 = rootView.findViewById(R.id.icon_1);
+        ImageView icon2 = rootView.findViewById(R.id.icon_2);
+        if ( getActivity()!=null){
+            final int width = (getResources().getDisplayMetrics().widthPixels - DisplayUtil.dip2px(getActivity(), 30)) / 2;
+            final int height = width * 15 / 16;
+            LinearLayout.LayoutParams params1 = (LinearLayout.LayoutParams) icon1.getLayoutParams();
+            if (params1 != null) {
+                params1.height = height;
+                params1.width = width;
+                icon1.setLayoutParams(params1);
+            }
+            LinearLayout.LayoutParams params2 = (LinearLayout.LayoutParams) icon2.getLayoutParams();
+            if (params2 != null) {
+                params2.height = height;
+                params2.width = width;
+                icon2.setLayoutParams(params2);
+            }
+        }
         noHeaderAd();
         mPresenter.getHeaderAd();
         mPresenter.getMessage();
@@ -139,11 +158,11 @@ public class HomeFragmentV2 extends MvpFragment implements View.OnClickListener,
                 break;
             case R.id.moreSchool:
                 //to show more school
-
+                startActivity(new Intent(getActivity(),SchoolListActivity.class));
                 break;
             case R.id.llSignUpCondition:
                 //to pay
-
+                startActivity(new Intent(getActivity(),PayActivity.class));
                 break;
         }
     }
@@ -269,7 +288,6 @@ public class HomeFragmentV2 extends MvpFragment implements View.OnClickListener,
         convenientBanner.stopTurning();
     }
 
-
     View.OnClickListener clickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -285,15 +303,4 @@ public class HomeFragmentV2 extends MvpFragment implements View.OnClickListener,
         }
     };
 
-    View.OnClickListener studyClick = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            long id = (long) v.getTag(R.id.tag_id);
-            String title = (String) v.getTag(R.id.tag_title);
-            Intent intent = new Intent(getActivity(), StudyListActivity.class);
-            intent.putExtra(ConstantStr.KEY_BUNDLE_LONG, id);
-            intent.putExtra(ConstantStr.KEY_BUNDLE_STR, title);
-            startActivity(intent);
-        }
-    };
 }
