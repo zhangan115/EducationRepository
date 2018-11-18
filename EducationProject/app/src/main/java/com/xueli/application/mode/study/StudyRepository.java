@@ -10,6 +10,7 @@ import com.xueli.application.common.ConstantStr;
 import com.xueli.application.mode.api.Api;
 import com.xueli.application.mode.api.ApiCallBackList1;
 import com.xueli.application.mode.bean.Bean;
+import com.xueli.application.mode.bean.school.SchoolBean;
 import com.xueli.application.mode.bean.study.StudyMessage;
 import com.xueli.application.mode.callback.IListCallBack;
 
@@ -49,6 +50,34 @@ public class StudyRepository implements StudyDataSource {
         }
         return new ApiCallBackList1<>(Api.createRetrofit().create(StudyApi.class)
                 .getMessageList(id, jsonObject.toString()))
+                .execute(callBack);
+    }
+
+    @NonNull
+    @Override
+    public Subscription getSchoolList(IListCallBack<SchoolBean> callBack) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("token", sp.getString(ConstantStr.TOKEN, ""));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return new ApiCallBackList1<>(Api.createRetrofit().create(StudyApi.class)
+                .getSchoolList(13, 4, jsonObject.toString()))
+                .execute(callBack);
+    }
+
+    @NonNull
+    @Override
+    public Subscription getAllSchoolList(IListCallBack<SchoolBean> callBack) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("token", sp.getString(ConstantStr.TOKEN, ""));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return new ApiCallBackList1<>(Api.createRetrofit().create(StudyApi.class)
+                .getSchoolList(13, 10000, jsonObject.toString()))
                 .execute(callBack);
     }
 

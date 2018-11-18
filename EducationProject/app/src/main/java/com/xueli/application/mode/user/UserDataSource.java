@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.xueli.application.mode.bean.user.NewVersion;
+import com.xueli.application.mode.bean.user.PaySchoolList;
 import com.xueli.application.mode.bean.user.User;
 import com.xueli.application.mode.bean.user.VerificationCode;
 import com.xueli.application.mode.bean.user.VipContent;
@@ -116,4 +117,7 @@ public interface UserDataSource {
 
     @NonNull
     Subscription getAlOrderString(long cardId, IObjectCallBack<String> callBack);
+
+    @NonNull
+    Subscription paySchoolList(IListCallBack<PaySchoolList> callBack);
 }

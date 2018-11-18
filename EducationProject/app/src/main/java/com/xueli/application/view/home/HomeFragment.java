@@ -24,6 +24,7 @@ import com.library.utils.SPHelper;
 import com.xueli.application.R;
 import com.xueli.application.app.App;
 import com.xueli.application.common.ConstantStr;
+import com.xueli.application.mode.bean.school.SchoolBean;
 import com.xueli.application.mode.bean.study.StudyMessage;
 import com.xueli.application.mode.study.StudyRepository;
 import com.xueli.application.view.MvpFragment;
@@ -267,6 +268,11 @@ public class HomeFragment extends MvpFragment implements View.OnClickListener, H
     @Override
     public void showMessage(String message) {
         App.getInstance().showToast(message);
+    }
+
+    @Override
+    public void showSchool(List<SchoolBean> list) {
+
     }
 
     @Override

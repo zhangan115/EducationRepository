@@ -15,12 +15,14 @@ import com.xueli.application.mode.api.ApiCallBackList1;
 import com.xueli.application.mode.api.ApiCallBackObject1;
 import com.xueli.application.mode.bean.Bean;
 import com.xueli.application.mode.bean.user.NewVersion;
+import com.xueli.application.mode.bean.user.PaySchoolList;
 import com.xueli.application.mode.bean.user.User;
 import com.xueli.application.mode.bean.user.VerificationCode;
 import com.xueli.application.mode.bean.user.VipContent;
 import com.xueli.application.mode.callback.IListCallBack;
 import com.xueli.application.mode.callback.IObjectCallBack;
 import com.xueli.application.mode.enrol.EnrolApi;
+import com.xueli.application.mode.study.StudyApi;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -310,6 +312,20 @@ public class UserRepository implements UserDataSource {
         map.put("maccountId", String.valueOf(App.getInstance().getCurrentUser().getId()));
         Observable<Bean<String>> observable = Api.createRetrofit().create(UserApi.class).getOrderString(map, jsonObject.toString());
         return new ApiCallBackObject1<>(observable).execute(callBack);
+    }
+
+    @NonNull
+    @Override
+    public Subscription paySchoolList(IListCallBack<PaySchoolList> callBack) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("token", sp.getString(ConstantStr.TOKEN, ""));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return new ApiCallBackList1<>(Api.createRetrofit().create(UserApi.class)
+                .paySchoolList(jsonObject.toString()))
+                .execute(callBack);
     }
 
 }

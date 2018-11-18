@@ -2,6 +2,7 @@ package com.xueli.application.mode.user;
 
 import com.xueli.application.mode.bean.Bean;
 import com.xueli.application.mode.bean.user.NewVersion;
+import com.xueli.application.mode.bean.user.PaySchoolList;
 import com.xueli.application.mode.bean.user.User;
 import com.xueli.application.mode.bean.user.VerificationCode;
 import com.xueli.application.mode.bean.user.VipContent;
@@ -51,7 +52,7 @@ public interface UserApi {
 
     @Headers({"Content-Type:application/json;charset=utf-8", "Accept:application/json;"})
     @POST("account/forgetpassword")
-    Observable<Bean<VerificationCode>> userForgetPass( @Query("phone") String phone);
+    Observable<Bean<VerificationCode>> userForgetPass(@Query("phone") String phone);
 
     @Headers({"Content-Type:application/json;charset=utf-8", "Accept:application/json;"})
     @POST("account/updatepassword")
@@ -90,4 +91,14 @@ public interface UserApi {
 
     @POST("api/membercard/getCard")
     Observable<Bean<String>> getOrderString(@QueryMap() Map<String, String> map, @Body() String string);
+
+    /**
+     * 缴费列表
+     *
+     * @param string
+     * @return
+     */
+    @Headers({"Content-Type:application/json;charset=utf-8", "Accept:application/json;"})
+    @POST("api/tuition/list")
+    Observable<Bean<List<PaySchoolList>>> paySchoolList(@Body() String string);
 }

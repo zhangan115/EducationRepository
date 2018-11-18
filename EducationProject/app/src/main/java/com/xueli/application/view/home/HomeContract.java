@@ -2,6 +2,7 @@ package com.xueli.application.view.home;
 
 import com.xueli.application.base.BasePresenter;
 import com.xueli.application.base.BaseView;
+import com.xueli.application.mode.bean.school.SchoolBean;
 import com.xueli.application.mode.bean.study.StudyMessage;
 
 import java.util.ArrayList;
@@ -15,8 +16,9 @@ interface HomeContract {
 
         void getHot();
 
-
         void getMessage();
+
+        void getFourSchool();
     }
 
     interface View extends BaseView<Presenter> {
@@ -32,5 +34,7 @@ interface HomeContract {
         void noHeaderAd();
 
         void showMessage(String message);
+
+        void showSchool(List<SchoolBean> list);
     }
 }

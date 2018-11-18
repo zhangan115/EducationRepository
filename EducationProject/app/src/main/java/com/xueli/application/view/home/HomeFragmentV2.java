@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -25,6 +26,7 @@ import com.library.utils.SPHelper;
 import com.xueli.application.R;
 import com.xueli.application.app.App;
 import com.xueli.application.common.ConstantStr;
+import com.xueli.application.mode.bean.school.SchoolBean;
 import com.xueli.application.mode.bean.study.StudyMessage;
 import com.xueli.application.mode.study.StudyRepository;
 import com.xueli.application.view.MvpFragment;
@@ -118,27 +120,10 @@ public class HomeFragmentV2 extends MvpFragment implements View.OnClickListener,
                 startActivity(intent);
             }
         });
-        ImageView icon1 = rootView.findViewById(R.id.icon_1);
-        ImageView icon2 = rootView.findViewById(R.id.icon_2);
-        if ( getActivity()!=null){
-            final int width = (getResources().getDisplayMetrics().widthPixels - DisplayUtil.dip2px(getActivity(), 30)) / 2;
-            final int height = width * 15 / 16;
-            LinearLayout.LayoutParams params1 = (LinearLayout.LayoutParams) icon1.getLayoutParams();
-            if (params1 != null) {
-                params1.height = height;
-                params1.width = width;
-                icon1.setLayoutParams(params1);
-            }
-            LinearLayout.LayoutParams params2 = (LinearLayout.LayoutParams) icon2.getLayoutParams();
-            if (params2 != null) {
-                params2.height = height;
-                params2.width = width;
-                icon2.setLayoutParams(params2);
-            }
-        }
         noHeaderAd();
-        mPresenter.getHeaderAd();
-        mPresenter.getMessage();
+//        mPresenter.getHeaderAd();
+//        mPresenter.getMessage();
+//        mPresenter.getFourSchool();
         return rootView;
     }
 
@@ -158,11 +143,11 @@ public class HomeFragmentV2 extends MvpFragment implements View.OnClickListener,
                 break;
             case R.id.moreSchool:
                 //to show more school
-                startActivity(new Intent(getActivity(),SchoolListActivity.class));
+                startActivity(new Intent(getActivity(), SchoolListActivity.class));
                 break;
             case R.id.llSignUpCondition:
                 //to pay
-                startActivity(new Intent(getActivity(),PayActivity.class));
+                startActivity(new Intent(getActivity(), PayActivity.class));
                 break;
         }
     }
@@ -236,6 +221,51 @@ public class HomeFragmentV2 extends MvpFragment implements View.OnClickListener,
         App.getInstance().showToast(message);
     }
 
+    List<SchoolBean> list = new ArrayList<>();
+
+    @Override
+    public void showSchool(List<SchoolBean> list) {
+        if (list != null && list.size() > 0 && getView() != null) {
+            getView().findViewById(R.id.schoolLayout).setVisibility(View.VISIBLE);
+            ImageView icon1 = getView().findViewById(R.id.icon_1);
+            ImageView icon2 = getView().findViewById(R.id.icon_2);
+            ImageView icon3 = getView().findViewById(R.id.icon_3);
+            ImageView icon4 = getView().findViewById(R.id.icon_4);
+            if (list.size() > 0) {
+                setIcon(icon1, 0);
+                GlideUtils.ShowImage(this, list.get(0).getFirstPic(), icon1, R.drawable.img_unfinished);
+            }
+            if (list.size() > 1) {
+                setIcon(icon2, 1);
+                GlideUtils.ShowImage(this, list.get(1).getFirstPic(), icon2, R.drawable.img_unfinished);
+            }
+            if (list.size() > 2) {
+                setIcon(icon3, 2);
+                GlideUtils.ShowImage(this, list.get(2).getFirstPic(), icon3, R.drawable.img_unfinished);
+            }
+            if (list.size() > 3) {
+                setIcon(icon4, 3);
+                GlideUtils.ShowImage(this, list.get(3).getFirstPic(), icon4, R.drawable.img_unfinished);
+            }
+            this.list.clear();
+            this.list.addAll(list);
+        }
+    }
+
+    private void setIcon(ImageView icon, int position) {
+        icon.setVisibility(View.VISIBLE);
+        icon.setTag(R.id.tag_id, position);
+        icon.setOnClickListener(schoolClick);
+        final int width = (getResources().getDisplayMetrics().widthPixels - DisplayUtil.dip2px(getActivity(), 30)) / 2;
+        final int height = width * 15 / 16;
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) icon.getLayoutParams();
+        if (params != null) {
+            params.height = height;
+            params.width = width;
+            icon.setLayoutParams(params);
+        }
+    }
+
     @Override
     public void setPresenter(HomeContract.Presenter presenter) {
         mPresenter = presenter;
@@ -299,6 +329,20 @@ public class HomeFragmentV2 extends MvpFragment implements View.OnClickListener,
             if (getActivity() != null) {
                 SPHelper.write(getActivity(), ConstantStr.SP_CACHE, ConstantStr.SP_MESSAGE_DETAIL, "");
             }
+            startActivity(intent);
+        }
+    };
+
+    View.OnClickListener schoolClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            int position = (int) v.getTag(R.id.tag_id);
+            String title = HomeFragmentV2.this.list.get(position).getTitle();
+            String content = HomeFragmentV2.this.list.get(position).getDetail();
+            if (getActivity() == null) return;
+            SPHelper.write(getActivity(), ConstantStr.SP_CACHE, ConstantStr.SP_MESSAGE_DETAIL, content);
+            Intent intent = new Intent(getActivity(), MessageDetailActivity.class);
+            intent.putExtra(ConstantStr.KEY_BUNDLE_STR, title);
             startActivity(intent);
         }
     };

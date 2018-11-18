@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.xueli.application.app.App;
+import com.xueli.application.mode.bean.school.SchoolBean;
 import com.xueli.application.mode.bean.study.StudyMessage;
 import com.xueli.application.mode.callback.IListCallBack;
 import com.xueli.application.mode.study.StudyDataSource;
@@ -116,6 +117,36 @@ class HomePresenter implements HomeContract.Presenter {
             @Override
             public void noData() {
                 mView.noMessage();
+            }
+        }));
+    }
+
+    @Override
+    public void getFourSchool() {
+        subscription.add(mDataSource.getSchoolList(new IListCallBack<SchoolBean>() {
+            @Override
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onData(@NonNull List<SchoolBean> list) {
+                mView.showSchool(list);
+            }
+
+            @Override
+            public void onError(@Nullable String message) {
+
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+
+            @Override
+            public void noData() {
+
             }
         }));
     }

@@ -4,6 +4,9 @@ import android.support.annotation.Nullable;
 
 import com.xueli.application.base.BasePresenter;
 import com.xueli.application.base.BaseView;
+import com.xueli.application.mode.bean.user.PaySchoolList;
+
+import java.util.List;
 
 public interface PayContract {
 
@@ -19,9 +22,7 @@ public interface PayContract {
 
         void payWeiXin();
 
-        void loginLoading();
-
-        void loginHideLoading();
+        void showPaySchoolList(List<PaySchoolList> list);
 
         void showMessage(@Nullable String message);
 

@@ -9,9 +9,13 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.xueli.application.R;
+import com.xueli.application.app.App;
+import com.xueli.application.mode.bean.user.PaySchoolList;
+import com.xueli.application.mode.user.UserRepository;
 import com.xueli.application.view.MvpActivity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class PayActivity extends MvpActivity<PayContract.Presenter> implements PayContract.View {
 
@@ -30,6 +34,10 @@ public class PayActivity extends MvpActivity<PayContract.Presenter> implements P
     private String gradeName = "";
     private TextView gradeNameTextView;
     private static int GRADE_REQUEST = 102;
+    //data
+    private List<PaySchoolList> datas = new ArrayList<>();
+    private PaySchoolList currentSchool;
+    private PaySchoolList.TuitionListBean currentTuition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +50,7 @@ public class PayActivity extends MvpActivity<PayContract.Presenter> implements P
         schoolNameTextView = findViewById(R.id.schoolNameTv);
         typeNameTextView = findViewById(R.id.typeNameTv);
         gradeNameTextView = findViewById(R.id.gradeNameTv);
+        mPresenter.getPay();
     }
 
     @Override
@@ -49,33 +58,48 @@ public class PayActivity extends MvpActivity<PayContract.Presenter> implements P
         super.onClick(v);
         switch (v.getId()) {
             case R.id.chooseSchoolLayout:
+                if (datas.size() == 0) return;
                 Intent schoolIntent = new Intent(this, ChoosePayActivity.class);
                 schoolIntent.putExtra("title", "选择院校");
-                long[] schoolIds = new long[1];
-                schoolIds[0] = 1;
+                long[] schoolIds = new long[datas.size()];
+                ArrayList<String> schoolList = new ArrayList<>();
+                for (int i = 0; i < datas.size(); i++) {
+                    schoolIds[i] = datas.get(i).getSchoolId();
+                    schoolList.add(datas.get(i).getSchoolName());
+                }
                 if (schoolId != 0) {
                     schoolIntent.putExtra("id", schoolId);
                 }
-                ArrayList<String> schoolList = new ArrayList<>();
-                schoolList.add("西安大学");
                 schoolIntent.putStringArrayListExtra("data", schoolList);
                 schoolIntent.putExtra("ids", schoolIds);
                 startActivityForResult(schoolIntent, SCHOOL_REQUEST);
                 break;
             case R.id.chooseTypeLayout:
-                if (schoolId == 0){
+                if (schoolId == 0) {
                     showMessage("请选择院校");
                     return;
                 }
+                PaySchoolList school = null;
+                for (int i = 0; i < datas.size(); i++) {
+                    if (datas.get(i).getSchoolId() == schoolId) {
+                        school = datas.get(i);
+                        break;
+                    }
+                }
+                if (school == null || school.getTuitionList() == null || school.getTuitionList().size() == 0)
+                    return;
                 Intent typeIntent = new Intent(this, ChoosePayActivity.class);
                 typeIntent.putExtra("title", "选择类别");
-                long[] typeIds = new long[1];
-                typeIds[0] = 1;
-                if (schoolId != 0) {
+                long[] typeIds = new long[school.getTuitionList().size()];
+                ArrayList<String> typeList = new ArrayList<>();
+                for (int i = 0; i < school.getTuitionList().size(); i++) {
+                    PaySchoolList.TuitionListBean bean = school.getTuitionList().get(i);
+                    typeIds[i] = bean.getTuitionId();
+                    typeList.add(bean.getTuitionType());
+                }
+                if (typeId != 0) {
                     typeIntent.putExtra("id", typeId);
                 }
-                ArrayList<String> typeList = new ArrayList<>();
-                typeList.add("电子");
                 typeIntent.putStringArrayListExtra("data", typeList);
                 typeIntent.putExtra("ids", typeIds);
                 startActivityForResult(typeIntent, TYPE_REQUEST);
@@ -121,27 +145,23 @@ public class PayActivity extends MvpActivity<PayContract.Presenter> implements P
     }
 
     @Override
-    public void loginLoading() {
-
-    }
-
-    @Override
-    public void loginHideLoading() {
-
+    public void showPaySchoolList(List<PaySchoolList> list) {
+        datas.clear();
+        datas.addAll(list);
     }
 
     @Override
     public void showMessage(@Nullable String message) {
-
+        App.getInstance().showToast(message);
     }
 
     @Override
     public void setPresenter(PayContract.Presenter presenter) {
-
+        mPresenter = presenter;
     }
 
     @Override
     protected void onBindPresenter() {
-
+        new PayPresenter(UserRepository.getRepository(this), this);
     }
 }
