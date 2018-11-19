@@ -120,4 +120,10 @@ public interface UserDataSource {
 
     @NonNull
     Subscription paySchoolList(IListCallBack<PaySchoolList> callBack);
+
+    @NonNull
+    Subscription paySchool(Map<String, String> map, @NonNull final IObjectCallBack<String> callBack);
+
+    @NonNull
+    Subscription paySchoolCallBack(Map<String, String> map, @NonNull final IObjectCallBack<User> callBack);
 }

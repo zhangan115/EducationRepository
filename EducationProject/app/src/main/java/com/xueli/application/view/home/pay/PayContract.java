@@ -7,6 +7,7 @@ import com.xueli.application.base.BaseView;
 import com.xueli.application.mode.bean.user.PaySchoolList;
 
 import java.util.List;
+import java.util.Map;
 
 public interface PayContract {
 
@@ -14,17 +15,28 @@ public interface PayContract {
 
         void getPay();
 
+        void paySchoolAl(Map<String, String> map);
+
+        void paySchoolWeiXin(Map<String, String> map);
+
+        void paySuccessCallBack(Map<String, String> map);
     }
 
     interface View extends BaseView<Presenter> {
 
-        void payAli();
+        void payAli(String payMessage);
 
-        void payWeiXin();
+        void payWeiXin(String payMessage);
 
         void showPaySchoolList(List<PaySchoolList> list);
 
         void showMessage(@Nullable String message);
+
+        void showLoading();
+
+        void hideLoading();
+
+        void finishSuccess();
 
     }
 }

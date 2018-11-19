@@ -22,7 +22,6 @@ import com.xueli.application.mode.bean.user.VipContent;
 import com.xueli.application.mode.callback.IListCallBack;
 import com.xueli.application.mode.callback.IObjectCallBack;
 import com.xueli.application.mode.enrol.EnrolApi;
-import com.xueli.application.mode.study.StudyApi;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -326,6 +325,34 @@ public class UserRepository implements UserDataSource {
         return new ApiCallBackList1<>(Api.createRetrofit().create(UserApi.class)
                 .paySchoolList(jsonObject.toString()))
                 .execute(callBack);
+    }
+
+    @NonNull
+    @Override
+    public Subscription paySchool(Map<String, String> map, @NonNull IObjectCallBack<String> callBack) {
+        if (App.getInstance().getCurrentUser() == null) return rx.Observable.just("").subscribe();
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("token", sp.getString(ConstantStr.TOKEN, ""));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Observable<Bean<String>> observable = Api.createRetrofit().create(UserApi.class).paySchool(map, jsonObject.toString());
+        return new ApiCallBackObject1<>(observable).execute(callBack);
+    }
+
+    @NonNull
+    @Override
+    public Subscription paySchoolCallBack(Map<String, String> map, @NonNull IObjectCallBack<User> callBack) {
+        if (App.getInstance().getCurrentUser() == null) return rx.Observable.just("").subscribe();
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("token", sp.getString(ConstantStr.TOKEN, ""));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Observable<Bean<User>> observable = Api.createRetrofit().create(UserApi.class).paySchoolSuccess(map, jsonObject.toString());
+        return new ApiCallBackObject1<>(observable).execute(callBack);
     }
 
 }

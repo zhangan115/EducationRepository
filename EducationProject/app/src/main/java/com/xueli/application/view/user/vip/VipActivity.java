@@ -17,17 +17,23 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alipay.sdk.app.PayTask;
+import com.google.gson.Gson;
 import com.library.utils.GlideUtils;
 import com.orhanobut.logger.Logger;
 import com.xueli.application.R;
 import com.xueli.application.app.App;
+import com.xueli.application.mode.bean.user.AlPaySuccessCallBack;
 import com.xueli.application.mode.bean.user.User;
 import com.xueli.application.mode.bean.user.VipContent;
 import com.xueli.application.mode.user.UserRepository;
 import com.xueli.application.util.UserUtils;
 import com.xueli.application.view.MvpActivity;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -131,10 +137,20 @@ public class VipActivity extends MvpActivity<VipContract.Presenter> implements V
             case R.id.btnSure:
                 if (isAL) {
                     //支付宝
-                    mPresenter.getAlOrderString(vipContentList.get(mCurrentItem).getId());
+                    Map<String, String> map = new HashMap<>();
+                    map.put("payType", String.valueOf(1));
+                    map.put("cardId", String.valueOf(vipContentList.get(mCurrentItem).getId()));
+                    map.put("appType", "android");
+                    map.put("payObjective", "0");//0为会员卡1为学费
+                    mPresenter.paySchoolAl(map);
                 } else {
                     //微信
-
+                    Map<String, String> map = new HashMap<>();
+                    map.put("payType", String.valueOf(0));
+                    map.put("cardId", String.valueOf(vipContentList.get(mCurrentItem).getId()));
+                    map.put("appType", "android");
+                    map.put("payObjective", "0");//0为会员卡1为学费
+                    mPresenter.paySchoolWeiXin(map);
                 }
                 break;
         }
@@ -170,7 +186,17 @@ public class VipActivity extends MvpActivity<VipContract.Presenter> implements V
                 if (TextUtils.equals(resultStatus, "9000")) {
                     // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
                     Logger.d(resultInfo);
-                    mPresenter.payVip(vipContentList.get(mCurrentItem).getId());
+                    JSONObject json;
+                    try {
+                        json = new JSONObject(resultInfo);
+                        AlPaySuccessCallBack callBack = new Gson().fromJson(json.toString(), AlPaySuccessCallBack.class);
+                        Map<String, String> map = new HashMap<>();
+                        map.put("outTradeNo", callBack.getAlipay_trade_app_pay_response().getOut_trade_no());
+                        map.put("trade_no", callBack.getAlipay_trade_app_pay_response().getTrade_no());
+                        mPresenter.paySuccessCallBack(map);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 } else {
                     // 该笔订单真实的支付结果，需要依赖服务端的异步通知。
                     Logger.d(resultInfo);
@@ -181,9 +207,6 @@ public class VipActivity extends MvpActivity<VipContract.Presenter> implements V
         }
     };
 
-    private void wxPay() {
-
-    }
 
     private void chooseState() {
         if (isAL) {
@@ -224,7 +247,22 @@ public class VipActivity extends MvpActivity<VipContract.Presenter> implements V
 
     @Override
     public void showAlOrderStr(String orderStr) {
-        alPay(orderStr);
+
+    }
+
+    @Override
+    public void payAli(String payMessage) {
+        alPay(payMessage);
+    }
+
+    @Override
+    public void payWeiXin(String payMessage) {
+
+    }
+
+    @Override
+    public void showMessage(String message) {
+
     }
 
     public class MyViewPagerAdapter extends PagerAdapter {
