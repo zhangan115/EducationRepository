@@ -121,9 +121,9 @@ public class HomeFragmentV2 extends MvpFragment implements View.OnClickListener,
             }
         });
         noHeaderAd();
-//        mPresenter.getHeaderAd();
-//        mPresenter.getMessage();
-//        mPresenter.getFourSchool();
+        mPresenter.getHeaderAd();
+        mPresenter.getMessage();
+        mPresenter.getFourSchool();
         return rootView;
     }
 
