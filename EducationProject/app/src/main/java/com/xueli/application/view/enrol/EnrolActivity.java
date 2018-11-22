@@ -1,13 +1,16 @@
 package com.xueli.application.view.enrol;
 
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.library.utils.IdcardUtils;
 import com.library.utils.PhoneFormatCheckUtils;
 import com.xueli.application.R;
 import com.xueli.application.app.App;
@@ -33,6 +36,7 @@ public class EnrolActivity extends MvpActivity<EnrolContract.Presenter> implemen
     private EditText etUserName;
     private TextView tvChooseMajor2;
     private EditText etPhoneNum;
+    private EditText etUserNum;//身份证
     private ImageView ivMan, ivWoman;
     private TextView tvChooseSchool, tvChooseMajor, tvChooseType;
     //data
@@ -50,13 +54,13 @@ public class EnrolActivity extends MvpActivity<EnrolContract.Presenter> implemen
         etPhoneNum = findViewById(R.id.etPhoneNum);
         ivMan = findViewById(R.id.ivMan);
         ivWoman = findViewById(R.id.ivWoman);
-
+        etUserNum = findViewById(R.id.etUserNum);
         tvChooseSchool = findViewById(R.id.tvChooseSchool);
         tvChooseMajor = findViewById(R.id.tvChooseMajor);
         tvChooseType = findViewById(R.id.tvChooseType);
 
-        findViewById(R.id.llChooseMan).setOnClickListener(this);
-        findViewById(R.id.llChooseWoMan).setOnClickListener(this);
+//        findViewById(R.id.llChooseMan).setOnClickListener(this);
+//        findViewById(R.id.llChooseWoMan).setOnClickListener(this);
 
         findViewById(R.id.llChooseSchool).setOnClickListener(this);
         findViewById(R.id.llChooseMajor).setOnClickListener(this);
@@ -65,7 +69,35 @@ public class EnrolActivity extends MvpActivity<EnrolContract.Presenter> implemen
 
         findViewById(R.id.btnNextStep).setOnClickListener(this);
         jsonObject = new JSONObject();
+        etUserNum.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (!TextUtils.isEmpty(s.toString()) && IdcardUtils.validateCard(s.toString())) {
+                    if (IdcardUtils.getGenderByIdCard(s.toString()).equals("M")) {
+                        isMan = true;
+                        ivMan.setImageDrawable(findDrawById(R.drawable.icon_btn_radio2));
+                        ivWoman.setImageDrawable(findDrawById(R.drawable.icon_btn_radio1));
+                    } else if (IdcardUtils.getGenderByIdCard(s.toString()).equals("F")) {
+                        isMan = false;
+                        ivMan.setImageDrawable(findDrawById(R.drawable.icon_btn_radio1));
+                        ivWoman.setImageDrawable(findDrawById(R.drawable.icon_btn_radio2));
+                    }
+                }else {
+                    ivMan.setImageDrawable(findDrawById(R.drawable.icon_btn_radio1));
+                    ivWoman.setImageDrawable(findDrawById(R.drawable.icon_btn_radio1));
+                }
+            }
+        });
         mPresenter.getSchoolList();
     }
 
@@ -214,6 +246,16 @@ public class EnrolActivity extends MvpActivity<EnrolContract.Presenter> implemen
                         App.getInstance().showToast("请输入姓名");
                         return;
                     }
+                    String userNum = etUserNum.getText().toString();
+                    if (TextUtils.isEmpty(userNum)){
+                        App.getInstance().showToast("请输入身份证号码");
+                        return;
+                    }
+                    if (!IdcardUtils.validateCard(userNum)){
+                        App.getInstance().showToast("请输入合法的身份证号码");
+                        return;
+                    }
+                    jsonObject.put("idcard",userNum);
                     jsonObject.put("userName", name);
                     jsonObject.put("sex", isMan ? "1" : "0");
                 } catch (JSONException e) {

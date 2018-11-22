@@ -120,6 +120,12 @@ public class HomeFragmentV2 extends MvpFragment implements View.OnClickListener,
                 startActivity(intent);
             }
         });
+        rootView.findViewById(R.id.image1).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getActivity(), EnrolActivity.class));
+            }
+        });
         noHeaderAd();
         mPresenter.getHeaderAd();
         mPresenter.getMessage();

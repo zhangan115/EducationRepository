@@ -57,7 +57,7 @@ public class WebActivity extends BaseActivity {
                 return true;
             }
         });
-        webView.loadDataWithBaseURL(null, htmlStr, "text/html", "utf-8", null);
+        webView.loadDataWithBaseURL("http://39.106.210.43/FxExam/", htmlStr, "text/html", "utf-8", null);
     }
 
 
