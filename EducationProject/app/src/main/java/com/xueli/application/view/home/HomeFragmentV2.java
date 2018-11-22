@@ -239,19 +239,19 @@ public class HomeFragmentV2 extends MvpFragment implements View.OnClickListener,
             ImageView icon4 = getView().findViewById(R.id.icon_4);
             if (list.size() > 0) {
                 setIcon(icon1, 0);
-                GlideUtils.ShowImage(this, list.get(0).getFirstPic(), icon1, R.drawable.img_unfinished);
+                GlideUtils.ShowImage(this, list.get(0).getFirstPic(), icon1, R.drawable.school_icon);
             }
             if (list.size() > 1) {
                 setIcon(icon2, 1);
-                GlideUtils.ShowImage(this, list.get(1).getFirstPic(), icon2, R.drawable.img_unfinished);
+                GlideUtils.ShowImage(this, list.get(1).getFirstPic(), icon2, R.drawable.school_icon);
             }
             if (list.size() > 2) {
                 setIcon(icon3, 2);
-                GlideUtils.ShowImage(this, list.get(2).getFirstPic(), icon3, R.drawable.img_unfinished);
+                GlideUtils.ShowImage(this, list.get(2).getFirstPic(), icon3, R.drawable.school_icon);
             }
             if (list.size() > 3) {
                 setIcon(icon4, 3);
-                GlideUtils.ShowImage(this, list.get(3).getFirstPic(), icon4, R.drawable.img_unfinished);
+                GlideUtils.ShowImage(this, list.get(3).getFirstPic(), icon4, R.drawable.school_icon);
             }
             this.list.clear();
             this.list.addAll(list);

@@ -49,7 +49,7 @@ public class SchoolListActivity extends MvpActivity<SchoolContract.Presenter> im
                     params.width = width;
                     imageView.setLayoutParams(params);
                 }
-                GlideUtils.ShowImage(SchoolListActivity.this, data.getFirstPic(), imageView, R.drawable.img_unfinished);
+                GlideUtils.ShowImage(SchoolListActivity.this, data.getFirstPic(), imageView, R.drawable.school_icon);
             }
         };
         recycleView.setAdapter(adapter);
