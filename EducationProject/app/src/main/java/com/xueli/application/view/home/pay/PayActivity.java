@@ -67,6 +67,7 @@ public class PayActivity extends MvpActivity<PayContract.Presenter> implements P
     private TextView allMoneyTv;
     private ImageView chooseImageView;
 
+    private Float money;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,11 +100,15 @@ public class PayActivity extends MvpActivity<PayContract.Presenter> implements P
                 if (currentTuition == null) return;
                 if (gradeId == 0) return;
                 isNot = !isNot;
+                float allMoney;
                 if (isNot) {
+                    allMoney = money + Float.valueOf(currentTuition.getNetStudyFee());
                     chooseImageView.setImageDrawable(findDrawById(R.drawable.icon_btn_radio2));
                 } else {
                     chooseImageView.setImageDrawable(findDrawById(R.drawable.icon_btn_radio1));
+                    allMoney = money;
                 }
+                allMoneyTv.setText(String.valueOf(allMoney) + "元");
             }
         });
         mPresenter.getPay();
@@ -193,11 +198,13 @@ public class PayActivity extends MvpActivity<PayContract.Presenter> implements P
                             chooseImageView.setImageDrawable(findDrawById(R.drawable.icon_btn_radio1));
                             studyMoneyTv.setText(currentTuition.getGrade2Tuition());
                             allMoney = Float.valueOf(currentTuition.getGrade2Tuition());
+                            money = Float.valueOf(currentTuition.getGrade2Tuition());
                         } else {
                             isNot = false;
                             chooseImageView.setImageDrawable(findDrawById(R.drawable.icon_btn_radio1));
                             studyMoneyTv.setText(currentTuition.getGrade3Tuition());
                             allMoney = Float.valueOf(currentTuition.getGrade3Tuition());
+                            money = Float.valueOf(currentTuition.getGrade3Tuition());
                         }
                         allMoneyTv.setText(String.valueOf(allMoney) + "元");
                     }

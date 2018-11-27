@@ -44,7 +44,6 @@ public class MessageDetailActivity extends WebActivity implements MessageDetailC
                 mPresenter.getUrl(id);
             } else {
                 showUrl(content);
-//                loadUrl(webView,"http://39.106.210.43/FxExam/resources/xuxiao.html");
             }
         }
     }

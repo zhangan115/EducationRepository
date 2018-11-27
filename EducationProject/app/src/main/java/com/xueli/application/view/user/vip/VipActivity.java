@@ -135,6 +135,9 @@ public class VipActivity extends MvpActivity<VipContract.Presenter> implements V
                 chooseState();
                 break;
             case R.id.btnSure:
+                if (vipContentList.isEmpty()) {
+                    return;
+                }
                 if (isAL) {
                     //支付宝
                     Map<String, String> map = new HashMap<>();
