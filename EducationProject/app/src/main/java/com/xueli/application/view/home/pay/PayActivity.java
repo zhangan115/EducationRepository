@@ -66,7 +66,7 @@ public class PayActivity extends MvpActivity<PayContract.Presenter> implements P
     private TextView tableMoneyTv;
     private TextView allMoneyTv;
     private ImageView chooseImageView;
-
+    private boolean canPay = true;
     private Float money;
 
     @Override
@@ -231,6 +231,9 @@ public class PayActivity extends MvpActivity<PayContract.Presenter> implements P
                                 view.findViewById(R.id.toPayButton).setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
+                                        if (!canPay) {
+                                            return;
+                                        }
                                         Map<String, String> map = new HashMap<>();
                                         map.put("schoolId", String.valueOf(schoolId));
                                         map.put("majorTypeId", String.valueOf(typeId));
@@ -245,6 +248,7 @@ public class PayActivity extends MvpActivity<PayContract.Presenter> implements P
                                             map.put("isNot", "1");
                                         }
                                         mPresenter.paySchoolAl(map);
+                                        canPay = false;
                                     }
                                 });
                                 final ImageView alImage = view.findViewById(R.id.alChoose);
@@ -372,10 +376,12 @@ public class PayActivity extends MvpActivity<PayContract.Presenter> implements P
                         mPresenter.paySuccessCallBack(map);
                     } catch (JSONException e) {
                         e.printStackTrace();
+                        canPay = true;
                     }
                     ///outTradeNo系统订单号 trade_no为第三方订单号
                 } else {
                     // 该笔订单真实的支付结果，需要依赖服务端的异步通知。
+                    canPay = true;
                     Logger.d(resultInfo);
                     Logger.d(resultStatus);
                     App.getInstance().showToast("支付失败");
@@ -409,6 +415,11 @@ public class PayActivity extends MvpActivity<PayContract.Presenter> implements P
     public void finishSuccess() {
         showMessage("支付成功!");
         finish();
+    }
+
+    @Override
+    public void payFinish() {
+        canPay = true;
     }
 
     @Override

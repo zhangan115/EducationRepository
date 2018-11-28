@@ -38,5 +38,7 @@ public interface PayContract {
 
         void finishSuccess();
 
+        void payFinish();
+
     }
 }

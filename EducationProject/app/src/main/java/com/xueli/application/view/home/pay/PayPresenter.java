@@ -74,7 +74,7 @@ public class PayPresenter implements PayContract.Presenter {
 
             @Override
             public void onError(@Nullable String message) {
-
+                mView.payFinish();
             }
 
             @Override
@@ -105,7 +105,7 @@ public class PayPresenter implements PayContract.Presenter {
 
             @Override
             public void onError(@Nullable String message) {
-
+                mView.payFinish();
             }
 
             @Override
@@ -145,7 +145,7 @@ public class PayPresenter implements PayContract.Presenter {
 
             @Override
             public void onFinish() {
-
+                mView.payFinish();
             }
         }));
     }
