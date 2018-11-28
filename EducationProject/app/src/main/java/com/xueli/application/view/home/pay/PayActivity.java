@@ -93,24 +93,6 @@ public class PayActivity extends MvpActivity<PayContract.Presenter> implements P
             findViewById(R.id.chooseTypeLayout).setOnClickListener(this);
             findViewById(R.id.chooseGradeLayout).setOnClickListener(this);
         }
-        chooseImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (currentSchool == null) return;
-                if (currentTuition == null) return;
-                if (gradeId == 0) return;
-                isNot = !isNot;
-                float allMoney;
-                if (isNot) {
-                    allMoney = money + Float.valueOf(currentTuition.getNetStudyFee());
-                    chooseImageView.setImageDrawable(findDrawById(R.drawable.icon_btn_radio2));
-                } else {
-                    chooseImageView.setImageDrawable(findDrawById(R.drawable.icon_btn_radio1));
-                    allMoney = money;
-                }
-                allMoneyTv.setText(String.valueOf(allMoney) + "元");
-            }
-        });
         mPresenter.getPay();
     }
 
