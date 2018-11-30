@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import com.xueli.application.base.BasePresenter;
 import com.xueli.application.base.BaseView;
 import com.xueli.application.mode.bean.user.PaySchoolList;
+import com.xueli.application.mode.bean.user.WeiXinPayBean;
 
 import java.util.List;
 import java.util.Map;
@@ -26,7 +27,7 @@ public interface PayContract {
 
         void payAli(String payMessage);
 
-        void payWeiXin(String payMessage);
+        void payWeiXin(WeiXinPayBean payMessage);
 
         void showPaySchoolList(List<PaySchoolList> list);
 

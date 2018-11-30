@@ -1,6 +1,10 @@
 package com.xueli.application.view.user.vip;
 
 import android.annotation.SuppressLint;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -8,6 +12,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -25,8 +30,10 @@ import com.xueli.application.app.App;
 import com.xueli.application.mode.bean.user.AlPaySuccessCallBack;
 import com.xueli.application.mode.bean.user.User;
 import com.xueli.application.mode.bean.user.VipContent;
+import com.xueli.application.mode.bean.user.WeiXinPayBean;
 import com.xueli.application.mode.user.UserRepository;
 import com.xueli.application.util.UserUtils;
+import com.xueli.application.util.WXPayUtils;
 import com.xueli.application.view.MvpActivity;
 
 import org.json.JSONException;
@@ -109,6 +116,10 @@ public class VipActivity extends MvpActivity<VipContract.Presenter> implements V
         ivWx = findViewById(R.id.iv_wx);
         refreshVipUi();
         mPresenter.getVipCardList();
+        weiXinSuccessBr = new WeiXinSuccessBr();
+        registerReceiver(weiXinSuccessBr, new IntentFilter("pay_wei_xin_success"));
+        weiXinFailBr = new WeiXinFailBr();
+        registerReceiver(weiXinFailBr, new IntentFilter("pay_wei_xin_fail"));
     }
 
     private void refreshVipUi() {
@@ -259,8 +270,16 @@ public class VipActivity extends MvpActivity<VipContract.Presenter> implements V
     }
 
     @Override
-    public void payWeiXin(String payMessage) {
-
+    public void payWeiXin(WeiXinPayBean payMessage) {
+        WXPayUtils.WXPayBuilder builder = new WXPayUtils.WXPayBuilder();
+        builder.setAppId(payMessage.getAppid())
+                .setPartnerId(payMessage.getPartnerid())
+                .setPrepayId(payMessage.getPrepayid())
+                .setPackageValue(payMessage.getPackages())
+                .setNonceStr(payMessage.getNoncestr())
+                .setTimeStamp(payMessage.getTimestamp())
+                .setSign(payMessage.getSign())
+                .build().toWXPayNotSign(this);
     }
 
     @Override
@@ -359,6 +378,42 @@ public class VipActivity extends MvpActivity<VipContract.Presenter> implements V
                 page.setScaleY(scaleFactor);
                 page.setRotationY(-rotate);
             }
+        }
+    }
+
+    private WeiXinSuccessBr weiXinSuccessBr;
+    private WeiXinFailBr weiXinFailBr;
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        try {
+            if (weiXinFailBr != null) {
+                unregisterReceiver(weiXinFailBr);
+            }
+            if (weiXinSuccessBr != null) {
+                unregisterReceiver(weiXinSuccessBr);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    class WeiXinSuccessBr extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            //微信支付成功
+            Log.d("za", "success");
+        }
+    }
+
+    class WeiXinFailBr extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            //微信支付失败
+            Log.d("za", "fail");
         }
     }
 

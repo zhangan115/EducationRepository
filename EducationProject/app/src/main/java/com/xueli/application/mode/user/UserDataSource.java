@@ -8,6 +8,7 @@ import com.xueli.application.mode.bean.user.PaySchoolList;
 import com.xueli.application.mode.bean.user.User;
 import com.xueli.application.mode.bean.user.VerificationCode;
 import com.xueli.application.mode.bean.user.VipContent;
+import com.xueli.application.mode.bean.user.WeiXinPayBean;
 import com.xueli.application.mode.callback.IListCallBack;
 import com.xueli.application.mode.callback.IObjectCallBack;
 
@@ -110,7 +111,7 @@ public interface UserDataSource {
     Subscription getVipCardList(IListCallBack<VipContent> callBack);
 
     @NonNull
-    Subscription payVip(long cardId, IObjectCallBack<User> callBack);
+    Subscription payWeiXinVip(Map<String, String> map, IObjectCallBack<WeiXinPayBean> callBack);
 
     @NonNull
     Subscription paySuccess(long cardId, IObjectCallBack<User> callBack);

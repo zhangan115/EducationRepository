@@ -4,6 +4,7 @@ import com.xueli.application.base.BasePresenter;
 import com.xueli.application.base.BaseView;
 import com.xueli.application.mode.bean.user.User;
 import com.xueli.application.mode.bean.user.VipContent;
+import com.xueli.application.mode.bean.user.WeiXinPayBean;
 
 import java.util.List;
 import java.util.Map;
@@ -35,7 +36,7 @@ interface VipContract {
 
         void payAli(String payMessage);
 
-        void payWeiXin(String payMessage);
+        void payWeiXin(WeiXinPayBean weiXinBean);
 
         void showMessage(String message);
     }

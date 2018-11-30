@@ -2,7 +2,10 @@ package com.xueli.application.view.home.pay;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -10,6 +13,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialog;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -26,9 +30,12 @@ import com.xueli.application.R;
 import com.xueli.application.app.App;
 import com.xueli.application.mode.bean.user.AlPaySuccessCallBack;
 import com.xueli.application.mode.bean.user.PaySchoolList;
+import com.xueli.application.mode.bean.user.WeiXinPayBean;
 import com.xueli.application.mode.user.UserRepository;
+import com.xueli.application.util.WXPayUtils;
 import com.xueli.application.view.MvpActivity;
 import com.xueli.application.view.user.vip.PayResult;
+import com.xueli.application.view.user.vip.VipActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -94,6 +101,10 @@ public class PayActivity extends MvpActivity<PayContract.Presenter> implements P
             findViewById(R.id.chooseGradeLayout).setOnClickListener(this);
         }
         mPresenter.getPay();
+        weiXinSuccessBr = new WeiXinSuccessBr();
+        registerReceiver(weiXinSuccessBr, new IntentFilter("pay_wei_xin_success"));
+        weiXinFailBr = new WeiXinFailBr();
+        registerReceiver(weiXinFailBr, new IntentFilter("pay_wei_xin_fail"));
     }
 
     @Override
@@ -229,7 +240,11 @@ public class PayActivity extends MvpActivity<PayContract.Presenter> implements P
                                         } else {
                                             map.put("isNot", "1");
                                         }
-                                        mPresenter.paySchoolAl(map);
+                                        if (payType == 1) {
+                                            mPresenter.paySchoolAl(map);
+                                        } else {
+                                            mPresenter.paySchoolWeiXin(map);
+                                        }
                                         canPay = false;
                                     }
                                 });
@@ -243,14 +258,14 @@ public class PayActivity extends MvpActivity<PayContract.Presenter> implements P
                                         payType = 1;
                                     }
                                 });
-//                                weiXinImage.setOnClickListener(new View.OnClickListener() {
-//                                    @Override
-//                                    public void onClick(View view) {
-//                                        alImage.setImageDrawable(findDrawById(R.drawable.icon_btn_radio1));
-//                                        weiXinImage.setImageDrawable(findDrawById(R.drawable.icon_btn_radio2));
-//                                        payType = 0;
-//                                    }
-//                                });
+                                weiXinImage.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        alImage.setImageDrawable(findDrawById(R.drawable.icon_btn_radio1));
+                                        weiXinImage.setImageDrawable(findDrawById(R.drawable.icon_btn_radio2));
+                                        payType = 0;
+                                    }
+                                });
                                 bottomDialog.setContentView(view);
                                 bottomDialog.show();
                             }
@@ -315,8 +330,16 @@ public class PayActivity extends MvpActivity<PayContract.Presenter> implements P
     }
 
     @Override
-    public void payWeiXin(String payMessage) {
-
+    public void payWeiXin(WeiXinPayBean payMessage) {
+        WXPayUtils.WXPayBuilder builder = new WXPayUtils.WXPayBuilder();
+        builder.setAppId(payMessage.getAppid())
+                .setPartnerId(payMessage.getPartnerid())
+                .setPrepayId(payMessage.getPrepayid())
+                .setPackageValue(payMessage.getPackages())
+                .setNonceStr(payMessage.getNoncestr())
+                .setTimeStamp(payMessage.getTimestamp())
+                .setSign(payMessage.getSign())
+                .build().toWXPayNotSign(this);
     }
 
     private int AL_PAY_FLAG = 100;
@@ -397,6 +420,43 @@ public class PayActivity extends MvpActivity<PayContract.Presenter> implements P
     public void finishSuccess() {
         showMessage("支付成功!");
         finish();
+    }
+
+    private WeiXinSuccessBr weiXinSuccessBr;
+    private WeiXinFailBr weiXinFailBr;
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        try {
+            if (weiXinFailBr != null) {
+                unregisterReceiver(weiXinFailBr);
+            }
+            if (weiXinSuccessBr != null) {
+                unregisterReceiver(weiXinSuccessBr);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    class WeiXinSuccessBr extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            //微信支付成功
+            Log.d("za", "success");
+            finish();
+        }
+    }
+
+    class WeiXinFailBr extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            //微信支付失败
+            Log.d("za", "fail");
+        }
     }
 
     @Override

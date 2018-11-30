@@ -8,6 +8,7 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+
     <application
         android:name="com.xueli.application.app.App"
         android:allowBackup="true"
@@ -281,6 +282,8 @@
             android:exported="false"
             android:screenOrientation="behind"
             android:windowSoftInputMode="adjustResize|stateHidden" />
+
+        <activity android:name=".wxapi.WXPayEntryActivity"  android:exported="true"/>
 
         <provider
             android:name="android.support.v4.content.FileProvider"

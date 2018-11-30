@@ -19,6 +19,7 @@ import com.xueli.application.mode.bean.user.PaySchoolList;
 import com.xueli.application.mode.bean.user.User;
 import com.xueli.application.mode.bean.user.VerificationCode;
 import com.xueli.application.mode.bean.user.VipContent;
+import com.xueli.application.mode.bean.user.WeiXinPayBean;
 import com.xueli.application.mode.callback.IListCallBack;
 import com.xueli.application.mode.callback.IObjectCallBack;
 import com.xueli.application.mode.enrol.EnrolApi;
@@ -264,7 +265,7 @@ public class UserRepository implements UserDataSource {
 
     @NonNull
     @Override
-    public Subscription payVip(long cardId, IObjectCallBack<User> callBack) {
+    public Subscription payWeiXinVip(Map<String, String> map, IObjectCallBack<WeiXinPayBean> callBack) {
         if (App.getInstance().getCurrentUser() == null) return rx.Observable.just("").subscribe();
         JSONObject jsonObject = new JSONObject();
         try {
@@ -272,10 +273,7 @@ public class UserRepository implements UserDataSource {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        Map<String, String> map = new HashMap<>();
-        map.put("carId", String.valueOf(cardId));
-        map.put("maccountId", String.valueOf(App.getInstance().getCurrentUser().getId()));
-        Observable<Bean<User>> observable = Api.createRetrofit().create(UserApi.class).payVip(map, jsonObject.toString());
+        Observable<Bean<WeiXinPayBean>> observable = Api.createRetrofit().create(UserApi.class).payWeiXin(map, jsonObject.toString());
         return new ApiCallBackObject1<>(observable).execute(callBack);
     }
 

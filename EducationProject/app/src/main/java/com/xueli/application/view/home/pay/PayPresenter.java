@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import com.xueli.application.app.App;
 import com.xueli.application.mode.bean.user.PaySchoolList;
 import com.xueli.application.mode.bean.user.User;
+import com.xueli.application.mode.bean.user.WeiXinPayBean;
 import com.xueli.application.mode.callback.IListCallBack;
 import com.xueli.application.mode.callback.IObjectCallBack;
 import com.xueli.application.mode.user.UserDataSource;
@@ -92,14 +93,14 @@ public class PayPresenter implements PayContract.Presenter {
     @Override
     public void paySchoolWeiXin(Map<String, String> map) {
         mView.showLoading();
-        subscription.add(mDataSource.paySchool(map, new IObjectCallBack<String>() {
+        subscription.add(mDataSource.payWeiXinVip(map, new IObjectCallBack<WeiXinPayBean>() {
             @Override
             public void onSuccess() {
 
             }
 
             @Override
-            public void onData(@NonNull String s) {
+            public void onData(@NonNull WeiXinPayBean s) {
                 mView.payWeiXin(s);
             }
 
