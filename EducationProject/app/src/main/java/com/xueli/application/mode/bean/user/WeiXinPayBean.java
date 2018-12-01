@@ -11,6 +11,7 @@ public class WeiXinPayBean {
     private String prepayid;
     private String sign;
     private String timestamp;
+    private String outTradeNo;
 
     public String getAppid() {
         return appid;
@@ -66,5 +67,13 @@ public class WeiXinPayBean {
 
     public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public String getOutTradeNo() {
+        return outTradeNo;
+    }
+
+    public void setOutTradeNo(String outTradeNo) {
+        this.outTradeNo = outTradeNo;
     }
 }

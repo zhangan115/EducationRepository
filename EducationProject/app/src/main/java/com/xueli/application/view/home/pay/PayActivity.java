@@ -32,6 +32,7 @@ import com.xueli.application.mode.bean.user.AlPaySuccessCallBack;
 import com.xueli.application.mode.bean.user.PaySchoolList;
 import com.xueli.application.mode.bean.user.WeiXinPayBean;
 import com.xueli.application.mode.user.UserRepository;
+import com.xueli.application.util.NoFastClickUtils;
 import com.xueli.application.util.WXPayUtils;
 import com.xueli.application.view.MvpActivity;
 import com.xueli.application.view.user.vip.PayResult;
@@ -73,7 +74,6 @@ public class PayActivity extends MvpActivity<PayContract.Presenter> implements P
     private TextView tableMoneyTv;
     private TextView allMoneyTv;
     private ImageView chooseImageView;
-    private boolean canPay = true;
     private Float money;
 
     @Override
@@ -224,9 +224,8 @@ public class PayActivity extends MvpActivity<PayContract.Presenter> implements P
                                 view.findViewById(R.id.toPayButton).setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
-                                        if (!canPay) {
-                                            return;
-                                        }
+                                        if (NoFastClickUtils.isFastClick()) return;
+                                        weiXinOutTradeNo = "";
                                         Map<String, String> map = new HashMap<>();
                                         map.put("schoolId", String.valueOf(schoolId));
                                         map.put("majorTypeId", String.valueOf(typeId));
@@ -245,7 +244,7 @@ public class PayActivity extends MvpActivity<PayContract.Presenter> implements P
                                         } else {
                                             mPresenter.paySchoolWeiXin(map);
                                         }
-                                        canPay = false;
+                                        bottomDialog.dismiss();
                                     }
                                 });
                                 final ImageView alImage = view.findViewById(R.id.alChoose);
@@ -329,8 +328,11 @@ public class PayActivity extends MvpActivity<PayContract.Presenter> implements P
         alPay(payMessage);
     }
 
+    private String weiXinOutTradeNo = "";
+
     @Override
     public void payWeiXin(WeiXinPayBean payMessage) {
+        weiXinOutTradeNo = payMessage.getOutTradeNo();
         WXPayUtils.WXPayBuilder builder = new WXPayUtils.WXPayBuilder();
         builder.setAppId(payMessage.getAppid())
                 .setPartnerId(payMessage.getPartnerid())
@@ -381,14 +383,9 @@ public class PayActivity extends MvpActivity<PayContract.Presenter> implements P
                         mPresenter.paySuccessCallBack(map);
                     } catch (JSONException e) {
                         e.printStackTrace();
-                        canPay = true;
                     }
                     ///outTradeNo系统订单号 trade_no为第三方订单号
                 } else {
-                    // 该笔订单真实的支付结果，需要依赖服务端的异步通知。
-                    canPay = true;
-                    Logger.d(resultInfo);
-                    Logger.d(resultStatus);
                     App.getInstance().showToast("支付失败");
                 }
             }
@@ -445,8 +442,9 @@ public class PayActivity extends MvpActivity<PayContract.Presenter> implements P
         @Override
         public void onReceive(Context context, Intent intent) {
             //微信支付成功
-            Log.d("za", "success");
-            finish();
+            Map<String, String> map = new HashMap<>();
+            map.put("outTradeNo", weiXinOutTradeNo);
+            mPresenter.paySuccessCallBack(map);
         }
     }
 
@@ -455,13 +453,13 @@ public class PayActivity extends MvpActivity<PayContract.Presenter> implements P
         @Override
         public void onReceive(Context context, Intent intent) {
             //微信支付失败
-            Log.d("za", "fail");
+
         }
     }
 
     @Override
     public void payFinish() {
-        canPay = true;
+
     }
 
     @Override

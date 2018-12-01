@@ -53,7 +53,10 @@ public class ForgetPassWordActivity extends MvpActivity<ForgetPassWordContract.P
         switch (v.getId()) {
             case R.id.btnNextStep:
                 String code = etUserPassAgain.getText().toString().trim();
-                if (!phoneNumber.equals(etUserPassWord.getText().toString().trim())) {
+                if (TextUtils.isEmpty(phoneNumber)) return;
+                String pass = etUserPassWord.getText().toString().trim();
+                if (TextUtils.isEmpty(pass)) return;
+                if (!phoneNumber.equals(pass)) {
                     showMessage("请重新获取验证码");
                     return;
                 }

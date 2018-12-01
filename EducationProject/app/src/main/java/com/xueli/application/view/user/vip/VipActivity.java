@@ -12,7 +12,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -32,6 +31,7 @@ import com.xueli.application.mode.bean.user.User;
 import com.xueli.application.mode.bean.user.VipContent;
 import com.xueli.application.mode.bean.user.WeiXinPayBean;
 import com.xueli.application.mode.user.UserRepository;
+import com.xueli.application.util.NoFastClickUtils;
 import com.xueli.application.util.UserUtils;
 import com.xueli.application.util.WXPayUtils;
 import com.xueli.application.view.MvpActivity;
@@ -146,6 +146,8 @@ public class VipActivity extends MvpActivity<VipContract.Presenter> implements V
                 chooseState();
                 break;
             case R.id.btnSure:
+                if (NoFastClickUtils.isFastClick()) return;
+                weiXinOutTradeNo = "";
                 if (vipContentList.isEmpty()) {
                     return;
                 }
@@ -269,8 +271,11 @@ public class VipActivity extends MvpActivity<VipContract.Presenter> implements V
         alPay(payMessage);
     }
 
+    private String weiXinOutTradeNo = "";
+
     @Override
     public void payWeiXin(WeiXinPayBean payMessage) {
+        weiXinOutTradeNo = payMessage.getOutTradeNo();
         WXPayUtils.WXPayBuilder builder = new WXPayUtils.WXPayBuilder();
         builder.setAppId(payMessage.getAppid())
                 .setPartnerId(payMessage.getPartnerid())
@@ -404,7 +409,9 @@ public class VipActivity extends MvpActivity<VipContract.Presenter> implements V
         @Override
         public void onReceive(Context context, Intent intent) {
             //微信支付成功
-            Log.d("za", "success");
+            Map<String, String> map = new HashMap<>();
+            map.put("outTradeNo", weiXinOutTradeNo);
+            mPresenter.paySuccessCallBack(map);
         }
     }
 
@@ -413,7 +420,6 @@ public class VipActivity extends MvpActivity<VipContract.Presenter> implements V
         @Override
         public void onReceive(Context context, Intent intent) {
             //微信支付失败
-            Log.d("za", "fail");
         }
     }
 
