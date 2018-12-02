@@ -7,7 +7,7 @@ package com.xueli.application.common;
 
 public interface ConstantInt {
 
-    //2018-11-23
+    //2018-12-2
     int VERSION_NO = 13;
 
     int PAGE_SIZE = 20;
