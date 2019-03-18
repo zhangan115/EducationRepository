@@ -9,7 +9,15 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 
+import com.tencent.mm.opensdk.modelmsg.SendAuth;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+import com.tencent.tauth.IUiListener;
+import com.tencent.tauth.Tencent;
+import com.tencent.tauth.UiError;
 import com.xueli.application.R;
 import com.xueli.application.app.App;
 import com.xueli.application.common.ConstantStr;
@@ -27,6 +35,11 @@ import com.xueli.application.view.register.RegisterSureActivity;
 public class LoginActivity extends MvpActivity<LoginContract.Presenter> implements LoginContract.View {
 
     private EditText userNameEt, userPassWordEt;
+    private LinearLayout otherLoginLayout;
+    private ImageButton weChatLoginBtn, qqLoginBtn;
+
+    private  IWXAPI mIWxapi;
+    private Tencent mTencent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,14 +48,21 @@ public class LoginActivity extends MvpActivity<LoginContract.Presenter> implemen
         setContentView(R.layout.login_activity);
         transparentStatusBar();
         initView();
+        mIWxapi =  WXAPIFactory.createWXAPI(this, "wx1c0c07722cf3fe96");
+        mTencent = Tencent.createInstance("",this.getApplicationContext());
     }
 
     private void initView() {
         userNameEt = findViewById(R.id.etUserName);
         userPassWordEt = findViewById(R.id.etUserPassWord);
+        weChatLoginBtn = findViewById(R.id.weChatBtn);
+        qqLoginBtn = findViewById(R.id.qqBtn);
+        otherLoginLayout = findViewById(R.id.otherLoginLL);
         findViewById(R.id.btnLogin).setOnClickListener(this);
         findViewById(R.id.tvForgetPass).setOnClickListener(this);
         findViewById(R.id.tvRegister).setOnClickListener(this);
+        weChatLoginBtn.setOnClickListener(this);
+        qqLoginBtn.setOnClickListener(this);
     }
 
     @Override
@@ -106,11 +126,37 @@ public class LoginActivity extends MvpActivity<LoginContract.Presenter> implemen
                 Intent intent = new Intent(this, RegisterSureActivity.class);
                 startActivityForResult(intent, START_REGISTER);
                 break;
+            case R.id.weChatBtn:
+                SendAuth.Req req = new SendAuth.Req();
+                req.scope = "snsapi_userinfo";
+                mIWxapi.sendReq(req);
+                break;
+            case R.id.qqBtn:
+                mTencent.login(this,"all",listener,false);
+                break;
         }
     }
 
     private final int START_REGISTER = 100;
     private final int START_FORGET = 101;
+
+    IUiListener listener = new IUiListener() {
+
+        @Override
+        public void onComplete(Object o) {
+
+        }
+
+        @Override
+        public void onError(UiError uiError) {
+
+        }
+
+        @Override
+        public void onCancel() {
+
+        }
+    };
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -137,7 +183,8 @@ public class LoginActivity extends MvpActivity<LoginContract.Presenter> implemen
                     userPassWordEt.setText(pass);
                 }
             }
-
+        }else {
+            Tencent.onActivityResultData(requestCode,resultCode,data,listener);
         }
     }
 }
