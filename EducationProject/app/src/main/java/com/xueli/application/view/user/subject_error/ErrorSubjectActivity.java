@@ -68,9 +68,8 @@ public class ErrorSubjectActivity extends MvpActivity<ErrorSubjectContract.Prese
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTheme(R.style.bankFilterStyle);
-        transparentStatusBar();
         setLayoutAndToolbar(R.layout.error_subject_activity, "过往答错");
+        setDarkStatusIcon(true);
         initView();
         map = new HashMap<>();
         drawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {

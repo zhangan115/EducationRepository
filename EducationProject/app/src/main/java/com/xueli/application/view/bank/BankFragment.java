@@ -18,6 +18,8 @@ import com.xueli.application.util.UserUtils;
 import com.xueli.application.view.MvpFragment;
 import com.xueli.application.view.bank.filter.BankFilterActivity;
 import com.xueli.application.view.bank.list.BankListActivity;
+import com.xueli.application.view.user.collection.MyCollectionActivity;
+import com.xueli.application.view.user.subject_error.ErrorSubjectActivity;
 import com.xueli.application.view.user.vip.VipActivity;
 
 /**
@@ -44,11 +46,25 @@ public class BankFragment extends MvpFragment implements View.OnClickListener {
         rootView.findViewById(R.id.iv4).setOnClickListener(this);
         rootView.findViewById(R.id.iv5).setOnClickListener(this);
         rootView.findViewById(R.id.iv6).setOnClickListener(this);
+        rootView.findViewById(R.id.llRecord).setOnClickListener(this);
+        rootView.findViewById(R.id.llWrongQuestions).setOnClickListener(this);
+        rootView.findViewById(R.id.llMyFavorite).setOnClickListener(this);
         return rootView;
     }
 
     @Override
     public void onClick(View v) {
+        if (v.getId() == R.id.llRecord){
+            return;
+        }
+        if (v.getId() == R.id.llWrongQuestions){
+            startActivity(new Intent(getActivity(), ErrorSubjectActivity.class));
+            return;
+        }
+        if (v.getId() == R.id.llMyFavorite){
+            startActivity(new Intent(getActivity(), MyCollectionActivity.class));
+            return;
+        }
         String tag = (String) v.getTag();
         Intent intent;
         if (tag.startsWith("1")) {

@@ -207,13 +207,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
-                    android:text="使用社交账号登陆"
+                    android:text="第三方登陆"
                     android:textColor="#666666"
                     android:textSize="14sp" />
 
                 <View
                     android:layout_width="0dp"
                     android:layout_height="1px"
+                    android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_weight="1"
                     android:background="#cecece" />
@@ -223,23 +224,23 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:layout_marginBottom="25dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="60dp"
                 android:gravity="center"
                 android:orientation="horizontal">
 
                 <ImageButton
                     android:id="@+id/weChatBtn"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:background="@drawable/wechat_loging_icon" />
+                    android:layout_width="46dp"
+                    android:layout_height="46dp"
+                    android:background="@drawable/wechat_login" />
 
                 <ImageButton
                     android:id="@+id/qqBtn"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_marginLeft="30dp"
-                    android:background="@drawable/qq_login_icon" />
+                    android:layout_width="46dp"
+                    android:layout_height="46dp"
+                    android:layout_marginLeft="65dp"
+                    android:background="@drawable/qq_login" />
             </LinearLayout>
         </LinearLayout>
     </FrameLayout>
