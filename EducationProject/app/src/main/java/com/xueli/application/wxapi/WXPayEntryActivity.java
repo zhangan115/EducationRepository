@@ -36,7 +36,6 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
         handler = new MyHandler(this);
     }
 
-
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
@@ -69,14 +68,14 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
             final String code = authResp.code;
             NetworkUtil.sendWxAPI(handler, String.format("https://api.weixin.qq.com/sns/oauth2/access_token?" +
                             "appid=%s&secret=%s&code=%s&grant_type=authorization_code", "wx1c0c07722cf3fe96",
-                    "1d6d1d57a3dd063b36d917bc0b44d964", code), NetworkUtil.GET_TOKEN);
+                    "753caff5bf55e20b2a0767a81b1cbefb", code), NetworkUtil.GET_TOKEN);
         }
     }
 
     private static class MyHandler extends Handler {
         private final WeakReference<WXPayEntryActivity> wxEntryActivityWeakReference;
 
-        public MyHandler(WXPayEntryActivity wxEntryActivity){
+        MyHandler(WXPayEntryActivity wxEntryActivity){
             wxEntryActivityWeakReference = new WeakReference<WXPayEntryActivity>(wxEntryActivity);
         }
 
