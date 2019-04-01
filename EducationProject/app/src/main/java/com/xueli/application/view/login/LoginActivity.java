@@ -128,7 +128,8 @@ public class LoginActivity extends MvpActivity<LoginContract.Presenter> implemen
                 break;
             case R.id.weChatBtn:
                 SendAuth.Req req = new SendAuth.Req();
-                req.scope = "snsapi_userinfo";
+                req.scope = "snsapi_userinfo,snsapi_friend,snsapi_message,snsapi_contact";
+                req.state = "none";
                 mIWxapi.sendReq(req);
                 break;
             case R.id.qqBtn:
@@ -157,6 +158,18 @@ public class LoginActivity extends MvpActivity<LoginContract.Presenter> implemen
 
         }
     };
+
+    private String user_openId, accessToken, refreshToken, scope;
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+        user_openId = intent.getStringExtra("openId");
+        accessToken = intent.getStringExtra("accessToken");
+        refreshToken = intent.getStringExtra("refreshToken");
+        scope = intent.getStringExtra("scope");
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
