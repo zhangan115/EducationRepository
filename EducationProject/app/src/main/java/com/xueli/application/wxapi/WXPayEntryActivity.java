@@ -26,14 +26,12 @@ import java.lang.ref.WeakReference;
 public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
 
     private IWXAPI api;
-    private MyHandler handler;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         api = WXAPIFactory.createWXAPI(this, "wx1c0c07722cf3fe96");
         api.handleIntent(getIntent(), this);
-        handler = new MyHandler(this);
     }
 
     @Override
@@ -50,7 +48,6 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
 
     @Override
     public void onResp(BaseResp resp) {
-        Log.d("za", "===>" + resp.getType());
         if (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
             if (resp.errCode == 0) {
                 Intent intent = new Intent("pay_wei_xin_success");
@@ -62,48 +59,6 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
                 Toast.makeText(this, "支付失败", Toast.LENGTH_LONG).show();
             }
             finish();
-        }
-        if (resp.getType() == ConstantsAPI.COMMAND_SENDAUTH) {
-            SendAuth.Resp authResp = (SendAuth.Resp)resp;
-            final String code = authResp.code;
-            NetworkUtil.sendWxAPI(handler, String.format("https://api.weixin.qq.com/sns/oauth2/access_token?" +
-                            "appid=%s&secret=%s&code=%s&grant_type=authorization_code", "wx1c0c07722cf3fe96",
-                    "753caff5bf55e20b2a0767a81b1cbefb", code), NetworkUtil.GET_TOKEN);
-        }
-    }
-
-    private static class MyHandler extends Handler {
-        private final WeakReference<WXPayEntryActivity> wxEntryActivityWeakReference;
-
-        MyHandler(WXPayEntryActivity wxEntryActivity){
-            wxEntryActivityWeakReference = new WeakReference<WXPayEntryActivity>(wxEntryActivity);
-        }
-
-        @Override
-        public void handleMessage(Message msg) {
-            int tag = msg.what;
-            switch (tag) {
-                case NetworkUtil.GET_TOKEN: {
-                    Bundle data = msg.getData();
-                    JSONObject json = null;
-                    try {
-                        json = new JSONObject(data.getString("result"));
-                        String openId, accessToken, refreshToken, scope;
-                        openId = json.getString("openid");
-                        accessToken = json.getString("access_token");
-                        refreshToken = json.getString("refresh_token");
-                        scope = json.getString("scope");
-                        Intent intent = new Intent(wxEntryActivityWeakReference.get(), LoginActivity.class);
-                        intent.putExtra("openId", openId);
-                        intent.putExtra("accessToken", accessToken);
-                        intent.putExtra("refreshToken", refreshToken);
-                        intent.putExtra("scope", scope);
-                        wxEntryActivityWeakReference.get().startActivity(intent);
-                    } catch (JSONException e) {
-                        Log.e("za", e.getMessage());
-                    }
-                }
-            }
         }
     }
 }

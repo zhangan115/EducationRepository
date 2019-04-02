@@ -286,6 +286,9 @@
         <activity
             android:name=".wxapi.WXPayEntryActivity"
             android:exported="true" />
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:exported="true" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
