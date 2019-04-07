@@ -115,4 +115,5 @@ public interface UserApi {
     @Headers({"Content-Type:application/json;charset=utf-8", "Accept:application/json;"})
     @POST("api/app/pay/back")
     Observable<Bean<User>> paySchoolSuccess(@QueryMap() Map<String, String> map, @Body() String string);
+
 }
