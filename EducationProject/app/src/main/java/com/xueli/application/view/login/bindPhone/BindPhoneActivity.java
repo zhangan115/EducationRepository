@@ -1,5 +1,6 @@
 package com.xueli.application.view.login.bindPhone;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -22,8 +23,9 @@ public class BindPhoneActivity extends MvpActivity<BindPhoneContract.Presenter> 
     private TextView tvGetCode;
     private EditText etPhoneNum, etPhoneCode, etEnterPass, etEnterPassAgain;
     private String phoneNumber;
-    private String phoneCode;
     private VerificationCode verificationCode;
+    private String openId;
+    private final static int START_BIND_SCHOOL = 103;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +38,7 @@ public class BindPhoneActivity extends MvpActivity<BindPhoneContract.Presenter> 
         etEnterPass = findViewById(R.id.etUserPass);
         etEnterPassAgain = findViewById(R.id.etUserPassWordAgain);
         findViewById(R.id.btnSure).setOnClickListener(this);
+        openId = getIntent().getStringExtra(ConstantStr.KEY_BUNDLE_STR);
     }
 
     @Override
@@ -59,7 +62,7 @@ public class BindPhoneActivity extends MvpActivity<BindPhoneContract.Presenter> 
                 mPresenter.getCode(phoneNumber);
                 break;
             case R.id.btnSure:
-                phoneCode = etPhoneCode.getText().toString().trim();
+                String phoneCode = etPhoneCode.getText().toString().trim();
                 if (TextUtils.isEmpty(phoneCode)) {
                     showMessage("请输入验证码");
                     break;
@@ -92,9 +95,20 @@ public class BindPhoneActivity extends MvpActivity<BindPhoneContract.Presenter> 
                 intent.putExtra(ConstantStr.KEY_BUNDLE_STR, phoneNumber);
                 intent.putExtra(ConstantStr.KEY_BUNDLE_STR_1, phoneCode);
                 intent.putExtra(ConstantStr.KEY_BUNDLE_STR_2, pass);
-                startActivity(intent);
+                intent.putExtra(ConstantStr.KEY_BUNDLE_STR_3, openId);
+                startActivityForResult(intent, START_BIND_SCHOOL);
+                setResult(Activity.RESULT_OK);
                 finish();
                 break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK && requestCode == START_BIND_SCHOOL) {
+            setResult(Activity.RESULT_OK);
+            finish();
         }
     }
 

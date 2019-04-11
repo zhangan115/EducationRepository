@@ -2,7 +2,10 @@ package com.xueli.application.view.login;
 
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -22,8 +25,10 @@ import com.xueli.application.R;
 import com.xueli.application.app.App;
 import com.xueli.application.common.ConstantStr;
 import com.xueli.application.mode.Injection;
+import com.xueli.application.mode.bean.user.WeiXinLoginBean;
 import com.xueli.application.view.MvpActivity;
 import com.xueli.application.view.forget.ForgetPassWordActivity;
+import com.xueli.application.view.login.bindPhone.BindPhoneActivity;
 import com.xueli.application.view.main.MainActivity;
 import com.xueli.application.view.register.RegisterSureActivity;
 
@@ -38,8 +43,22 @@ public class LoginActivity extends MvpActivity<LoginContract.Presenter> implemen
     private LinearLayout otherLoginLayout;
     private ImageButton weChatLoginBtn, qqLoginBtn;
 
-    private  IWXAPI mIWxapi;
+    private IWXAPI mIWxapi;
     private Tencent mTencent;
+    private final int START_REGISTER = 100;
+    private final int START_FORGET = 101;
+    private final static int START_BIND_PHONE = 102;
+
+    private BroadcastReceiver weiXinLoginBr = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (TextUtils.equals(intent.getAction(), "Action_weiXin_code")) {
+                String code = intent.getStringExtra("code");
+                showProgressDialog("登陆中...");
+                mPresenter.weiXinLogin(code);
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,8 +67,9 @@ public class LoginActivity extends MvpActivity<LoginContract.Presenter> implemen
         setContentView(R.layout.login_activity);
         transparentStatusBar();
         initView();
-        mIWxapi =  WXAPIFactory.createWXAPI(this, "wx1c0c07722cf3fe96");
-        mTencent = Tencent.createInstance("",this.getApplicationContext());
+        mIWxapi = WXAPIFactory.createWXAPI(this, "wx1c0c07722cf3fe96");
+        mTencent = Tencent.createInstance("", this.getApplicationContext());
+        registerReceiver(weiXinLoginBr, new IntentFilter("Action_weiXin_code"));
     }
 
     private void initView() {
@@ -99,6 +119,14 @@ public class LoginActivity extends MvpActivity<LoginContract.Presenter> implemen
     }
 
     @Override
+    public void showWeiXinBean(WeiXinLoginBean bean) {
+        Intent intent = new Intent(this, BindPhoneActivity.class);
+        intent.putExtra(ConstantStr.KEY_BUNDLE_STR, bean.getOpenId());
+        startActivityForResult(intent, START_BIND_PHONE);
+    }
+
+
+    @Override
     public void setPresenter(LoginContract.Presenter presenter) {
         mPresenter = presenter;
     }
@@ -133,13 +161,10 @@ public class LoginActivity extends MvpActivity<LoginContract.Presenter> implemen
                 mIWxapi.sendReq(req);
                 break;
             case R.id.qqBtn:
-                mTencent.login(this,"all",listener,false);
+                mTencent.login(this, "all", listener, false);
                 break;
         }
     }
-
-    private final int START_REGISTER = 100;
-    private final int START_FORGET = 101;
 
     IUiListener listener = new IUiListener() {
 
@@ -158,18 +183,6 @@ public class LoginActivity extends MvpActivity<LoginContract.Presenter> implemen
 
         }
     };
-
-    private String user_openId, accessToken, refreshToken, scope;
-
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        setIntent(intent);
-        user_openId = intent.getStringExtra("openId");
-        accessToken = intent.getStringExtra("accessToken");
-        refreshToken = intent.getStringExtra("refreshToken");
-        scope = intent.getStringExtra("scope");
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -196,8 +209,21 @@ public class LoginActivity extends MvpActivity<LoginContract.Presenter> implemen
                     userPassWordEt.setText(pass);
                 }
             }
-        }else {
-            Tencent.onActivityResultData(requestCode,resultCode,data,listener);
+        } else if (requestCode == START_BIND_PHONE && resultCode == Activity.RESULT_OK) {
+            loginSuccess();
+        } else {
+            Tencent.onActivityResultData(requestCode, resultCode, data, listener);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        try {
+            if (weiXinLoginBr != null)
+                unregisterReceiver(weiXinLoginBr);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

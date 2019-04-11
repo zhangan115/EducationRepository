@@ -1,7 +1,10 @@
 package com.xueli.application.view.login;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.xueli.application.mode.bean.user.WeiXinLoginBean;
+import com.xueli.application.mode.callback.IObjectCallBack;
 import com.xueli.application.mode.user.UserDataSource;
 
 import rx.subscriptions.CompositeSubscription;
@@ -49,6 +52,36 @@ final class LoginPresenter implements LoginContract.Presenter {
                 mView.showMessage(message);
             }
 
+        }));
+    }
+
+    @Override
+    public void weiXinLogin(String code) {
+        mSubscriptions.add(mUserDataSource.getWeiXinAccessCode(code, new IObjectCallBack<WeiXinLoginBean>() {
+            @Override
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onData(@NonNull WeiXinLoginBean s) {
+                mView.showWeiXinBean(s);
+            }
+
+            @Override
+            public void onError(@Nullable String message) {
+
+            }
+
+            @Override
+            public void noData() {
+
+            }
+
+            @Override
+            public void onFinish() {
+                mView.loginHideLoading();
+            }
         }));
     }
 

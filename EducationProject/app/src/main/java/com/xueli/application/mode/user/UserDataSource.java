@@ -8,6 +8,7 @@ import com.xueli.application.mode.bean.user.PaySchoolList;
 import com.xueli.application.mode.bean.user.User;
 import com.xueli.application.mode.bean.user.VerificationCode;
 import com.xueli.application.mode.bean.user.VipContent;
+import com.xueli.application.mode.bean.user.WeiXinLoginBean;
 import com.xueli.application.mode.bean.user.WeiXinPayBean;
 import com.xueli.application.mode.callback.IListCallBack;
 import com.xueli.application.mode.callback.IObjectCallBack;
@@ -127,4 +128,10 @@ public interface UserDataSource {
 
     @NonNull
     Subscription paySchoolCallBack(Map<String, String> map, @NonNull final IObjectCallBack<User> callBack);
+
+    @NonNull
+    Subscription getWeiXinAccessCode(@NonNull String code, @NonNull IObjectCallBack<WeiXinLoginBean> callBack);
+
+    @NonNull
+    Subscription updateUserInfo(Map<String, String> map, IObjectCallBack<User> callBack);
 }

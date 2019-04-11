@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -38,9 +39,13 @@ public class BindSchoolActivity extends MvpActivity<BindSchoolContract.Presenter
         String phone = getIntent().getStringExtra(ConstantStr.KEY_BUNDLE_STR);//手机号码
         String verificationCode = getIntent().getStringExtra(ConstantStr.KEY_BUNDLE_STR_1);//手机号码
         String password = getIntent().getStringExtra(ConstantStr.KEY_BUNDLE_STR_2);//手机号码
+
+        String openId = getIntent().getStringExtra(ConstantStr.KEY_BUNDLE_STR_3);//微信的id
         map.put("phone", phone);
         map.put("verificationCode", verificationCode);
         map.put("password", password);
+        map.put("openId", openId);
+        Log.d("za", "openId is " + openId);
         bindView();
     }
 

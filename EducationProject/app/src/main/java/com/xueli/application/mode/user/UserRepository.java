@@ -19,6 +19,7 @@ import com.xueli.application.mode.bean.user.PaySchoolList;
 import com.xueli.application.mode.bean.user.User;
 import com.xueli.application.mode.bean.user.VerificationCode;
 import com.xueli.application.mode.bean.user.VipContent;
+import com.xueli.application.mode.bean.user.WeiXinLoginBean;
 import com.xueli.application.mode.bean.user.WeiXinPayBean;
 import com.xueli.application.mode.callback.IListCallBack;
 import com.xueli.application.mode.callback.IObjectCallBack;
@@ -350,6 +351,20 @@ public class UserRepository implements UserDataSource {
             e.printStackTrace();
         }
         Observable<Bean<User>> observable = Api.createRetrofit().create(UserApi.class).paySchoolSuccess(map, jsonObject.toString());
+        return new ApiCallBackObject1<>(observable).execute(callBack);
+    }
+
+    @NonNull
+    @Override
+    public Subscription getWeiXinAccessCode(@NonNull String code, @NonNull IObjectCallBack<WeiXinLoginBean> callBack) {
+        Observable<Bean<WeiXinLoginBean>> observable = Api.createRetrofit().create(UserApi.class).getAccessToken(code);
+        return new ApiCallBackObject1<>(observable).execute(callBack);
+    }
+
+    @NonNull
+    @Override
+    public Subscription updateUserInfo(Map<String, String> map, IObjectCallBack<User> callBack) {
+        Observable<Bean<User>> observable = Api.createRetrofit().create(UserApi.class).updateUserInfo(map);
         return new ApiCallBackObject1<>(observable).execute(callBack);
     }
 

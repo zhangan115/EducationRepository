@@ -6,6 +6,7 @@ import com.xueli.application.mode.bean.user.PaySchoolList;
 import com.xueli.application.mode.bean.user.User;
 import com.xueli.application.mode.bean.user.VerificationCode;
 import com.xueli.application.mode.bean.user.VipContent;
+import com.xueli.application.mode.bean.user.WeiXinLoginBean;
 import com.xueli.application.mode.bean.user.WeiXinPayBean;
 
 
@@ -115,5 +116,16 @@ public interface UserApi {
     @Headers({"Content-Type:application/json;charset=utf-8", "Accept:application/json;"})
     @POST("api/app/pay/back")
     Observable<Bean<User>> paySchoolSuccess(@QueryMap() Map<String, String> map, @Body() String string);
+
+    /**
+     * 微信 登陆 获取 数据
+     */
+    @GET("account/getAccessToken")
+    Observable<Bean<WeiXinLoginBean>> getAccessToken(@Query("code") String code);
+
+
+    @Headers({"Content-Type:application/json;charset=utf-8", "Accept:application/json;"})
+    @POST("account/updateUserInfo")
+    Observable<Bean<User>> updateUserInfo(@QueryMap() Map<String, String> map);
 
 }
