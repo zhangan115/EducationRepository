@@ -69,6 +69,9 @@ public class StudyListFragment extends LazyLoadFragment implements RecycleRefres
         new StudyListPresenter(StudyRepository.getRepository(getActivity()), this);
         if (getArguments() != null) {
             type = getArguments().getLong(SHOW_LIST_TYPE);
+            if (type == 7) {
+                type = 3;
+            }
         }
     }
 

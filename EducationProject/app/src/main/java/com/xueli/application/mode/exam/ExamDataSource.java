@@ -37,10 +37,12 @@ public interface ExamDataSource {
 
     @NonNull
     Subscription getMyCollection(IListCallBack<PaperSections> callBack);
+
     @NonNull
     Subscription getMyFaultExam(IListCallBack<FaultExam> callBack);
+
     @NonNull
-    Subscription getMyFaultExamPaper(long id,IListCallBack<PaperSections> callBack);
+    Subscription getMyFaultExamPaper(long id, IListCallBack<PaperSections> callBack);
 
     @NonNull
     Subscription getMyCollection(long lastId, IListCallBack<PaperSections> callBack);
@@ -50,5 +52,8 @@ public interface ExamDataSource {
 
     @NonNull
     Subscription uploadData(List<PaperSections> data, IObjectCallBack<String> callBack);
+
+    @NonNull
+    Subscription getPaperList(String bResult, Long lastId, IListCallBack<PaperSections> callBack);
 
 }

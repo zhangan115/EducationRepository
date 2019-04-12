@@ -84,33 +84,33 @@ class RegisterPresenter implements RegisterContract.Presenter {
 
     @Override
     public void userReg(Map<String, String> map) {
-        mSubscriptions.add(mUserDataSource.userReg(map, new IObjectCallBack<String>() {
-
-            @Override
-            public void onSuccess() {
-                mView.registerSuccess();
-            }
-
-            @Override
-            public void onData(@NonNull String s) {
-
-            }
-
-            @Override
-            public void onError(@Nullable String message) {
-                mView.showMessage(message);
-            }
-
-            @Override
-            public void noData() {
-
-            }
-
-            @Override
-            public void onFinish() {
-
-            }
-        }));
+//        mSubscriptions.add(mUserDataSource.userReg(map, new IObjectCallBack<String>() {
+//
+//            @Override
+//            public void onSuccess() {
+//                mView.registerSuccess();
+//            }
+//
+//            @Override
+//            public void onData(@NonNull String s) {
+//
+//            }
+//
+//            @Override
+//            public void onError(@Nullable String message) {
+//                mView.showMessage(message);
+//            }
+//
+//            @Override
+//            public void noData() {
+//
+//            }
+//
+//            @Override
+//            public void onFinish() {
+//
+//            }
+//        }));
     }
 
     @Override

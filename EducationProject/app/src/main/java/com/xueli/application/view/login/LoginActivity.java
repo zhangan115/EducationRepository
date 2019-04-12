@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
+import com.library.utils.SPHelper;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
@@ -120,9 +121,15 @@ public class LoginActivity extends MvpActivity<LoginContract.Presenter> implemen
 
     @Override
     public void showWeiXinBean(WeiXinLoginBean bean) {
-        Intent intent = new Intent(this, BindPhoneActivity.class);
-        intent.putExtra(ConstantStr.KEY_BUNDLE_STR, bean.getOpenId());
-        startActivityForResult(intent, START_BIND_PHONE);
+        if (bean.getUser() == null) {//没有用户信息 去完善信息
+            Intent intent = new Intent(this, BindPhoneActivity.class);
+            intent.putExtra(ConstantStr.KEY_BUNDLE_STR, bean.getOpenId());
+            startActivityForResult(intent, START_BIND_PHONE);
+        } else {
+            App.getInstance().setCurrentUser(bean.getUser());
+            SPHelper.write(App.getInstance(), ConstantStr.USER_INFO, ConstantStr.TOKEN, bean.getUser().getToken());
+            loginSuccess();
+        }
     }
 
 

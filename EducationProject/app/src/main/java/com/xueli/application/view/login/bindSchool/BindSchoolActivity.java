@@ -19,8 +19,8 @@ import com.xueli.application.mode.Injection;
 import com.xueli.application.view.MvpActivity;
 import com.xueli.application.view.main.MainActivity;
 
-import java.util.HashMap;
-import java.util.Map;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class BindSchoolActivity extends MvpActivity<BindSchoolContract.Presenter> implements BindSchoolContract.View {
 
@@ -30,7 +30,7 @@ public class BindSchoolActivity extends MvpActivity<BindSchoolContract.Presenter
     private String[] zyStrList = new String[]{"高起专（文）", "高起专（理）", "专升本（医学类）", "专升本（理工类）", "专升本（经管类）", "专升本（法学类）"
             , "专升本（教育学类）", "专升本（农学类）", "专升本（艺术类）", "专升本（文史中医类）", "高升本（文）", "高升本（理）"};
     private String[] lxStrList = new String[]{"成人高考", "学位考试", "统招专升本", "医学护理"};
-    private Map<String, String> map = new HashMap<>();
+    private JSONObject json = new JSONObject();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,10 +41,14 @@ public class BindSchoolActivity extends MvpActivity<BindSchoolContract.Presenter
         String password = getIntent().getStringExtra(ConstantStr.KEY_BUNDLE_STR_2);//手机号码
 
         String openId = getIntent().getStringExtra(ConstantStr.KEY_BUNDLE_STR_3);//微信的id
-        map.put("phone", phone);
-        map.put("verificationCode", verificationCode);
-        map.put("password", password);
-        map.put("openId", openId);
+        try {
+            json.put("phone", phone);
+            json.put("verificationCode", verificationCode);
+            json.put("password", password);
+            json.put("openId", openId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         Log.d("za", "openId is " + openId);
         bindView();
     }
@@ -89,27 +93,31 @@ public class BindSchoolActivity extends MvpActivity<BindSchoolContract.Presenter
                     showMessage("请输入真名");
                     break;
                 }
-                map.put("realName", userRealName);
-                if (TextUtils.isEmpty(userCard)) {
-                    showMessage("请输入身份证号码");
-                    break;
+                try {
+                    json.put("realName", userRealName);
+                    if (TextUtils.isEmpty(userCard)) {
+                        showMessage("请输入身份证号码");
+                        break;
+                    }
+                    if (!IdcardUtils.validateCard(userCard)) {
+                        showMessage("输入的身份证不合法");
+                        break;
+                    }
+                    json.put("idcard", userCard);
+                    if (chooseZy == -1) {
+                        showMessage("请选择报考专业");
+                        break;
+                    }
+                    json.put("suoxuezhuanye", String.valueOf(chooseZy));
+                    if (chooseLx == -1) {
+                        showMessage("请选择报考类型");
+                        break;
+                    }
+                    json.put("type", String.valueOf(chooseLx));
+                    mPresenter.updateUserInfo(json);
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-                if (!IdcardUtils.validateCard(userCard)) {
-                    showMessage("输入的身份证不合法");
-                    break;
-                }
-                map.put("idcard", userCard);
-                if (chooseZy == -1) {
-                    showMessage("请选择报考专业");
-                    break;
-                }
-                map.put("suoxuezhuanye", String.valueOf(chooseZy));
-                if (chooseLx == -1) {
-                    showMessage("请选择报考类型");
-                    break;
-                }
-                map.put("type", String.valueOf(chooseLx));
-                mPresenter.updateUserInfo(map);
                 break;
         }
     }

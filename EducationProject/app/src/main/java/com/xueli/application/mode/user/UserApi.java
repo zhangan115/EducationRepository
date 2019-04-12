@@ -50,7 +50,7 @@ public interface UserApi {
 
     @Headers({"Content-Type:application/json;charset=utf-8", "Accept:application/json;"})
     @POST("account/reg")
-    Observable<Bean<String>> userReg(@QueryMap() Map<String, String> map);
+    Observable<Bean<User>> userReg(@Body() String info);
 
     @Headers({"Content-Type:application/json;charset=utf-8", "Accept:application/json;"})
     @POST("account/forgetpassword")

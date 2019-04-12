@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar_include" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorBackgroundGray">
+
+        <com.library.widget.RecycleRefreshLoadLayout
+            android:id="@+id/refreshLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.library.widget.ExpendRecycleView
+                android:id="@+id/recycleRecord"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.library.widget.RecycleRefreshLoadLayout>
+
+        <include layout="@layout/no_data_include" />
+    </RelativeLayout>
+</LinearLayout>

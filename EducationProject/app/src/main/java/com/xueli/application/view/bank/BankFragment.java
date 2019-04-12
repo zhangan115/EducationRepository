@@ -18,6 +18,7 @@ import com.xueli.application.util.UserUtils;
 import com.xueli.application.view.MvpFragment;
 import com.xueli.application.view.bank.filter.BankFilterActivity;
 import com.xueli.application.view.bank.list.BankListActivity;
+import com.xueli.application.view.bank.record.RecordActivity;
 import com.xueli.application.view.user.collection.MyCollectionActivity;
 import com.xueli.application.view.user.subject_error.ErrorSubjectActivity;
 import com.xueli.application.view.user.vip.VipActivity;
@@ -54,14 +55,15 @@ public class BankFragment extends MvpFragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.llRecord){
+        if (v.getId() == R.id.llRecord) {
+            startActivity(new Intent(getActivity(), RecordActivity.class));
             return;
         }
-        if (v.getId() == R.id.llWrongQuestions){
+        if (v.getId() == R.id.llWrongQuestions) {
             startActivity(new Intent(getActivity(), ErrorSubjectActivity.class));
             return;
         }
-        if (v.getId() == R.id.llMyFavorite){
+        if (v.getId() == R.id.llMyFavorite) {
             startActivity(new Intent(getActivity(), MyCollectionActivity.class));
             return;
         }

@@ -155,8 +155,8 @@ public class UserRepository implements UserDataSource {
 
     @NonNull
     @Override
-    public Subscription userReg(Map<String, String> map, IObjectCallBack<String> callBack) {
-        Observable<Bean<String>> observable = Api.createRetrofit().create(UserApi.class).userReg(map);
+    public Subscription userReg(@NonNull JSONObject json, IObjectCallBack<User> callBack) {
+        Observable<Bean<User>> observable = Api.createRetrofit().create(UserApi.class).userReg(json.toString());
         return new ApiCallBackObject1<>(observable).execute(callBack);
     }
 

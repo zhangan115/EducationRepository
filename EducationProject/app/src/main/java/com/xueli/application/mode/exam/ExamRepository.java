@@ -24,7 +24,6 @@ import org.json.JSONObject;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Observable;
 
 import rx.Subscription;
 
@@ -190,4 +189,21 @@ public class ExamRepository implements ExamDataSource {
                 .uploadData(uploadData.getUploadJson()))
                 .execute(callBack);
     }
+
+    @NonNull
+    @Override
+    public Subscription getPaperList(String bResult, Long lastId, IListCallBack<PaperSections> callBack) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("token", sp.getString(ConstantStr.TOKEN, ""));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        if (App.getInstance().getCurrentUser() == null) return rx.Observable.just("").subscribe();
+        return new ApiCallBackList1<>(Api.createRetrofit().create(ExamApi.class)
+                .getPaperSectionList(App.getInstance().getCurrentUser().getId()
+                        , bResult, lastId, jsonObject.toString()))
+                .execute(callBack);
+    }
+
 }

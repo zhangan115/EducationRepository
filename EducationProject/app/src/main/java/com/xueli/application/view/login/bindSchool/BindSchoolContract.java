@@ -6,6 +6,8 @@ import android.support.annotation.Nullable;
 import com.xueli.application.base.BasePresenter;
 import com.xueli.application.base.BaseView;
 
+import org.json.JSONObject;
+
 import java.util.Map;
 
 
@@ -20,9 +22,9 @@ interface BindSchoolContract {
         /**
          * 更新用户信息
          *
-         * @param map 数据
+         * @param json 数据
          */
-        void updateUserInfo(Map<String, String> map);
+        void updateUserInfo(JSONObject json);
 
     }
 

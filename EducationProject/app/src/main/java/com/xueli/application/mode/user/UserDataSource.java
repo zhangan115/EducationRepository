@@ -83,7 +83,7 @@ public interface UserDataSource {
     Subscription startCountDown(CountDownCallBack callBack);
 
     @NonNull
-    Subscription userReg(Map<String, String> map, IObjectCallBack<String> callBack);
+    Subscription userReg(@NonNull JSONObject jsonObject, IObjectCallBack<User> callBack);
 
 
     /**

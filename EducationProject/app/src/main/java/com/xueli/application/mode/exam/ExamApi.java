@@ -67,4 +67,11 @@ public interface ExamApi {
     @Headers({"Content-Type:application/json;charset=utf-8", "Accept:application/json;"})
     @POST("api/data/upload")
     Observable<Bean<String>> uploadData(@Body() String string);
+
+    @Headers({"Content-Type:application/json;charset=utf-8", "Accept:application/json;"})
+    @POST("api/userExamedQuestion/list")
+    Observable<Bean<List<PaperSections>>> getPaperSectionList(@Query("accountId") Long accountId
+            , @Query("bResult") String bResult
+            , @Query("lastId") Long lastId
+            , @Body() String string);
 }
