@@ -7,150 +7,211 @@
 
     <include layout="@layout/toolbar_include" />
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginTop="10dp"
-            android:background="@color/colorWhite"
-            android:orientation="horizontal">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="15dp"
-                android:text="姓名"
-                android:textColor="@color/text_gray_333"
-                android:textSize="14dp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/colorWhite"
+                android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/etUserRealName"
-                android:layout_width="0dp"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="15dp"
+                    android:text="姓名"
+                    android:textColor="@color/text_gray_333"
+                    android:textSize="14dp" />
+
+                <EditText
+                    android:id="@+id/etUserRealName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="15dp"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:gravity="right"
+                    android:textColor="@color/text_gray_333"
+                    android:textSize="14dp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/color_division" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="@color/colorWhite"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="15dp"
+                    android:text="身份证"
+                    android:textColor="@color/text_gray_333"
+                    android:textSize="14dp" />
+
+                <EditText
+                    android:id="@+id/etUserCard"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="15dp"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:gravity="right"
+                    android:textColor="@color/text_gray_333"
+                    android:textSize="14dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llZy"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/colorWhite"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="15dp"
+                    android:text="报考专业"
+                    android:textColor="@color/text_gray_333"
+                    android:textSize="14dp" />
+
+                <TextView
+                    android:id="@+id/tvZy"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="15dp"
+                    android:layout_weight="1"
+                    android:drawableRight="@drawable/icon_btn_arrow_r_g"
+                    android:drawablePadding="5dp"
+                    android:gravity="right"
+                    android:textColor="@color/text_gray_333"
+                    android:textSize="14dp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/color_division" />
+
+            <LinearLayout
+                android:id="@+id/llLx"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="@color/colorWhite"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="15dp"
+                    android:text="报考类型"
+                    android:textColor="@color/text_gray_333"
+                    android:textSize="14dp" />
+
+                <TextView
+                    android:id="@+id/tvLx"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="15dp"
+                    android:layout_weight="1"
+                    android:drawableRight="@drawable/icon_btn_arrow_r_g"
+                    android:drawablePadding="5dp"
+                    android:gravity="right"
+                    android:textColor="@color/text_gray_333"
+                    android:textSize="14dp" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnSure"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginRight="15dp"
-                android:layout_weight="1"
-                android:background="@null"
-                android:gravity="right"
-                android:textColor="@color/text_gray_333"
-                android:textSize="14dp" />
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="25dp"
+                android:background="@drawable/btn_blue"
+                android:gravity="center"
+                android:text="提交"
+                android:textColor="@color/colorWhite"
+                android:textSize="16dp" />
         </LinearLayout>
 
-        <View
+        <RelativeLayout
+            android:id="@+id/registerSuccessLayout"
             android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@color/color_division" />
+            android:layout_height="match_parent"
+            android:background="#20000000"
+            android:visibility="gone">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:background="@color/colorWhite"
-            android:orientation="horizontal">
 
-            <TextView
+            <LinearLayout
+                android:layout_width="290dp"
+                android:layout_height="215dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="215dp"
+                android:background="@drawable/register_success"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="80dp"
+                    android:text="注册成功"
+                    android:textColor="#333333"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="恭喜你!已获得7天免费试用的机会"
+                    android:textColor="#f77844"
+                    android:textSize="14sp" />
+
+                <Button
+                    android:id="@+id/openHome"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginRight="25dp"
+                    android:background="@drawable/btn_blue"
+                    android:gravity="center"
+                    android:text="马上体验"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="16dp" />
+            </LinearLayout>
+
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="15dp"
-                android:text="身份证"
-                android:textColor="@color/text_gray_333"
-                android:textSize="14dp" />
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="170dp"
+                android:src="@drawable/gift_icon" />
+        </RelativeLayout>
+    </FrameLayout>
 
-            <EditText
-                android:id="@+id/etUserCard"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginRight="15dp"
-                android:layout_weight="1"
-                android:background="@null"
-                android:gravity="right"
-                android:textColor="@color/text_gray_333"
-                android:textSize="14dp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/llZy"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginTop="10dp"
-            android:background="@color/colorWhite"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="15dp"
-                android:text="报考专业"
-                android:textColor="@color/text_gray_333"
-                android:textSize="14dp" />
-
-            <TextView
-                android:id="@+id/tvZy"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginRight="15dp"
-                android:layout_weight="1"
-                android:drawableRight="@drawable/icon_btn_arrow_r_g"
-                android:drawablePadding="5dp"
-                android:gravity="right"
-                android:textColor="@color/text_gray_333"
-                android:textSize="14dp" />
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@color/color_division" />
-
-        <LinearLayout
-            android:id="@+id/llLx"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:background="@color/colorWhite"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="15dp"
-                android:text="报考类型"
-                android:textColor="@color/text_gray_333"
-                android:textSize="14dp" />
-
-            <TextView
-                android:id="@+id/tvLx"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginRight="15dp"
-                android:layout_weight="1"
-                android:drawableRight="@drawable/icon_btn_arrow_r_g"
-                android:drawablePadding="5dp"
-                android:gravity="right"
-                android:textColor="@color/text_gray_333"
-                android:textSize="14dp" />
-        </LinearLayout>
-
-        <Button
-            android:id="@+id/btnSure"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="25dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginRight="25dp"
-            android:background="@drawable/btn_blue"
-            android:gravity="center"
-            android:text="提交"
-            android:textColor="@color/colorWhite"
-            android:textSize="16dp" />
-    </LinearLayout>
 </LinearLayout>

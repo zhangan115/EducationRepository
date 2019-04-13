@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -24,6 +25,7 @@ import org.json.JSONObject;
 
 public class BindSchoolActivity extends MvpActivity<BindSchoolContract.Presenter> implements BindSchoolContract.View {
 
+    private RelativeLayout registerSuccessLayout;
     private EditText userRealName, userCard;
     private TextView zyTv, lxTv;
     private int chooseZy = -1, chooseLx = -1;
@@ -49,18 +51,19 @@ public class BindSchoolActivity extends MvpActivity<BindSchoolContract.Presenter
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        Log.d("za", "openId is " + openId);
         bindView();
     }
 
     private void bindView() {
         userRealName = findViewById(R.id.etUserRealName);
         userCard = findViewById(R.id.etUserCard);
+        registerSuccessLayout = findViewById(R.id.registerSuccessLayout);
         zyTv = findViewById(R.id.tvZy);
         lxTv = findViewById(R.id.tvLx);
         findViewById(R.id.btnSure).setOnClickListener(this);
         findViewById(R.id.llZy).setOnClickListener(this);
         findViewById(R.id.llLx).setOnClickListener(this);
+        findViewById(R.id.openHome).setOnClickListener(this);
     }
 
     @Override
@@ -84,6 +87,17 @@ public class BindSchoolActivity extends MvpActivity<BindSchoolContract.Presenter
                         lxTv.setText(text);
                     }
                 }).build().show();
+                break;
+            case R.id.openHome:
+                Intent intent = new Intent(this, MainActivity.class);
+                if (getPackageManager().resolveActivity(intent, PackageManager.MATCH_DEFAULT_ONLY) != null) {
+                    try {
+                        startActivity(intent);
+                        finish();
+                    } catch (ActivityNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                }
                 break;
             default:
                 //sure
@@ -129,15 +143,7 @@ public class BindSchoolActivity extends MvpActivity<BindSchoolContract.Presenter
 
     @Override
     public void updateUserInfoSuccess() {
-        Intent intent = new Intent(this, MainActivity.class);
-        if (getPackageManager().resolveActivity(intent, PackageManager.MATCH_DEFAULT_ONLY) != null) {
-            try {
-                startActivity(intent);
-                finish();
-            } catch (ActivityNotFoundException e) {
-                e.printStackTrace();
-            }
-        }
+        registerSuccessLayout.setVisibility(View.VISIBLE);
     }
 
     @Override

@@ -158,8 +158,8 @@ public class LoginActivity extends MvpActivity<LoginContract.Presenter> implemen
                 startActivityForResult(forgetPassInt, START_FORGET);
                 break;
             case R.id.tvRegister:
-                Intent intent = new Intent(this, RegisterSureActivity.class);
-                startActivityForResult(intent, START_REGISTER);
+                Intent intent = new Intent(this, BindPhoneActivity.class);
+                startActivityForResult(intent, START_BIND_PHONE);
                 break;
             case R.id.weChatBtn:
                 SendAuth.Req req = new SendAuth.Req();

@@ -60,7 +60,9 @@ public class BankFragment extends MvpFragment implements View.OnClickListener {
             return;
         }
         if (v.getId() == R.id.llWrongQuestions) {
-            startActivity(new Intent(getActivity(), ErrorSubjectActivity.class));
+            Intent intent = new Intent(getActivity(), RecordActivity.class);
+            intent.putExtra(ConstantStr.KEY_BUNDLE_STR, "true");
+            startActivity(intent);
             return;
         }
         if (v.getId() == R.id.llMyFavorite) {

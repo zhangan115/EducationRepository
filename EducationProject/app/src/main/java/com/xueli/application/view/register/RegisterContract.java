@@ -2,6 +2,7 @@ package com.xueli.application.view.register;
 
 import com.xueli.application.base.BasePresenter;
 import com.xueli.application.base.BaseView;
+import com.xueli.application.mode.bean.user.User;
 
 import java.util.Map;
 
@@ -27,7 +28,7 @@ interface RegisterContract {
 
         void showMessage(String message);
 
-        void registerSuccess();
+        void registerSuccess(User user);
 
         void sendCodeSuccess();
 

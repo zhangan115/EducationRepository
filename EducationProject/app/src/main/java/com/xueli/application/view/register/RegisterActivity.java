@@ -7,9 +7,11 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 
+import com.library.utils.SPHelper;
 import com.xueli.application.R;
 import com.xueli.application.app.App;
 import com.xueli.application.common.ConstantStr;
+import com.xueli.application.mode.bean.user.User;
 import com.xueli.application.mode.user.UserRepository;
 import com.xueli.application.view.MvpActivity;
 
@@ -95,7 +97,9 @@ public class RegisterActivity extends MvpActivity<RegisterContract.Presenter> im
     }
 
     @Override
-    public void registerSuccess() {
+    public void registerSuccess(User user) {
+        App.getInstance().setCurrentUser(user);
+        SPHelper.write(App.getInstance(), ConstantStr.USER_INFO, ConstantStr.TOKEN, user.getToken());
         App.getInstance().showToast("注册成功");
         Intent intent = new Intent();
         intent.putExtra(ConstantStr.KEY_BUNDLE_STR_1, phone);

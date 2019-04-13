@@ -3,9 +3,13 @@ package com.xueli.application.view.register;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.xueli.application.mode.bean.user.User;
 import com.xueli.application.mode.bean.user.VerificationCode;
 import com.xueli.application.mode.callback.IObjectCallBack;
 import com.xueli.application.mode.user.UserDataSource;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Map;
 
@@ -27,6 +31,7 @@ class RegisterPresenter implements RegisterContract.Presenter {
         this.mView = mView;
         mView.setPresenter(this);
     }
+
     private boolean isCountDown = false;
 
     @Override
@@ -84,33 +89,41 @@ class RegisterPresenter implements RegisterContract.Presenter {
 
     @Override
     public void userReg(Map<String, String> map) {
-//        mSubscriptions.add(mUserDataSource.userReg(map, new IObjectCallBack<String>() {
-//
-//            @Override
-//            public void onSuccess() {
-//                mView.registerSuccess();
-//            }
-//
-//            @Override
-//            public void onData(@NonNull String s) {
-//
-//            }
-//
-//            @Override
-//            public void onError(@Nullable String message) {
-//                mView.showMessage(message);
-//            }
-//
-//            @Override
-//            public void noData() {
-//
-//            }
-//
-//            @Override
-//            public void onFinish() {
-//
-//            }
-//        }));
+        JSONObject jsonObject = new JSONObject();
+        for (String key : map.keySet()) {
+            try {
+                jsonObject.put(key, map.get(key));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        mSubscriptions.add(mUserDataSource.userReg(jsonObject, new IObjectCallBack<User>() {
+
+            @Override
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onData(@NonNull User s) {
+                mView.registerSuccess(s);
+            }
+
+            @Override
+            public void onError(@Nullable String message) {
+                mView.showMessage(message);
+            }
+
+            @Override
+            public void noData() {
+
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+        }));
     }
 
     @Override

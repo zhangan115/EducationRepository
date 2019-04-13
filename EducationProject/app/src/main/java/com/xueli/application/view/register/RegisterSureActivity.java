@@ -12,6 +12,7 @@ import com.library.utils.PhoneFormatCheckUtils;
 import com.xueli.application.R;
 import com.xueli.application.app.App;
 import com.xueli.application.common.ConstantStr;
+import com.xueli.application.mode.bean.user.User;
 import com.xueli.application.mode.user.UserRepository;
 import com.xueli.application.view.BaseActivity;
 import com.xueli.application.view.MvpActivity;
@@ -107,7 +108,7 @@ public class RegisterSureActivity extends MvpActivity<RegisterContract.Presenter
     }
 
     @Override
-    public void registerSuccess() {
+    public void registerSuccess(User user) {
 
     }
 
