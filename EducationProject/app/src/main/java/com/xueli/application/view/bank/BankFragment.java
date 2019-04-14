@@ -61,7 +61,7 @@ public class BankFragment extends MvpFragment implements View.OnClickListener {
         }
         if (v.getId() == R.id.llWrongQuestions) {
             Intent intent = new Intent(getActivity(), RecordActivity.class);
-            intent.putExtra(ConstantStr.KEY_BUNDLE_STR, "true");
+            intent.putExtra(ConstantStr.KEY_BUNDLE_STR, "1");
             startActivity(intent);
             return;
         }
