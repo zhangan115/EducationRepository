@@ -56,26 +56,21 @@ public class RecordActivity extends MvpActivity<RecordContact.Presenter> impleme
         final RVAdapter<PaperSections> adapter = new RVAdapter<PaperSections>(expendRecycleView, dataList, R.layout.item_record) {
             @Override
             public void showData(ViewHolder vHolder, PaperSections data, int position) {
-                LinearLayout layout = (LinearLayout) vHolder.getView(R.id.layout);
-                layout.setOnClickListener(new View.OnClickListener() {
+                final HtmlTextView name = (HtmlTextView) vHolder.getView(R.id.tvQuestion);
+                name.setHtmlFromString(data.getQuestion(), false);
+                name.setTag(position);
+                name.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Log.d("za", "===");
+                        int position = (int)name.getTag();
+                        Intent intent = new Intent(RecordActivity.this, SubjectActivity.class);
+                        intent.putExtra(ConstantStr.KEY_BUNDLE_OBJECT, dataList.get(position));
+                        startActivity(intent);
                     }
                 });
-                HtmlTextView name = (HtmlTextView) vHolder.getView(R.id.tvQuestion);
-                name.setHtmlFromString(data.getQuestion(), false);
             }
         };
         expendRecycleView.setAdapter(adapter);
-        adapter.setOnItemClickListener(new RVAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                Intent intent = new Intent(RecordActivity.this, SubjectActivity.class);
-                intent.putExtra(ConstantStr.KEY_BUNDLE_OBJECT, dataList.get(position));
-                startActivity(intent);
-            }
-        });
         mPresenter.getBankList(bResult, lastId);
     }
 
