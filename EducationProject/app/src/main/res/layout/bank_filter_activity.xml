@@ -34,9 +34,9 @@
                         android:layout_height="wrap_content"
                         android:drawableLeft="@drawable/blue_item"
                         android:drawablePadding="12dp"
-                        android:paddingBottom="15dp"
                         android:paddingLeft="15dp"
                         android:paddingTop="15dp"
+                        android:paddingBottom="15dp"
                         android:text="高起专"
                         android:textColor="@color/text_gray_333"
                         android:textSize="14dp" />
@@ -44,18 +44,18 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp"
                         android:layout_marginLeft="15dp"
                         android:layout_marginRight="15dp"
+                        android:layout_marginBottom="10dp"
                         android:orientation="horizontal"
                         android:weightSum="4">
 
                         <TextView
                             style="@style/FilterTextXStyle"
+                            android:layout_marginRight="10dp"
                             android:onClick="onClick"
                             android:tag="1,2"
                             android:text="语文"
-                            android:layout_marginRight="10dp"
                             android:textColor="@color/text_gray_333"
                             android:textSize="12dp" />
 
@@ -93,9 +93,9 @@
                         android:layout_height="wrap_content"
                         android:drawableLeft="@drawable/blue_item"
                         android:drawablePadding="12dp"
-                        android:paddingBottom="15dp"
                         android:paddingLeft="15dp"
                         android:paddingTop="15dp"
+                        android:paddingBottom="15dp"
                         android:text="专升本"
                         android:textColor="@color/text_gray_333"
                         android:textSize="14dp" />
@@ -103,9 +103,9 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp"
                         android:layout_marginLeft="15dp"
                         android:layout_marginRight="15dp"
+                        android:layout_marginBottom="10dp"
                         android:orientation="horizontal"
                         android:weightSum="4">
 
@@ -148,9 +148,9 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp"
                         android:layout_marginLeft="15dp"
                         android:layout_marginRight="15dp"
+                        android:layout_marginBottom="10dp"
                         android:orientation="horizontal"
                         android:weightSum="4">
 
@@ -171,6 +171,45 @@
                             android:text="法学基础"
                             android:textColor="@color/text_gray_333"
                             android:textSize="12dp" />
+
+                        <TextView
+                            style="@style/FilterTextXStyle"
+                            android:layout_marginRight="10dp"
+                            android:onClick="onClick"
+                            android:tag="15,3"
+                            android:text="大学语文"
+                            android:textColor="@color/text_gray_333"
+                            android:textSize="12dp" />
+
+                        <TextView
+                            style="@style/FilterTextXStyle"
+                            android:layout_marginRight="10dp"
+                            android:onClick="onClick"
+                            android:tag="14,3"
+                            android:text="高数二"
+                            android:textColor="@color/text_gray_333"
+                            android:textSize="12dp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginBottom="10dp"
+                        android:orientation="horizontal"
+                        android:weightSum="4">
+
+                        <TextView
+                            style="@style/FilterTextXStyle"
+                            android:layout_marginRight="20dp"
+                            android:onClick="onClick"
+                            android:tag="13,3"
+                            android:text="高数一"
+                            android:textColor="@color/text_gray_333"
+                            android:textSize="12dp" />
+
                     </LinearLayout>
                 </LinearLayout>
 
@@ -186,9 +225,9 @@
                         android:layout_height="wrap_content"
                         android:drawableLeft="@drawable/blue_item"
                         android:drawablePadding="12dp"
-                        android:paddingBottom="15dp"
                         android:paddingLeft="15dp"
                         android:paddingTop="15dp"
+                        android:paddingBottom="15dp"
                         android:text="高升本"
                         android:textColor="@color/text_gray_333"
                         android:textSize="14dp" />
@@ -196,9 +235,9 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp"
                         android:layout_marginLeft="15dp"
                         android:layout_marginRight="15dp"
+                        android:layout_marginBottom="10dp"
                         android:orientation="horizontal"
                         android:weightSum="4">
 
@@ -241,9 +280,9 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp"
                         android:layout_marginLeft="15dp"
                         android:layout_marginRight="15dp"
+                        android:layout_marginBottom="10dp"
                         android:orientation="horizontal"
                         android:weightSum="4">
 

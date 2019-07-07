@@ -27,8 +27,8 @@ android {
         applicationId "com.xueli.application"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 13
-        versionName "1.7.0"
+        versionCode 14
+        versionName "1.8.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
@@ -39,7 +39,6 @@ android {
             dimension "default"
             resValue "string", "app_name", "学力无忧"
             buildConfigField "String", "HOST", '"http://39.106.210.43/FxExam/"'
-//            buildConfigField "String", "HOST", '"http://39.106.210.43:8088/FxExam/"'
             manifestPlaceholders = [
                     TASK_AFFINITY_VALUE: "android.task.xueli.application",
                     PACKAGE_NAME       : applicationId
