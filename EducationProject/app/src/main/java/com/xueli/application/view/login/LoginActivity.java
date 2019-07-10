@@ -31,7 +31,6 @@ import com.xueli.application.view.MvpActivity;
 import com.xueli.application.view.forget.ForgetPassWordActivity;
 import com.xueli.application.view.login.bindPhone.BindPhoneActivity;
 import com.xueli.application.view.main.MainActivity;
-import com.xueli.application.view.register.RegisterSureActivity;
 
 /**
  * 登陆界面
