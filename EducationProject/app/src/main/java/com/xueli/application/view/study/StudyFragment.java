@@ -34,31 +34,7 @@ public class StudyFragment extends MvpFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.study_fragment, container, false);
-        TabLayout tabLayout = rootView.findViewById(R.id.tabLayout);
-        ViewPager viewPager = rootView.findViewById(R.id.view_pager);
-        viewPager.setOffscreenPageLimit(5);
-        SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(getChildFragmentManager());
-        viewPager.setAdapter(mSectionsPagerAdapter);
-        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-        tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(viewPager));
         return rootView;
     }
 
-    public class SectionsPagerAdapter extends FragmentPagerAdapter {
-
-        SectionsPagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            return StudyListFragment.newInstance(position + 4);
-        }
-
-        @Override
-        public int getCount() {
-            return 4;
-        }
-
-    }
 }

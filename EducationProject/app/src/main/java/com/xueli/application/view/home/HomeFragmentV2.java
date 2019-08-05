@@ -34,6 +34,7 @@ import com.xueli.application.view.enrol.EnrolActivity;
 import com.xueli.application.view.home.hot.HotListActivity;
 import com.xueli.application.view.home.pay.PayActivity;
 import com.xueli.application.view.home.school.SchoolListActivity;
+import com.xueli.application.view.study.StudyActivity;
 import com.xueli.application.view.study.StudyListActivity;
 import com.xueli.application.view.web.MessageDetailActivity;
 import com.xueli.application.widget.HotItemLayout;
@@ -87,7 +88,7 @@ public class HomeFragmentV2 extends MvpFragment implements View.OnClickListener,
         llMessage.setOnClickListener(this);
 
         rootView.findViewById(R.id.llSignUpTime).setTag(R.id.tag_id, 1L);
-        rootView.findViewById(R.id.llSignUpTime).setTag(R.id.tag_title, "报名时间");
+        rootView.findViewById(R.id.llSignUpTime).setTag(R.id.tag_title, "考试时间");
         rootView.findViewById(R.id.llSignUpTime).setOnClickListener(clickListener);
 
         rootView.findViewById(R.id.llSchoolMajor).setTag(R.id.tag_id, 3L);
@@ -104,7 +105,7 @@ public class HomeFragmentV2 extends MvpFragment implements View.OnClickListener,
 
         rootView.findViewById(R.id.llCourse).setTag(R.id.tag_id, 6L);
         rootView.findViewById(R.id.llCourse).setTag(R.id.tag_title, "考试技巧");
-        rootView.findViewById(R.id.llCourse).setOnClickListener(clickListener);
+        rootView.findViewById(R.id.llCourse).setOnClickListener(studyClick);
 
         rootView.findViewById(R.id.llConsultation).setTag(R.id.tag_id, 7L);
         rootView.findViewById(R.id.llConsultation).setTag(R.id.tag_title, "视频课堂");
@@ -349,6 +350,14 @@ public class HomeFragmentV2 extends MvpFragment implements View.OnClickListener,
             SPHelper.write(getActivity(), ConstantStr.SP_CACHE, ConstantStr.SP_MESSAGE_DETAIL, content);
             Intent intent = new Intent(getActivity(), MessageDetailActivity.class);
             intent.putExtra(ConstantStr.KEY_BUNDLE_STR, title);
+            startActivity(intent);
+        }
+    };
+
+    View.OnClickListener studyClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(getActivity(), StudyActivity.class);
             startActivity(intent);
         }
     };
