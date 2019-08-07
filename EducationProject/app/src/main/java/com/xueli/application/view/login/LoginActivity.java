@@ -68,7 +68,7 @@ public class LoginActivity extends MvpActivity<LoginContract.Presenter> implemen
         transparentStatusBar();
         initView();
         mIWxapi = WXAPIFactory.createWXAPI(this, "wx1c0c07722cf3fe96");
-        mTencent = Tencent.createInstance("", this.getApplicationContext());
+        mTencent = Tencent.createInstance("1109288175", this.getApplicationContext());
         registerReceiver(weiXinLoginBr, new IntentFilter("Action_weiXin_code"));
     }
 
