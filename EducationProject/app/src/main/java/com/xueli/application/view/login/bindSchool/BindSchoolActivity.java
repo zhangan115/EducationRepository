@@ -1,5 +1,6 @@
 package com.xueli.application.view.login.bindSchool;
 
+import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -27,7 +28,8 @@ import org.json.JSONObject;
 public class BindSchoolActivity extends MvpActivity<BindSchoolContract.Presenter> implements BindSchoolContract.View {
 
     private RelativeLayout registerSuccessLayout;
-    private EditText userRealName, userCard,etEnterPass, etEnterPassAgain;;
+    private EditText userRealName, userCard, etEnterPass, etEnterPassAgain;
+    ;
     private TextView zyTv, lxTv;
     private int chooseZy = -1, chooseLx = -1;
     private String[] zyStrList = new String[]{"高起专（文）", "高起专（理）", "专升本（医学类）", "专升本（理工类）", "专升本（经管类）", "专升本（法学类）"
@@ -91,15 +93,8 @@ public class BindSchoolActivity extends MvpActivity<BindSchoolContract.Presenter
                 }).build().show();
                 break;
             case R.id.openHome:
-                Intent intent = new Intent(this, MainActivity.class);
-                if (getPackageManager().resolveActivity(intent, PackageManager.MATCH_DEFAULT_ONLY) != null) {
-                    try {
-                        startActivity(intent);
-                        finish();
-                    } catch (ActivityNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                }
+                setResult(Activity.RESULT_OK);
+                finish();
                 break;
             default:
                 EditText etUserName = etEnterPass;

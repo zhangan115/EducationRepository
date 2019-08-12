@@ -47,7 +47,7 @@ public class BaseFragment extends AbsBaseFragment implements DialogInterface.OnC
 
     public void hideProgressDialog() {
         if (loadingDialog != null) {
-            loadingDialog.hide();
+            loadingDialog.dismiss();
         }
     }
 

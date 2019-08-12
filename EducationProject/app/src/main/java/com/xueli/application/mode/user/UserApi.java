@@ -42,10 +42,6 @@ public interface UserApi {
     @POST("account/login")
     Observable<Bean<User>> userLogin(@QueryMap() Map<String, String> map);
 
-    @Headers({"Content-Type:application/json;charset=utf-8", "Accept:application/json;"})
-    @POST("user/appEdit.json")
-    Observable<Bean<String>> updateUserInfo(@Body() String info);
-
     @GET("account/sendCode")
     Observable<Bean<VerificationCode>> sendPhoneCode(@Query("phone") String phoneNum);
 

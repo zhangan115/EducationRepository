@@ -49,6 +49,9 @@ public class BindPhoneActivity extends MvpActivity<BindPhoneContract.Presenter> 
         findViewById(R.id.btnSure).setOnClickListener(this);
         openId = getIntent().getStringExtra(ConstantStr.KEY_BUNDLE_STR);
         loginType = getIntent().getIntExtra(ConstantStr.KEY_BUNDLE_INT, 0);
+        if (loginType == 0) {
+            this.getTitleTv().setText("注册");
+        }
     }
 
     @Override
@@ -143,20 +146,8 @@ public class BindPhoneActivity extends MvpActivity<BindPhoneContract.Presenter> 
     public void requestIUser(User user) {
         App.getInstance().setCurrentUser(user);
         SPHelper.write(App.getInstance(), ConstantStr.USER_INFO, ConstantStr.TOKEN, user.getToken());
-        loginSuccess();
-    }
-
-    private void loginSuccess() {
-        Intent intent = new Intent(this, MainActivity.class);
-        if (getPackageManager().resolveActivity(intent, PackageManager.MATCH_DEFAULT_ONLY) != null) {
-            try {
-                startActivity(intent);
-                setResult(Activity.RESULT_OK);
-                finish();
-            } catch (ActivityNotFoundException e) {
-                e.printStackTrace();
-            }
-        }
+        setResult(Activity.RESULT_OK);
+        finish();
     }
 
     @Override
@@ -167,8 +158,6 @@ public class BindPhoneActivity extends MvpActivity<BindPhoneContract.Presenter> 
         intent.putExtra(ConstantStr.KEY_BUNDLE_STR_3, openId);
         intent.putExtra(ConstantStr.KEY_BUNDLE_INT, loginType);
         startActivityForResult(intent, START_BIND_SCHOOL);
-        setResult(Activity.RESULT_OK);
-        finish();
     }
 
     @Override

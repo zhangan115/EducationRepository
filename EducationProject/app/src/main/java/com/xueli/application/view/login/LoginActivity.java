@@ -151,7 +151,6 @@ public class LoginActivity extends MvpActivity<LoginContract.Presenter> implemen
         }
     }
 
-
     @Override
     public void setPresenter(LoginContract.Presenter presenter) {
         mPresenter = presenter;

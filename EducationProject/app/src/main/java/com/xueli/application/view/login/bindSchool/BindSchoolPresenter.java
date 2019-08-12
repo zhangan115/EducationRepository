@@ -10,7 +10,11 @@ import com.xueli.application.mode.bean.user.User;
 import com.xueli.application.mode.callback.IObjectCallBack;
 import com.xueli.application.mode.user.UserDataSource;
 
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import rx.subscriptions.CompositeSubscription;
 
@@ -38,7 +42,40 @@ final class BindSchoolPresenter implements BindSchoolContract.Presenter {
 
     @Override
     public void updateUserInfo(JSONObject json) {
-        mSubscriptions.add(mUserDataSource.userReg(json, new IObjectCallBack<User>() {
+        Map<String, String> map = new HashMap<>();
+        try {
+            if (json.has("phone")) {
+                map.put("phone", json.getString("phone"));
+            }
+            if (json.has("verificationCode")) {
+                map.put("verificationCode", json.getString("verificationCode"));
+            }
+            if (json.has("openId")) {
+                map.put("openId", json.getString("openId"));
+            }
+            if (json.has("loginType")) {
+                map.put("loginType", json.getString("loginType"));
+            }
+            if (json.has("password")) {
+                map.put("password", json.getString("password"));
+            }
+            if (json.has("realName")) {
+                map.put("realName", json.getString("realName"));
+            }
+            if (json.has("idcard")) {
+                map.put("idcard", json.getString("idcard"));
+            }
+            if (json.has("suoxuezhuanye")) {
+                map.put("suoxuezhuanye", json.getString("suoxuezhuanye"));
+            }
+            if (json.has("type")) {
+                map.put("type", json.getString("type"));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        mSubscriptions.add(mUserDataSource.updateUserInfo(map, new IObjectCallBack<User>() {
+
             @Override
             public void onSuccess() {
 

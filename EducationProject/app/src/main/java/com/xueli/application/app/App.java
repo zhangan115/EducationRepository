@@ -6,19 +6,17 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.library.utils.Base64Util;
+import com.library.utils.SPHelper;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.xueli.application.base.AbsBaseApp;
 import com.xueli.application.common.ConstantStr;
 import com.xueli.application.mode.api.Api;
 import com.xueli.application.mode.bean.user.User;
-import com.google.gson.Gson;
-import com.library.utils.Base64Util;
-import com.library.utils.SPHelper;
 import com.xueli.application.view.login.LoginActivity;
 
 import java.io.UnsupportedEncodingException;
-
-import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
 /**
  * application
