@@ -3,6 +3,7 @@ package com.xueli.application.mode.user;
 import com.xueli.application.mode.bean.Bean;
 import com.xueli.application.mode.bean.user.NewVersion;
 import com.xueli.application.mode.bean.user.PaySchoolList;
+import com.xueli.application.mode.bean.user.QQLoginBean;
 import com.xueli.application.mode.bean.user.User;
 import com.xueli.application.mode.bean.user.VerificationCode;
 import com.xueli.application.mode.bean.user.VipContent;
@@ -108,7 +109,6 @@ public interface UserApi {
     @POST("api/pay/cardOrTuition")
     Observable<Bean<String>> paySchool(@QueryMap() Map<String, String> map, @Body() String string);
 
-
     @Headers({"Content-Type:application/json;charset=utf-8", "Accept:application/json;"})
     @POST("api/pay/cardOrTuition")
     Observable<Bean<WeiXinPayBean>> payWeiXin(@QueryMap() Map<String, String> map, @Body() String string);
@@ -123,9 +123,23 @@ public interface UserApi {
     @GET("account/getAccessToken")
     Observable<Bean<WeiXinLoginBean>> getAccessToken(@Query("code") String code);
 
-
     @Headers({"Content-Type:application/json;charset=utf-8", "Accept:application/json;"})
     @POST("account/updateUserInfo")
     Observable<Bean<User>> updateUserInfo(@QueryMap() Map<String, String> map);
+
+    /**
+     * QQ 登陆 获取 数据
+     */
+    @GET("account/getUserByQqOpenId")
+    Observable<Bean<QQLoginBean>> getQQLoginInfo(@Query("openId") String openId);
+
+    /**
+     * 查询绑定的手机号是否存在用户
+     * @param info 参数
+     * @return 用户信息
+     */
+    @Headers({"Content-Type:application/json;charset=utf-8", "Accept:application/json;"})
+    @POST("account/bindingPhone")
+    Observable<Bean<User>> queryUserInfo(@Body() String info);
 
 }

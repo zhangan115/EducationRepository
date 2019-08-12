@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 
 import com.xueli.application.mode.bean.user.NewVersion;
 import com.xueli.application.mode.bean.user.PaySchoolList;
+import com.xueli.application.mode.bean.user.QQLoginBean;
 import com.xueli.application.mode.bean.user.User;
 import com.xueli.application.mode.bean.user.VerificationCode;
 import com.xueli.application.mode.bean.user.VipContent;
@@ -133,5 +134,11 @@ public interface UserDataSource {
     Subscription getWeiXinAccessCode(@NonNull String code, @NonNull IObjectCallBack<WeiXinLoginBean> callBack);
 
     @NonNull
+    Subscription getQQAccessCode(@NonNull String code, @NonNull IObjectCallBack<QQLoginBean> callBack);
+
+    @NonNull
     Subscription updateUserInfo(Map<String, String> map, IObjectCallBack<User> callBack);
+
+    @NonNull
+    Subscription queryUserInfo(@NonNull JSONObject jsonObject, @NonNull final IObjectCallBack<User> callBack);
 }

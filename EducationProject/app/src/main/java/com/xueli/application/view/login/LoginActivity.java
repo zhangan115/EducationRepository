@@ -27,6 +27,7 @@ import com.xueli.application.R;
 import com.xueli.application.app.App;
 import com.xueli.application.common.ConstantStr;
 import com.xueli.application.mode.Injection;
+import com.xueli.application.mode.bean.user.QQLoginBean;
 import com.xueli.application.mode.bean.user.WeiXinLoginBean;
 import com.xueli.application.view.MvpActivity;
 import com.xueli.application.view.forget.ForgetPassWordActivity;
@@ -49,7 +50,6 @@ public class LoginActivity extends MvpActivity<LoginContract.Presenter> implemen
 
     private IWXAPI mIWxapi;
     private Tencent mTencent;
-    private int loginType = 0;
     private final int START_REGISTER = 100;
     private final int START_FORGET = 101;
     private final static int START_BIND_PHONE = 102;
@@ -60,7 +60,6 @@ public class LoginActivity extends MvpActivity<LoginContract.Presenter> implemen
             if (TextUtils.equals(intent.getAction(), "Action_weiXin_code")) {
                 String code = intent.getStringExtra("code");
                 showProgressDialog("登陆中...");
-                loginType = 1;
                 mPresenter.weiXinLogin(code);
             }
         }
@@ -129,7 +128,21 @@ public class LoginActivity extends MvpActivity<LoginContract.Presenter> implemen
         if (bean.getUser() == null) {//没有用户信息 去完善信息
             Intent intent = new Intent(this, BindPhoneActivity.class);
             intent.putExtra(ConstantStr.KEY_BUNDLE_STR, bean.getOpenId());
-            intent.putExtra(ConstantStr.KEY_BUNDLE_INT, loginType);
+            intent.putExtra(ConstantStr.KEY_BUNDLE_INT, 1);
+            startActivityForResult(intent, START_BIND_PHONE);
+        } else {
+            App.getInstance().setCurrentUser(bean.getUser());
+            SPHelper.write(App.getInstance(), ConstantStr.USER_INFO, ConstantStr.TOKEN, bean.getUser().getToken());
+            loginSuccess();
+        }
+    }
+
+    @Override
+    public void showQQLoginBean(QQLoginBean bean) {
+        if (bean.getUser() == null) {//没有用户信息 去完善信息
+            Intent intent = new Intent(this, BindPhoneActivity.class);
+            intent.putExtra(ConstantStr.KEY_BUNDLE_STR, bean.getOpenId());
+            intent.putExtra(ConstantStr.KEY_BUNDLE_INT, 2);
             startActivityForResult(intent, START_BIND_PHONE);
         } else {
             App.getInstance().setCurrentUser(bean.getUser());
@@ -183,15 +196,12 @@ public class LoginActivity extends MvpActivity<LoginContract.Presenter> implemen
 
         @Override
         public void onComplete(Object o) {
-            if (o instanceof String) {
-                try {
-                    JSONObject jsonObject = new JSONObject(o.toString());
-                    String openId = jsonObject.getString("openid");
-                    loginType = 2;
-                    mPresenter.weiXinLogin(openId);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+            try {
+                JSONObject jsonObject = new JSONObject(o.toString());
+                String openId = jsonObject.getString("openid");
+                mPresenter.qqLogin(openId);
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
         }
 

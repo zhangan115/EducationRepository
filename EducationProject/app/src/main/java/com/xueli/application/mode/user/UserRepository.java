@@ -16,6 +16,7 @@ import com.xueli.application.mode.api.ApiCallBackObject1;
 import com.xueli.application.mode.bean.Bean;
 import com.xueli.application.mode.bean.user.NewVersion;
 import com.xueli.application.mode.bean.user.PaySchoolList;
+import com.xueli.application.mode.bean.user.QQLoginBean;
 import com.xueli.application.mode.bean.user.User;
 import com.xueli.application.mode.bean.user.VerificationCode;
 import com.xueli.application.mode.bean.user.VipContent;
@@ -363,8 +364,22 @@ public class UserRepository implements UserDataSource {
 
     @NonNull
     @Override
+    public Subscription getQQAccessCode(@NonNull String openId, @NonNull IObjectCallBack<QQLoginBean> callBack) {
+        Observable<Bean<QQLoginBean>> observable = Api.createRetrofit().create(UserApi.class).getQQLoginInfo(openId);
+        return new ApiCallBackObject1<>(observable).execute(callBack);
+    }
+
+    @NonNull
+    @Override
     public Subscription updateUserInfo(Map<String, String> map, IObjectCallBack<User> callBack) {
         Observable<Bean<User>> observable = Api.createRetrofit().create(UserApi.class).updateUserInfo(map);
+        return new ApiCallBackObject1<>(observable).execute(callBack);
+    }
+
+    @NonNull
+    @Override
+    public Subscription queryUserInfo(@NonNull JSONObject jsonObject, @NonNull IObjectCallBack<User> callBack) {
+        Observable<Bean<User>> observable = Api.createRetrofit().create(UserApi.class).queryUserInfo(jsonObject.toString());
         return new ApiCallBackObject1<>(observable).execute(callBack);
     }
 

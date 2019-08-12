@@ -1,7 +1,9 @@
 package com.xueli.application.view.login.bindPhone;
 
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
@@ -10,23 +12,30 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.library.utils.PhoneFormatCheckUtils;
+import com.library.utils.SPHelper;
 import com.xueli.application.R;
 import com.xueli.application.app.App;
 import com.xueli.application.common.ConstantStr;
 import com.xueli.application.mode.Injection;
+import com.xueli.application.mode.bean.user.User;
 import com.xueli.application.mode.bean.user.VerificationCode;
 import com.xueli.application.view.MvpActivity;
 import com.xueli.application.view.login.bindSchool.BindSchoolActivity;
+import com.xueli.application.view.main.MainActivity;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class BindPhoneActivity extends MvpActivity<BindPhoneContract.Presenter> implements BindPhoneContract.View {
 
     private TextView tvGetCode;
-    private EditText etPhoneNum, etPhoneCode, etEnterPass, etEnterPassAgain;
+    private EditText etPhoneNum, etPhoneCode;
     private String phoneNumber;
     private VerificationCode verificationCode;
-    private String openId;
+    private String openId = "";
     private int loginType = 0;//1 微信登陆 2 qq登录
     private final static int START_BIND_SCHOOL = 103;
+    private String phoneCode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,8 +45,7 @@ public class BindPhoneActivity extends MvpActivity<BindPhoneContract.Presenter> 
         etPhoneCode = findViewById(R.id.etPhoneCode);
         tvGetCode.setOnClickListener(this);
         etPhoneNum = findViewById(R.id.etPhoneNum);
-        etEnterPass = findViewById(R.id.etUserPass);
-        etEnterPassAgain = findViewById(R.id.etUserPassWordAgain);
+
         findViewById(R.id.btnSure).setOnClickListener(this);
         openId = getIntent().getStringExtra(ConstantStr.KEY_BUNDLE_STR);
         loginType = getIntent().getIntExtra(ConstantStr.KEY_BUNDLE_INT, 0);
@@ -64,7 +72,7 @@ public class BindPhoneActivity extends MvpActivity<BindPhoneContract.Presenter> 
                 mPresenter.getCode(phoneNumber);
                 break;
             case R.id.btnSure:
-                String phoneCode = etPhoneCode.getText().toString().trim();
+                phoneCode = etPhoneCode.getText().toString().trim();
                 if (TextUtils.isEmpty(phoneCode)) {
                     showMessage("请输入验证码");
                     break;
@@ -77,31 +85,20 @@ public class BindPhoneActivity extends MvpActivity<BindPhoneContract.Presenter> 
                     showMessage("验证码错误");
                     break;
                 }
-                EditText etUserName = etEnterPass;
-                EditText etUserPassWord = etEnterPassAgain;
-                if (TextUtils.isEmpty(etUserName.getText().toString())
-                        || TextUtils.isEmpty(etUserPassWord.getText().toString())) {
-                    showMessage("请输入密码");
+                if (loginType == 0){//注册的。
+                    needReg();
                     break;
                 }
-                if (!etUserName.getText().toString().equals(etUserPassWord.getText().toString())) {
-                    App.getInstance().showToast("两次密码不一致");
-                    break;
+                JSONObject jsonObject = new JSONObject();
+                try {
+                    jsonObject.put("loginType",loginType);
+                    jsonObject.put("phone",phoneNumber);
+                    jsonObject.put("verificationCode",phoneCode);
+                    jsonObject.put("openId",openId);
+                    mPresenter.getUserInfo(jsonObject);
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-                if (etUserName.getEditableText().toString().length() < 8) {
-                    App.getInstance().showToast("密码由8-12位的字母和数字组成");
-                    break;
-                }
-                String pass = etUserName.getText().toString();
-                Intent intent = new Intent(this, BindSchoolActivity.class);
-                intent.putExtra(ConstantStr.KEY_BUNDLE_STR, phoneNumber);
-                intent.putExtra(ConstantStr.KEY_BUNDLE_STR_1, phoneCode);
-                intent.putExtra(ConstantStr.KEY_BUNDLE_STR_2, pass);
-                intent.putExtra(ConstantStr.KEY_BUNDLE_STR_3, openId);
-                intent.putExtra(ConstantStr.KEY_BUNDLE_INT, loginType);
-                startActivityForResult(intent, START_BIND_SCHOOL);
-                setResult(Activity.RESULT_OK);
-                finish();
                 break;
         }
     }
@@ -140,6 +137,38 @@ public class BindPhoneActivity extends MvpActivity<BindPhoneContract.Presenter> 
     @Override
     public void showMessage(@Nullable String message) {
         getApp().showToast(message);
+    }
+
+    @Override
+    public void requestIUser(User user) {
+        App.getInstance().setCurrentUser(user);
+        SPHelper.write(App.getInstance(), ConstantStr.USER_INFO, ConstantStr.TOKEN, user.getToken());
+        loginSuccess();
+    }
+
+    private void loginSuccess() {
+        Intent intent = new Intent(this, MainActivity.class);
+        if (getPackageManager().resolveActivity(intent, PackageManager.MATCH_DEFAULT_ONLY) != null) {
+            try {
+                startActivity(intent);
+                setResult(Activity.RESULT_OK);
+                finish();
+            } catch (ActivityNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public void needReg() {
+        Intent intent = new Intent(this, BindSchoolActivity.class);
+        intent.putExtra(ConstantStr.KEY_BUNDLE_STR, phoneNumber);
+        intent.putExtra(ConstantStr.KEY_BUNDLE_STR_1, phoneCode);
+        intent.putExtra(ConstantStr.KEY_BUNDLE_STR_3, openId);
+        intent.putExtra(ConstantStr.KEY_BUNDLE_INT, loginType);
+        startActivityForResult(intent, START_BIND_SCHOOL);
+        setResult(Activity.RESULT_OK);
+        finish();
     }
 
     @Override

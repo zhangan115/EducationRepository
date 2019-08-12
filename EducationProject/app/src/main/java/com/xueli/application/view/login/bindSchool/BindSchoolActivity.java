@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.library.utils.IdcardUtils;
 import com.xueli.application.R;
+import com.xueli.application.app.App;
 import com.xueli.application.common.ConstantStr;
 import com.xueli.application.mode.Injection;
 import com.xueli.application.view.MvpActivity;
@@ -26,7 +27,7 @@ import org.json.JSONObject;
 public class BindSchoolActivity extends MvpActivity<BindSchoolContract.Presenter> implements BindSchoolContract.View {
 
     private RelativeLayout registerSuccessLayout;
-    private EditText userRealName, userCard;
+    private EditText userRealName, userCard,etEnterPass, etEnterPassAgain;;
     private TextView zyTv, lxTv;
     private int chooseZy = -1, chooseLx = -1;
     private String[] zyStrList = new String[]{"高起专（文）", "高起专（理）", "专升本（医学类）", "专升本（理工类）", "专升本（经管类）", "专升本（法学类）"
@@ -40,13 +41,11 @@ public class BindSchoolActivity extends MvpActivity<BindSchoolContract.Presenter
         setLayoutAndToolbar(R.layout.activity_bind_school, "填写信息");
         String phone = getIntent().getStringExtra(ConstantStr.KEY_BUNDLE_STR);//手机号码
         String verificationCode = getIntent().getStringExtra(ConstantStr.KEY_BUNDLE_STR_1);//手机号码
-        String password = getIntent().getStringExtra(ConstantStr.KEY_BUNDLE_STR_2);//手机号码
         int loginType = getIntent().getIntExtra(ConstantStr.KEY_BUNDLE_INT, 0);//1 微信登陆 2 qq登录
         String openId = getIntent().getStringExtra(ConstantStr.KEY_BUNDLE_STR_3);//微信的id
         try {
             json.put("phone", phone);
             json.put("verificationCode", verificationCode);
-            json.put("password", password);
             json.put("openId", openId);
             json.put("loginType", loginType);
         } catch (JSONException e) {
@@ -61,6 +60,8 @@ public class BindSchoolActivity extends MvpActivity<BindSchoolContract.Presenter
         registerSuccessLayout = findViewById(R.id.registerSuccessLayout);
         zyTv = findViewById(R.id.tvZy);
         lxTv = findViewById(R.id.tvLx);
+        etEnterPass = findViewById(R.id.etUserPass);
+        etEnterPassAgain = findViewById(R.id.etUserPassWordAgain);
         findViewById(R.id.btnSure).setOnClickListener(this);
         findViewById(R.id.llZy).setOnClickListener(this);
         findViewById(R.id.llLx).setOnClickListener(this);
@@ -101,7 +102,22 @@ public class BindSchoolActivity extends MvpActivity<BindSchoolContract.Presenter
                 }
                 break;
             default:
-                //sure
+                EditText etUserName = etEnterPass;
+                EditText etUserPassWord = etEnterPassAgain;
+                if (TextUtils.isEmpty(etUserName.getText().toString())
+                        || TextUtils.isEmpty(etUserPassWord.getText().toString())) {
+                    showMessage("请输入密码");
+                    break;
+                }
+                if (!etUserName.getText().toString().equals(etUserPassWord.getText().toString())) {
+                    App.getInstance().showToast("两次密码不一致");
+                    break;
+                }
+                if (etUserName.getEditableText().toString().length() < 8) {
+                    App.getInstance().showToast("密码由8-12位的字母和数字组成");
+                    break;
+                }
+                String password = etUserName.getText().toString();
                 String userCard = this.userCard.getText().toString().trim();
                 String userRealName = this.userRealName.getText().toString().trim();
                 if (TextUtils.isEmpty(userRealName)) {
@@ -109,6 +125,7 @@ public class BindSchoolActivity extends MvpActivity<BindSchoolContract.Presenter
                     break;
                 }
                 try {
+                    json.put("password", password);
                     json.put("realName", userRealName);
                     if (TextUtils.isEmpty(userCard)) {
                         showMessage("请输入身份证号码");

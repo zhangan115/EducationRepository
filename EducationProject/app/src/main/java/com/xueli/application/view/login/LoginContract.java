@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 
 import com.xueli.application.base.BasePresenter;
 import com.xueli.application.base.BaseView;
+import com.xueli.application.mode.bean.user.QQLoginBean;
 import com.xueli.application.mode.bean.user.WeiXinLoginBean;
 
 
@@ -19,6 +20,8 @@ interface LoginContract {
         void login(String name, String pass);
 
         void weiXinLogin(String code);
+
+        void qqLogin(String openId);
     }
 
     interface View extends BaseView<Presenter> {
@@ -33,5 +36,6 @@ interface LoginContract {
 
         void showWeiXinBean(WeiXinLoginBean bean);
 
+        void showQQLoginBean(QQLoginBean qqLoginBean);
     }
 }
