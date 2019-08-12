@@ -41,13 +41,14 @@ public class BindSchoolActivity extends MvpActivity<BindSchoolContract.Presenter
         String phone = getIntent().getStringExtra(ConstantStr.KEY_BUNDLE_STR);//手机号码
         String verificationCode = getIntent().getStringExtra(ConstantStr.KEY_BUNDLE_STR_1);//手机号码
         String password = getIntent().getStringExtra(ConstantStr.KEY_BUNDLE_STR_2);//手机号码
-
+        int loginType = getIntent().getIntExtra(ConstantStr.KEY_BUNDLE_INT, 0);//1 微信登陆 2 qq登录
         String openId = getIntent().getStringExtra(ConstantStr.KEY_BUNDLE_STR_3);//微信的id
         try {
             json.put("phone", phone);
             json.put("verificationCode", verificationCode);
             json.put("password", password);
             json.put("openId", openId);
+            json.put("loginType", loginType);
         } catch (JSONException e) {
             e.printStackTrace();
         }

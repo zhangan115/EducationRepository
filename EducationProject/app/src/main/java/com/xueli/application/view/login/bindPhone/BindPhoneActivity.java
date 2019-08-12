@@ -25,6 +25,7 @@ public class BindPhoneActivity extends MvpActivity<BindPhoneContract.Presenter> 
     private String phoneNumber;
     private VerificationCode verificationCode;
     private String openId;
+    private int loginType = 0;//1 微信登陆 2 qq登录
     private final static int START_BIND_SCHOOL = 103;
 
     @Override
@@ -39,6 +40,7 @@ public class BindPhoneActivity extends MvpActivity<BindPhoneContract.Presenter> 
         etEnterPassAgain = findViewById(R.id.etUserPassWordAgain);
         findViewById(R.id.btnSure).setOnClickListener(this);
         openId = getIntent().getStringExtra(ConstantStr.KEY_BUNDLE_STR);
+        loginType = getIntent().getIntExtra(ConstantStr.KEY_BUNDLE_INT, 0);
     }
 
     @Override
@@ -96,6 +98,7 @@ public class BindPhoneActivity extends MvpActivity<BindPhoneContract.Presenter> 
                 intent.putExtra(ConstantStr.KEY_BUNDLE_STR_1, phoneCode);
                 intent.putExtra(ConstantStr.KEY_BUNDLE_STR_2, pass);
                 intent.putExtra(ConstantStr.KEY_BUNDLE_STR_3, openId);
+                intent.putExtra(ConstantStr.KEY_BUNDLE_INT, loginType);
                 startActivityForResult(intent, START_BIND_SCHOOL);
                 setResult(Activity.RESULT_OK);
                 finish();

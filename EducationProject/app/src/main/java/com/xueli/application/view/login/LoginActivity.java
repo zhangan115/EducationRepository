@@ -10,6 +10,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -32,6 +33,9 @@ import com.xueli.application.view.forget.ForgetPassWordActivity;
 import com.xueli.application.view.login.bindPhone.BindPhoneActivity;
 import com.xueli.application.view.main.MainActivity;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  * 登陆界面
  * Created by pingan on 2018/3/4.
@@ -45,6 +49,7 @@ public class LoginActivity extends MvpActivity<LoginContract.Presenter> implemen
 
     private IWXAPI mIWxapi;
     private Tencent mTencent;
+    private int loginType = 0;
     private final int START_REGISTER = 100;
     private final int START_FORGET = 101;
     private final static int START_BIND_PHONE = 102;
@@ -55,6 +60,7 @@ public class LoginActivity extends MvpActivity<LoginContract.Presenter> implemen
             if (TextUtils.equals(intent.getAction(), "Action_weiXin_code")) {
                 String code = intent.getStringExtra("code");
                 showProgressDialog("登陆中...");
+                loginType = 1;
                 mPresenter.weiXinLogin(code);
             }
         }
@@ -123,6 +129,7 @@ public class LoginActivity extends MvpActivity<LoginContract.Presenter> implemen
         if (bean.getUser() == null) {//没有用户信息 去完善信息
             Intent intent = new Intent(this, BindPhoneActivity.class);
             intent.putExtra(ConstantStr.KEY_BUNDLE_STR, bean.getOpenId());
+            intent.putExtra(ConstantStr.KEY_BUNDLE_INT, loginType);
             startActivityForResult(intent, START_BIND_PHONE);
         } else {
             App.getInstance().setCurrentUser(bean.getUser());
@@ -176,12 +183,21 @@ public class LoginActivity extends MvpActivity<LoginContract.Presenter> implemen
 
         @Override
         public void onComplete(Object o) {
-
+            if (o instanceof String) {
+                try {
+                    JSONObject jsonObject = new JSONObject(o.toString());
+                    String openId = jsonObject.getString("openid");
+                    loginType = 2;
+                    mPresenter.weiXinLogin(openId);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
         }
 
         @Override
         public void onError(UiError uiError) {
-
+            showMessage(uiError.errorMessage);
         }
 
         @Override
