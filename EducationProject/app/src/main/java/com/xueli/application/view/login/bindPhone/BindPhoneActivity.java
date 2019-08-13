@@ -88,16 +88,15 @@ public class BindPhoneActivity extends MvpActivity<BindPhoneContract.Presenter> 
                     showMessage("验证码错误");
                     break;
                 }
-                if (loginType == 0){//注册的。
-                    needReg();
-                    break;
-                }
                 JSONObject jsonObject = new JSONObject();
                 try {
-                    jsonObject.put("loginType",loginType);
+                    if (loginType != 0){//注册的。
+                        jsonObject.put("loginType",loginType);
+                        jsonObject.put("openId",openId);
+                        break;
+                    }
                     jsonObject.put("phone",phoneNumber);
                     jsonObject.put("verificationCode",phoneCode);
-                    jsonObject.put("openId",openId);
                     mPresenter.getUserInfo(jsonObject);
                 } catch (JSONException e) {
                     e.printStackTrace();

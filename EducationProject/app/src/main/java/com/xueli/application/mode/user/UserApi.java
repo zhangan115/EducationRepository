@@ -1,6 +1,7 @@
 package com.xueli.application.mode.user;
 
 import com.xueli.application.mode.bean.Bean;
+import com.xueli.application.mode.bean.user.BindPhoneBean;
 import com.xueli.application.mode.bean.user.NewVersion;
 import com.xueli.application.mode.bean.user.PaySchoolList;
 import com.xueli.application.mode.bean.user.QQLoginBean;
@@ -121,7 +122,7 @@ public interface UserApi {
 
     @Headers({"Content-Type:application/json;charset=utf-8", "Accept:application/json;"})
     @POST("account/updateUserInfo")
-    Observable<Bean<User>> updateUserInfo(@QueryMap() Map<String, String> map);
+    Observable<Bean<BindPhoneBean>> updateUserInfo(@Body() String string);
 
     /**
      * QQ 登陆 获取 数据
@@ -136,6 +137,6 @@ public interface UserApi {
      */
     @Headers({"Content-Type:application/json;charset=utf-8", "Accept:application/json;"})
     @POST("account/bindingPhone")
-    Observable<Bean<User>> queryUserInfo(@Body() String info);
+    Observable<Bean<BindPhoneBean>> queryUserInfo(@Body() String info);
 
 }

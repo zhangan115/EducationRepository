@@ -3,6 +3,7 @@ package com.xueli.application.mode.user;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.xueli.application.mode.bean.user.BindPhoneBean;
 import com.xueli.application.mode.bean.user.NewVersion;
 import com.xueli.application.mode.bean.user.PaySchoolList;
 import com.xueli.application.mode.bean.user.QQLoginBean;
@@ -137,8 +138,8 @@ public interface UserDataSource {
     Subscription getQQAccessCode(@NonNull String code, @NonNull IObjectCallBack<QQLoginBean> callBack);
 
     @NonNull
-    Subscription updateUserInfo(Map<String, String> map, IObjectCallBack<User> callBack);
+    Subscription updateUserInfo(@NonNull JSONObject jsonObject, IObjectCallBack<BindPhoneBean> callBack);
 
     @NonNull
-    Subscription queryUserInfo(@NonNull JSONObject jsonObject, @NonNull final IObjectCallBack<User> callBack);
+    Subscription queryUserInfo(@NonNull JSONObject jsonObject, @NonNull final IObjectCallBack<BindPhoneBean> callBack);
 }

@@ -3,6 +3,7 @@ package com.xueli.application.view.login.bindPhone;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.xueli.application.mode.bean.user.BindPhoneBean;
 import com.xueli.application.mode.bean.user.User;
 import com.xueli.application.mode.bean.user.VerificationCode;
 import com.xueli.application.mode.callback.IObjectCallBack;
@@ -80,7 +81,7 @@ final class BindPhonePresenter implements BindPhoneContract.Presenter {
 
     @Override
     public void getUserInfo(JSONObject requestJson) {
-        mSubscriptions.add(mUserDataSource.queryUserInfo(requestJson, new IObjectCallBack<User>() {
+        mSubscriptions.add(mUserDataSource.queryUserInfo(requestJson, new IObjectCallBack<BindPhoneBean>() {
 
             @Override
             public void onSuccess() {
@@ -88,8 +89,12 @@ final class BindPhonePresenter implements BindPhoneContract.Presenter {
             }
 
             @Override
-            public void onData(@NonNull User user) {
-                mView.requestIUser(user);
+            public void onData(@NonNull BindPhoneBean bean) {
+                if (bean.getUser() == null){
+                    mView.needReg();
+                }else{
+                    mView.requestIUser(bean.getUser());
+                }
             }
 
             @Override
@@ -99,7 +104,7 @@ final class BindPhonePresenter implements BindPhoneContract.Presenter {
 
             @Override
             public void noData() {
-                mView.needReg();
+
             }
 
             @Override

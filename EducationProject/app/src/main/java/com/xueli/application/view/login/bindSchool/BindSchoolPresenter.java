@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import com.library.utils.SPHelper;
 import com.xueli.application.app.App;
 import com.xueli.application.common.ConstantStr;
+import com.xueli.application.mode.bean.user.BindPhoneBean;
 import com.xueli.application.mode.bean.user.User;
 import com.xueli.application.mode.callback.IObjectCallBack;
 import com.xueli.application.mode.user.UserDataSource;
@@ -42,39 +43,7 @@ final class BindSchoolPresenter implements BindSchoolContract.Presenter {
 
     @Override
     public void updateUserInfo(JSONObject json) {
-        Map<String, String> map = new HashMap<>();
-        try {
-            if (json.has("phone")) {
-                map.put("phone", json.getString("phone"));
-            }
-            if (json.has("verificationCode")) {
-                map.put("verificationCode", json.getString("verificationCode"));
-            }
-            if (json.has("openId")) {
-                map.put("openId", json.getString("openId"));
-            }
-            if (json.has("loginType")) {
-                map.put("loginType", json.getString("loginType"));
-            }
-            if (json.has("password")) {
-                map.put("password", json.getString("password"));
-            }
-            if (json.has("realName")) {
-                map.put("realName", json.getString("realName"));
-            }
-            if (json.has("idcard")) {
-                map.put("idcard", json.getString("idcard"));
-            }
-            if (json.has("suoxuezhuanye")) {
-                map.put("suoxuezhuanye", json.getString("suoxuezhuanye"));
-            }
-            if (json.has("type")) {
-                map.put("type", json.getString("type"));
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        mSubscriptions.add(mUserDataSource.updateUserInfo(map, new IObjectCallBack<User>() {
+        mSubscriptions.add(mUserDataSource.updateUserInfo(json, new IObjectCallBack<BindPhoneBean>() {
 
             @Override
             public void onSuccess() {
@@ -82,9 +51,9 @@ final class BindSchoolPresenter implements BindSchoolContract.Presenter {
             }
 
             @Override
-            public void onData(@NonNull User user) {
-                App.getInstance().setCurrentUser(user);
-                SPHelper.write(App.getInstance(), ConstantStr.USER_INFO, ConstantStr.TOKEN, user.getToken());
+            public void onData(@NonNull BindPhoneBean bean) {
+                App.getInstance().setCurrentUser(bean.getUser());
+                SPHelper.write(App.getInstance(), ConstantStr.USER_INFO, ConstantStr.TOKEN, bean.getUser().getToken());
                 mView.updateUserInfoSuccess();
             }
 

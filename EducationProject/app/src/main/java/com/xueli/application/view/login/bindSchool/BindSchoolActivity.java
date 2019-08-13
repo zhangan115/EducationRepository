@@ -48,8 +48,12 @@ public class BindSchoolActivity extends MvpActivity<BindSchoolContract.Presenter
         try {
             json.put("phone", phone);
             json.put("verificationCode", verificationCode);
-            json.put("openId", openId);
-            json.put("loginType", loginType);
+            if (!TextUtils.isEmpty(openId)){
+                json.put("openId", openId);
+            }
+            if (loginType != 0){
+                json.put("loginType", loginType);
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }

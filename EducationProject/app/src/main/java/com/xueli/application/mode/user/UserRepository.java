@@ -14,6 +14,7 @@ import com.xueli.application.mode.api.ApiCallBackList;
 import com.xueli.application.mode.api.ApiCallBackList1;
 import com.xueli.application.mode.api.ApiCallBackObject1;
 import com.xueli.application.mode.bean.Bean;
+import com.xueli.application.mode.bean.user.BindPhoneBean;
 import com.xueli.application.mode.bean.user.NewVersion;
 import com.xueli.application.mode.bean.user.PaySchoolList;
 import com.xueli.application.mode.bean.user.QQLoginBean;
@@ -371,15 +372,15 @@ public class UserRepository implements UserDataSource {
 
     @NonNull
     @Override
-    public Subscription updateUserInfo(Map<String, String> map, IObjectCallBack<User> callBack) {
-        Observable<Bean<User>> observable = Api.createRetrofit().create(UserApi.class).updateUserInfo(map);
+    public Subscription updateUserInfo(@NonNull JSONObject jsonObject, IObjectCallBack<BindPhoneBean> callBack) {
+        Observable<Bean<BindPhoneBean>> observable = Api.createRetrofit().create(UserApi.class).updateUserInfo(jsonObject.toString());
         return new ApiCallBackObject1<>(observable).execute(callBack);
     }
 
     @NonNull
     @Override
-    public Subscription queryUserInfo(@NonNull JSONObject jsonObject, @NonNull IObjectCallBack<User> callBack) {
-        Observable<Bean<User>> observable = Api.createRetrofit().create(UserApi.class).queryUserInfo(jsonObject.toString());
+    public Subscription queryUserInfo(@NonNull JSONObject jsonObject, @NonNull IObjectCallBack<BindPhoneBean> callBack) {
+        Observable<Bean<BindPhoneBean>> observable = Api.createRetrofit().create(UserApi.class).queryUserInfo(jsonObject.toString());
         return new ApiCallBackObject1<>(observable).execute(callBack);
     }
 
