@@ -250,7 +250,7 @@
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="15dp"
                             android:layout_weight="1"
-                            android:text="考试技巧"
+                            android:text="成考复习"
                             android:textColor="@color/text_gray_333"
                             android:textSize="12dp" />
                     </LinearLayout>

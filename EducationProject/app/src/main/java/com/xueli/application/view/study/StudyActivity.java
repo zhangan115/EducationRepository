@@ -16,7 +16,7 @@ public class StudyActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setLayoutAndToolbar(R.layout.study_activity,"学习");
+        setLayoutAndToolbar(R.layout.study_activity,"成考复习");
         TabLayout tabLayout = findViewById(R.id.tabLayout);
         ViewPager viewPager = findViewById(R.id.view_pager);
         viewPager.setOffscreenPageLimit(5);

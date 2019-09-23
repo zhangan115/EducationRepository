@@ -60,7 +60,7 @@ public class MainActivity extends MvpActivity<MainContract.Presenter> implements
         AHBottomNavigationItem item4 = new AHBottomNavigationItem(R.string.str_first_nav_4, R.drawable.icon_toolbar_mine2, R.color.colorPrimary);
         bottomNavigation.addItem(item1);
         bottomNavigation.addItem(item2);
-        bottomNavigation.addItem(item3);
+//        bottomNavigation.addItem(item3);
         bottomNavigation.addItem(item4);
         bottomNavigation.setTitleTextSizeInSp(14f, 14f);
         bottomNavigation.setBackgroundColor(findColorById(R.color.colorWhite));
@@ -119,13 +119,13 @@ public class MainActivity extends MvpActivity<MainContract.Presenter> implements
         if (studyFragment == null) {
             studyFragment = StudyFragment.newInstance();
         }
-        UserFragment userFragment = (UserFragment) getSupportFragmentManager().findFragmentByTag("tag_3");
+        UserFragment userFragment = (UserFragment) getSupportFragmentManager().findFragmentByTag("tag_2");
         if (userFragment == null) {
             userFragment = UserFragment.newInstance();
         }
         fragments.add(homeFragment);
         fragments.add(bankFragment);
-        fragments.add(studyFragment);
+//        fragments.add(studyFragment);
         fragments.add(userFragment);
         return fragments;
     }
